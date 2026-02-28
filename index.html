@@ -1409,6 +1409,378 @@
 
 
     completos')
+
+
+    // ============================================================
+// PARTE 3: NUEVAS FUNCIONALIDADES - ESTADÍSTICAS, INSTITUCIONES, USUARIOS, TUTORÍAS
+// ============================================================
+
+// ---------- 1. MÚLTIPLES INSTITUCIONES ----------
+function renderSelectorInstituciones() {
+    let selector = document.getElementById('selectorInstitucion');
+    if (!selector) return;
+    
+    selector.innerHTML = state.instituciones.map(inst => 
+        `<option value="${inst.id}" ${inst.id === state.institucionActual ? 'selected' : ''}>${inst.nombre}</option>`
+    ).join('');
+}
+
+function cambiarInstitucion(id) {
+    state.institucionActual = id;
+    let inst = state.instituciones.find(i => i.id === id);
+    if (inst) {
+        state.modalidad = inst.modalidad;
+        state.periodos = inst.periodos;
+        state.grupos = inst.grupos;
+        document.getElementById('currentInstitucion').innerText = inst.nombre;
+        saveToast('✅ Institución cambiada');
+        
+        // Recargar todas las vistas
+        renderPeriodos();
+        renderGrupos();
+        llenarSelectores();
+        renderSelectorInstituciones();
+    }
+}
+
+document.getElementById('cambiarInstitucionBtn')?.addEventListener('click', () => {
+    let selector = document.getElementById('selectorInstitucion');
+    cambiarInstitucion(selector.value);
+});
+
+document.getElementById('crearInstitucionBtn')?.addEventListener('click', () => {
+    let nombre = document.getElementById('nuevaInstitucionNombre').value;
+    let modalidad = document.getElementById('nuevaInstitucionModalidad').value;
+    
+    if (!nombre) { alert('Ingrese nombre'); return; }
+    
+    let nuevaInst = {
+        id: 'inst' + Date.now(),
+        nombre: nombre,
+        logo: '',
+        modalidad: modalidad,
+        periodos: [
+            { id: 'p1', nombre: 'I Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true },
+            { id: 'p2', nombre: 'II Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true },
+            { id: 'p3', nombre: 'III Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true }
+        ],
+        grupos: [],
+        tutorias: []
+    };
+    
+    state.instituciones.push(nuevaInst);
+    renderSelectorInstituciones();
+    saveToast('✅ Institución creada');
+});
+
+// ---------- 2. USUARIOS Y PERMISOS ----------
+function renderUsuarios() {
+    let div = document.getElementById('usuariosList');
+    if (!div) return;
+    
+    let html = '<table class="table"><tr><th>Usuario</th><th>Rol</th><th>Acciones</th></tr>';
+    state.usuarios.forEach((u, idx) => {
+        html += `<tr>
+            <td>${u.nombre} (${u.email})</td>
+            <td>${u.rol}</td>
+            <td class="fila-acciones">
+                <i class="fas fa-edit" onclick="editarUsuario(${idx})"></i>
+                <i class="fas fa-trash" onclick="eliminarUsuario(${idx})"></i>
+            </td>
+        </tr>`;
+    });
+    html += '</table>';
+    div.innerHTML = html;
+    
+    // Selector para permisos
+    let selector = document.getElementById('usuarioSelectorPermisos');
+    selector.innerHTML = state.usuarios.map((u, i) => `<option value="${i}">${u.nombre}</option>`).join('');
+}
+
+window.editarUsuario = (idx) => {
+    let u = state.usuarios[idx];
+    u.nombre = prompt('Nombre', u.nombre) || u.nombre;
+    u.email = prompt('Email', u.email) || u.email;
+    saveToast();
+    renderUsuarios();
+};
+
+window.eliminarUsuario = (idx) => {
+    if (confirm('¿Eliminar usuario?')) {
+        state.usuarios.splice(idx, 1);
+        saveToast();
+        renderUsuarios();
+    }
+};
+
+document.getElementById('nuevoUsuarioBtn')?.addEventListener('click', () => {
+    let nombre = prompt('Nombre del docente');
+    let email = prompt('Email');
+    if (nombre && email) {
+        state.usuarios.push({
+            id: 'user' + Date.now(),
+            nombre: nombre,
+            email: email,
+            rol: 'docente',
+            institucionesPermitidas: [state.institucionActual]
+        });
+        saveToast();
+        renderUsuarios();
+    }
+});
+
+document.getElementById('usuarioSelectorPermisos')?.addEventListener('change', (e) => {
+    let idx = e.target.value;
+    if (idx === '') return;
+    let usuario = state.usuarios[idx];
+    
+    let html = '<h5>Instituciones permitidas:</h5>';
+    state.instituciones.forEach(inst => {
+        let tienePermiso = usuario.institucionesPermitidas?.includes(inst.id) || false;
+        html += `<label><input type="checkbox" class="permisoInstitucion" data-usuario="${idx}" data-inst="${inst.id}" ${tienePermiso ? 'checked' : ''}> ${inst.nombre}</label><br>`;
+    });
+    document.getElementById('institucionesPermisos').innerHTML = html;
+});
+
+document.getElementById('guardarPermisos')?.addEventListener('click', () => {
+    let checkboxes = document.querySelectorAll('.permisoInstitucion');
+    let permisosPorUsuario = {};
+    
+    checkboxes.forEach(cb => {
+        let usuarioIdx = cb.dataset.usuario;
+        let instId = cb.dataset.inst;
+        if (!permisosPorUsuario[usuarioIdx]) permisosPorUsuario[usuarioIdx] = [];
+        if (cb.checked) permisosPorUsuario[usuarioIdx].push(instId);
+    });
+    
+    Object.keys(permisosPorUsuario).forEach(idx => {
+        state.usuarios[idx].institucionesPermitidas = permisosPorUsuario[idx];
+    });
+    
+    saveToast('✅ Permisos actualizados');
+});
+
+// ---------- 3. GRÁFICOS ESTADÍSTICOS ----------
+let graficoRendimiento = null;
+
+function renderEstadisticas() {
+    let grupoIdx = document.getElementById('estadisticasGrupoSelect')?.value;
+    let periodoIdx = document.getElementById('estadisticasPeriodoSelect')?.value;
+    
+    if (grupoIdx === '' || periodoIdx === '') return;
+    
+    let grupo = state.grupos[grupoIdx];
+    let periodo = state.periodos[periodoIdx];
+    
+    // Datos para el gráfico
+    let estudiantes = grupo.estudiantes.map(e => e.nombre);
+    let promedios = grupo.estudiantes.map(e => parseFloat(e.notas[periodo.id]?.promedio || 0));
+    
+    // Destruir gráfico anterior si existe
+    if (graficoRendimiento) graficoRendimiento.destroy();
+    
+    let ctx = document.getElementById('graficoRendimiento').getContext('2d');
+    graficoRendimiento = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: estudiantes,
+            datasets: [{
+                label: `Promedios - ${periodo.nombre}`,
+                data: promedios,
+                backgroundColor: 'rgba(15, 111, 147, 0.6)',
+                borderColor: '#0f6f93',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+    
+    // Tabla de promedios
+    let tablaHtml = '<table class="table"><tr><th>Estudiante</th><th>Promedio</th></tr>';
+    grupo.estudiantes.forEach(e => {
+        let prom = e.notas[periodo.id]?.promedio || '-';
+        tablaHtml += `<tr><td>${e.nombre}</td><td>${prom}</td></tr>`;
+    });
+    tablaHtml += '</table>';
+    document.getElementById('tablaPromedios').innerHTML = tablaHtml;
+    
+    // Estadísticas del grupo
+    let valores = promedios.filter(p => p > 0);
+    let promedioGrupal = valores.length ? (valores.reduce((a,b) => a+b, 0) / valores.length).toFixed(2) : 0;
+    let max = Math.max(...valores);
+    let min = Math.min(...valores);
+    let aprobados = valores.filter(p => p >= 65).length;
+    let reprobados = valores.filter(p => p > 0 && p < 65).length;
+    
+    let statsHtml = `
+        <p><strong>Promedio grupal:</strong> ${promedioGrupal}%</p>
+        <p><strong>Nota más alta:</strong> ${max}%</p>
+        <p><strong>Nota más baja:</strong> ${min}%</p>
+        <p><strong>Aprobados:</strong> ${aprobados}</p>
+        <p><strong>En convocatoria:</strong> ${reprobados}</p>
+        <p><strong>Sin notas:</strong> ${grupo.estudiantes.length - valores.length}</p>
+    `;
+    document.getElementById('estadisticasGrupo').innerHTML = statsHtml;
+}
+
+// Llenar selects de estadísticas
+function llenarSelectoresEstadisticas() {
+    let selGrupo = document.getElementById('estadisticasGrupoSelect');
+    let selPeriodo = document.getElementById('estadisticasPeriodoSelect');
+    
+    if (selGrupo) {
+        selGrupo.innerHTML = '<option value="">-- Grupo --</option>' + 
+            state.grupos.map((g,i) => `<option value="${i}">${g.nombre}</option>`).join('');
+    }
+    
+    if (selPeriodo) {
+        selPeriodo.innerHTML = state.periodos.map((p,i) => `<option value="${i}">${p.nombre}</option>`).join('');
+    }
+}
+
+document.getElementById('estadisticasGrupoSelect')?.addEventListener('change', renderEstadisticas);
+document.getElementById('estadisticasPeriodoSelect')?.addEventListener('change', renderEstadisticas);
+
+// ---------- 4. TUTORÍAS ----------
+function renderTutorias() {
+    let grupoIdx = document.getElementById('tutoriasGrupoSelect')?.value;
+    let estudianteIdx = document.getElementById('tutoriasEstudianteSelect')?.value;
+    
+    if (grupoIdx === '' || estudianteIdx === '') return;
+    
+    let inst = state.instituciones.find(i => i.id === state.institucionActual);
+    if (!inst.tutorias) inst.tutorias = [];
+    
+    let estudiante = state.grupos[grupoIdx].estudiantes[estudianteIdx];
+    let tutoriasEstudiante = inst.tutorias.filter(t => t.estudianteId === estudiante.id);
+    
+    let html = '<h4>Historial de reuniones</h4>';
+    html += '<table class="table"><tr><th>Fecha</th><th>Tema</th><th>Acuerdos</th><th>Acciones</th></tr>';
+    
+    tutoriasEstudiante.forEach((t, idx) => {
+        html += `<tr>
+            <td>${t.fecha}</td>
+            <td>${t.tema}</td>
+            <td>${t.acuerdos}</td>
+            <td class="fila-acciones">
+                <i class="fas fa-trash" onclick="eliminarTutoria(${idx}, '${estudiante.id}')"></i>
+            </td>
+        </tr>`;
+    });
+    
+    html += '</table>';
+    document.getElementById('tutoriasList').innerHTML = html;
+}
+
+window.eliminarTutoria = (idxTutoria, estudianteId) => {
+    if (confirm('¿Eliminar registro de reunión?')) {
+        let inst = state.instituciones.find(i => i.id === state.institucionActual);
+        inst.tutorias = inst.tutorias.filter(t => !(t.estudianteId === estudianteId && inst.tutorias.indexOf(t) === idxTutoria));
+        saveToast();
+        renderTutorias();
+    }
+};
+
+document.getElementById('tutoriasGrupoSelect')?.addEventListener('change', (e) => {
+    let idx = e.target.value;
+    let estSelect = document.getElementById('tutoriasEstudianteSelect');
+    if (idx === '') { estSelect.innerHTML = '<option value="">--</option>'; return; }
+    let estudiantes = state.grupos[idx]?.estudiantes || [];
+    estSelect.innerHTML = '<option value="">-- Estudiante --</option>' + 
+        estudiantes.map((es, i) => `<option value="${i}">${es.nombre}</option>`).join('');
+});
+
+document.getElementById('tutoriasEstudianteSelect')?.addEventListener('change', renderTutorias);
+
+document.getElementById('nuevaTutoriaBtn')?.addEventListener('click', () => {
+    let grupoIdx = document.getElementById('tutoriasGrupoSelect').value;
+    let estudianteIdx = document.getElementById('tutoriasEstudianteSelect').value;
+    
+    if (grupoIdx === '' || estudianteIdx === '') {
+        alert('Seleccione grupo y estudiante');
+        return;
+    }
+    
+    let fecha = prompt('Fecha (YYYY-MM-DD)', new Date().toISOString().slice(0,10));
+    let tema = prompt('Tema de la reunión');
+    let acuerdos = prompt('Acuerdos tomados');
+    
+    if (fecha && tema) {
+        let inst = state.instituciones.find(i => i.id === state.institucionActual);
+        if (!inst.tutorias) inst.tutorias = [];
+        
+        let estudiante = state.grupos[grupoIdx].estudiantes[estudianteIdx];
+        
+        inst.tutorias.push({
+            id: 'tut' + Date.now(),
+            estudianteId: estudiante.id,
+            fecha: fecha,
+            tema: tema,
+            acuerdos: acuerdos || ''
+        });
+        
+        saveToast('✅ Reunión registrada');
+        renderTutorias();
+    }
+});
+
+// ---------- 5. IMPRESIÓN DIRECTA ----------
+document.getElementById('exportarActaPDF')?.addEventListener('click', () => {
+    let contenido = generarActaHTML();
+    let ventanaImpresion = window.open('', '_blank');
+    ventanaImpresion.document.write(`
+        <html>
+            <head>
+                <title>Acta Final MEP</title>
+                <style>
+                    body { font-family: Arial; padding: 2rem; }
+                    table { border-collapse: collapse; width: 100%; }
+                    th, td { border: 1px solid #ccc; padding: 0.5rem; }
+                </style>
+            </head>
+            <body>${contenido}</body>
+        </html>
+    `);
+    ventanaImpresion.document.close();
+    ventanaImpresion.print();
+});
+
+// ---------- 6. ACTUALIZAR FUNCIONES EXISTENTES ----------
+// Modificar saveToast para incluir instituciones
+const originalSaveToast = saveToast;
+saveToast = function(msg = '✅ Guardado') {
+    // Asegurar que las instituciones tengan sus datos actualizados
+    let instActual = state.instituciones.find(i => i.id === state.institucionActual);
+    if (instActual) {
+        instActual.modalidad = state.modalidad;
+        instActual.periodos = state.periodos;
+        instActual.grupos = state.grupos;
+    }
+    originalSaveToast(msg);
+};
+
+// Inicializar nuevos elementos al cargar
+(function initMejoras() {
+    renderSelectorInstituciones();
+    renderUsuarios();
+    llenarSelectoresEstadisticas();
+    
+    // Llenar selectores de tutorías
+    let selTutoriaG = document.getElementById('tutoriasGrupoSelect');
+    if (selTutoriaG) {
+        selTutoriaG.innerHTML = '<option value="">-- Grupo --</option>' + 
+            state.grupos.map((g,i) => `<option value="${i}">${g.nombre}</option>`).join('');
+    }
+})();
     
 </script>
 </body>
