@@ -6,7 +6,7 @@
     <title>Registro Docente MEP · 2026</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- jsPDF y html2canvas para PDF -->
+    <!-- jsPDF y html2canvas para exportaciones reales -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -18,37 +18,35 @@
         }
 
         :root {
-            --bg: #f4f7fc;
-            --sidebar: #0a2e44;
-            --sidebar-hover: #1e4a66;
+            --bg: #f0f5fb;
+            --sidebar: #0b2c42;
+            --sidebar-hover: #1e4b68;
             --card: #ffffff;
-            --text: #1e3a5f;
-            --text-light: #4a6782;
-            --border: #cbd6e6;
-            --accent: #0d6b8c;
-            --accent-light: #e3f0f9;
+            --text: #1f3a5f;
+            --text-light: #4a6d8c;
+            --border: #d0deef;
+            --accent: #0f6f93;
+            --accent-light: #e3f0fa;
             --success: #2b7a4b;
             --warning: #b95e0a;
             --danger: #c13e3e;
             --shadow: 0 12px 30px rgba(0, 20, 40, 0.08);
             --header-bg: #f9fcff;
             --input-bg: #ffffff;
-            --card-hover: #f5faff;
         }
 
         .dark {
-            --bg: #1b2635;
-            --sidebar: #0b1f30;
-            --card: #263544;
-            --text: #e2ecf5;
-            --text-light: #aec3d9;
-            --border: #3e536b;
-            --accent: #1e88b0;
-            --accent-light: #203e54;
-            --header-bg: #1f3142;
-            --input-bg: #2d4055;
+            --bg: #1a2535;
+            --sidebar: #0b1d30;
+            --card: #253544;
+            --text: #e2ecf8;
+            --text-light: #b0c6df;
+            --border: #405872;
+            --accent: #1f8ab3;
+            --accent-light: #1e3e57;
+            --header-bg: #1f3145;
+            --input-bg: #2d4058;
             --shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-            --card-hover: #2f4055;
         }
 
         body {
@@ -59,28 +57,28 @@
             transition: background 0.2s, color 0.2s;
         }
 
-        /* SIDEBAR - en desktop fijo, en móvil se transforma */
+        /* SIDEBAR - desktop fijo, móvil adaptable */
         .sidebar {
             width: 280px;
             background: var(--sidebar);
-            color: #e0f0fa;
+            color: #d9ecfc;
             padding: 2rem 1rem;
             overflow-y: auto;
             box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
-            transition: 0.3s;
             z-index: 100;
+            transition: 0.3s;
         }
 
         .sidebar h2 {
             font-weight: 400;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 2rem;
             display: flex;
             align-items: center;
             gap: 12px;
-            border-bottom: 1px solid #2b5370;
+            border-bottom: 1px solid #2f5a78;
             padding-bottom: 1.2rem;
         }
 
@@ -94,7 +92,7 @@
         .sidebar button {
             background: none;
             border: none;
-            color: #cfecff;
+            color: #c6e2ff;
             text-align: left;
             padding: 1rem 1.2rem;
             font-size: 1rem;
@@ -107,31 +105,11 @@
             width: 100%;
         }
 
-        .sidebar button i {
-            width: 26px;
-            font-size: 1.2rem;
-        }
+        .sidebar button i { width: 26px; font-size: 1.2rem; }
+        .sidebar button:hover { background: var(--sidebar-hover); color: white; }
+        .sidebar button.active { background: var(--accent); color: white; font-weight: 500; box-shadow: 0 6px 12px rgba(0, 50, 70, 0.5); }
+        .sidebar-footer { font-size: 0.9rem; color: #8bb9dd; padding-top: 2rem; border-top: 1px solid #1f4a69; }
 
-        .sidebar button:hover {
-            background: var(--sidebar-hover);
-            color: white;
-        }
-
-        .sidebar button.active {
-            background: var(--accent);
-            color: white;
-            font-weight: 500;
-            box-shadow: 0 6px 12px rgba(0, 40, 60, 0.5);
-        }
-
-        .sidebar-footer {
-            font-size: 0.9rem;
-            color: #8fb4d4;
-            padding-top: 2rem;
-            border-top: 1px solid #1d405a;
-        }
-
-        /* MAIN CONTENT */
         .main-content {
             flex: 1;
             padding: 2rem;
@@ -152,32 +130,11 @@
             gap: 1rem;
         }
 
-        .header-bar h1 {
-            font-size: 1.6rem;
-            font-weight: 400;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .header-bar h1 { font-size: 1.6rem; font-weight: 400; display: flex; align-items: center; gap: 10px; }
+        .modo-toggle { background: var(--card); border: 1px solid var(--border); padding: 0.6rem 1.4rem; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
 
-        .modo-toggle {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 0.6rem 1.4rem;
-            border-radius: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tab-panel {
-            display: none;
-        }
-
-        .tab-panel.active {
-            display: block;
-        }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
 
         .card {
             background: var(--card);
@@ -196,17 +153,9 @@
             font-size: 1.4rem;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.8rem;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-        }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; }
 
         .btn {
             background: var(--card);
@@ -223,38 +172,12 @@
             font-size: 0.95rem;
         }
 
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: #0b5b79;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-            border: none;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: white;
-            border: none;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-            border: none;
-        }
-
-        .btn-sm {
-            padding: 0.5rem 1.2rem;
-            font-size: 0.85rem;
-        }
+        .btn-primary { background: var(--accent); color: white; border: none; }
+        .btn-primary:hover { background: #0b5f7a; }
+        .btn-success { background: var(--success); color: white; border: none; }
+        .btn-warning { background: var(--warning); color: white; border: none; }
+        .btn-danger { background: var(--danger); color: white; border: none; }
+        .btn-sm { padding: 0.5rem 1.2rem; font-size: 0.85rem; }
 
         input, select, textarea {
             background: var(--input-bg);
@@ -267,13 +190,7 @@
             font-size: 0.95rem;
         }
 
-        label {
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-            display: block;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
+        label { font-weight: 600; margin-bottom: 0.4rem; display: block; color: var(--text-light); font-size: 0.9rem; }
 
         .table {
             width: 100%;
@@ -287,78 +204,23 @@
             white-space: nowrap;
         }
 
-        .table th {
-            background: var(--accent-light);
-            text-align: left;
-            padding: 1rem;
-        }
+        .table th { background: var(--accent-light); text-align: left; padding: 1rem; }
+        .table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); }
 
-        .table td {
-            padding: 0.9rem 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            background: var(--accent-light);
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .fila-acciones i {
-            margin: 0 6px;
-            cursor: pointer;
-            opacity: 0.7;
-            font-size: 1rem;
-        }
-
-        .fila-acciones i:hover {
-            opacity: 1;
-            color: var(--accent);
-        }
-
-        .barra-acciones {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 1.5rem 0;
-        }
+        .badge { padding: 0.3rem 0.8rem; border-radius: 30px; font-size: 0.75rem; background: var(--accent-light); color: var(--accent); font-weight: 600; }
+        .fila-acciones i { margin: 0 6px; cursor: pointer; opacity: 0.7; font-size: 1rem; }
+        .fila-acciones i:hover { opacity: 1; color: var(--accent); }
+        .barra-acciones { display: flex; gap: 10px; flex-wrap: wrap; margin: 1.5rem 0; }
 
         .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--accent);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 60px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            display: none;
-            z-index: 9999;
-            font-weight: 500;
+            position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: white; padding: 1rem 2rem; border-radius: 60px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; z-index: 9999; font-weight: 500;
         }
 
-        .alert {
-            padding: 1rem 1.5rem;
-            border-radius: 30px;
-            margin: 1rem 0;
-            border-left: 8px solid;
-        }
+        .alert { padding: 1rem 1.5rem; border-radius: 30px; margin: 1rem 0; border-left: 8px solid; }
+        .alert-warning { background: #fff1d6; border-color: var(--warning); color: #6b4100; }
+        .dark .alert-warning { background: #362d1a; color: #ffdcaa; }
 
-        .alert-warning {
-            background: #fff1d6;
-            border-color: var(--warning);
-            color: #6b4100;
-        }
-
-        .dark .alert-warning {
-            background: #362d1a;
-            color: #ffdcaa;
-        }
-
-        /* Calendario responsive */
+        /* Calendario asistencia */
         .calendario {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -366,103 +228,32 @@
             margin: 1rem 0;
             overflow-x: auto;
         }
+        .dia { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; text-align: center; min-width: 90px; }
+        .dia select { margin-top: 4px; font-size: 0.75rem; padding: 0.2rem; width: 100%; }
 
-        .dia {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 0.5rem;
-            text-align: center;
-            min-width: 90px;
-        }
-
-        .dia select {
-            margin-top: 4px;
-            font-size: 0.75rem;
-            padding: 0.2rem;
-            width: 100%;
-        }
-
-        /* Responsive para móvil */
+        /* Responsive móvil */
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
+            body { flex-direction: column; }
             .sidebar {
-                width: 100%;
-                padding: 1rem;
-                max-height: 80px;
-                overflow: visible;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                position: sticky;
-                top: 0;
-                z-index: 1000;
+                width: 100%; padding: 1rem; max-height: 80px; overflow: visible; flex-direction: row; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000;
             }
-            .sidebar h2 {
-                margin-bottom: 0;
-                border-bottom: none;
-                padding-bottom: 0;
-                font-size: 1.2rem;
-            }
-            .sidebar nav {
-                flex-direction: row;
-                overflow-x: auto;
-                gap: 0.2rem;
-                padding: 0.2rem 0;
-            }
-            .sidebar button {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.8rem;
-                white-space: nowrap;
-            }
-            .sidebar button i {
-                font-size: 1rem;
-            }
-            .sidebar-footer {
-                display: none;
-            }
-            .main-content {
-                padding: 1rem;
-                max-height: none;
-            }
-            .header-bar {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 1rem;
-            }
-            .card {
-                padding: 1.5rem;
-            }
-            .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-            }
-            .barra-acciones {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .btn {
-                justify-content: center;
-            }
+            .sidebar h2 { margin-bottom: 0; border-bottom: none; padding-bottom: 0; font-size: 1.2rem; }
+            .sidebar nav { flex-direction: row; overflow-x: auto; gap: 0.2rem; }
+            .sidebar button { padding: 0.5rem 0.8rem; font-size: 0.8rem; white-space: nowrap; }
+            .sidebar-footer { display: none; }
+            .main-content { padding: 1rem; max-height: none; }
+            .header-bar { flex-direction: column; align-items: flex-start; padding: 1rem; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .barra-acciones { flex-direction: column; align-items: stretch; }
+            .btn { justify-content: center; }
         }
 
-        .componente-desactivado {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .indicador-modalidad {
-            background: var(--accent-light);
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
+        .componente-desactivado { opacity: 0.5; pointer-events: none; }
+        .indicador-modalidad { background: var(--accent-light); padding: 0.3rem 1rem; border-radius: 30px; font-size: 0.8rem; font-weight: 600; }
+        .rubrica-item { border-left: 4px solid var(--accent); padding-left: 1rem; margin-bottom: 1rem; }
     </style>
 </head>
 <body>
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <h2><i class="fas fa-chalkboard-teacher"></i> MEP 2026</h2>
         <nav id="menuNav">
@@ -476,18 +267,13 @@
             <button data-tab="tab8"><i class="fas fa-file-certificate"></i> Acta</button>
             <button data-tab="tab9"><i class="fas fa-database"></i> Respaldos</button>
         </nav>
-        <div class="sidebar-footer">
-            <i class="fas fa-sync-alt"></i> auto
-        </div>
+        <div class="sidebar-footer"><i class="fas fa-sync-alt"></i> auto</div>
     </div>
 
-    <!-- MAIN -->
     <div class="main-content">
         <div class="header-bar">
             <h1><i class="fas fa-clipboard-list"></i> <span id="currentInstitucion">Liceo MEP</span></h1>
-            <div class="modo-toggle" id="toggleModo">
-                <i class="fas fa-moon"></i> <span>Modo oscuro</span>
-            </div>
+            <div class="modo-toggle" id="toggleModo"><i class="fas fa-moon"></i> <span>Modo oscuro</span></div>
         </div>
 
         <!-- PANEL 1: CONFIGURACIÓN (con modalidad) -->
@@ -525,309 +311,1101 @@
             </div>
         </div>
 
-        <!-- PANEL 2: GRUPOS (idéntico a versión anterior pero se llenará) -->
-        <div id="tab2" class="tab-panel"><div class="card"><h3>📚 Grupos y Estudiantes</h3><div class="barra-acciones"><button class="btn" id="btnNuevoGrupo"><i class="fas fa-layer-group"></i> Nuevo grupo</button><button class="btn" id="btnExportarCSVEst"><i class="fas fa-file-export"></i> Exportar CSV</button></div><div id="gruposList"></div></div></div>
+        <!-- PANEL 2: GRUPOS -->
+        <div id="tab2" class="tab-panel">
+            <div class="card">
+                <h3>📚 Grupos y Estudiantes</h3>
+                <div class="barra-acciones">
+                    <button class="btn" id="btnNuevoGrupo"><i class="fas fa-layer-group"></i> Nuevo grupo</button>
+                    <button class="btn" id="btnImportarCSVEst"><i class="fas fa-file-import"></i> Importar CSV</button>
+                    <button class="btn" id="btnExportarCSVEst"><i class="fas fa-file-export"></i> Exportar CSV</button>
+                </div>
+                <div id="gruposList"></div>
+            </div>
+        </div>
+
         <!-- PANEL 3: EVALUACIÓN -->
-        <div id="tab3" class="tab-panel"><div class="card"><h3>📝 Registro de Componentes</h3><div class="grid-2"><div><label>Grupo</label><select id="evalGrupoSelect"></select></div><div><label>Estudiante</label><select id="evalEstudianteSelect"></select></div></div><div id="notasForm"></div><button class="btn btn-primary" id="guardarNotas"><i class="fas fa-calculator"></i> Calcular y guardar</button><div id="promedioCalculado" class="alert" style="margin-top:1rem"></div></div></div>
-        <!-- PANEL 4: INSTRUMENTOS -->
-        <div id="tab4" class="tab-panel"><div class="card"><h3>📋 Instrumentos</h3><div class="barra-acciones"><button class="btn" id="nuevoInstrumento"><i class="fas fa-plus"></i> Nuevo</button><button class="btn" id="duplicarInstrumento"><i class="fas fa-copy"></i> Duplicar</button></div><div id="instrumentosList" class="grid-3"></div></div></div>
-        <!-- PANEL 5: ASISTENCIA -->
-        <div id="tab5" class="tab-panel"><div class="card"><h3>📅 Asistencia</h3><div class="grid-2"><div><label>Grupo</label><select id="asistGrupoSelect"></select></div><div><label>Mes</label><input type="month" id="asistMes" value="2026-02"></div></div><div id="calendarioAsistencia"></div><div class="barra-acciones"><button class="btn" id="guardarAsistencia"><i class="fas fa-save"></i> Guardar</button><button class="btn btn-warning" id="generarAlertaWA"><i class="fab fa-whatsapp"></i> Alerta</button></div></div></div>
-        <!-- PANEL 6: BITÁCORA -->
-        <div id="tab6" class="tab-panel"><div class="card"><h3>📓 Bitácora</h3><div class="barra-acciones"><button class="btn" id="nuevaEntradaBitacora"><i class="fas fa-pen"></i> Nueva</button><input type="text" id="buscarBitacora" placeholder="Buscar..."></div><div id="bitacoraEntries"></div></div></div>
-        <!-- PANEL 7: REPORTES -->
-        <div id="tab7" class="tab-panel"><div class="card"><h3>📊 Reportes</h3><div class="grid-2"><div><label>Periodo</label><select id="reportePeriodoSelect"></select></div><div><label>Grupo</label><select id="reporteGrupoSelect"></select></div></div><div class="barra-acciones"><button class="btn" id="generarReporteIndividual"><i class="fas fa-user"></i> Individual</button><button class="btn" id="exportarReportePDF"><i class="fas fa-file-pdf"></i> PDF</button></div><div id="reporteResultado"></div></div></div>
-        <!-- PANEL 8: ACTA -->
-        <div id="tab8" class="tab-panel"><div class="card"><h3>📜 Acta Final</h3><button class="btn btn-primary" id="consolidarActa"><i class="fas fa-file-signature"></i> Consolidar</button><div id="actaResultado" style="white-space:pre-wrap; margin-top:2rem"></div></div></div>
-        <!-- PANEL 9: RESPALDO -->
-        <div id="tab9" class="tab-panel"><div class="card"><h3>💾 Respaldos</h3><div class="grid-2"><button class="btn btn-primary" id="exportarJSON"><i class="fas fa-download"></i> Exportar JSON</button><button class="btn" id="importarJSONBtn"><i class="fas fa-upload"></i> Importar</button><input type="file" id="importJSONFile" accept=".json" style="display:none"></div><p>Último respaldo: <span id="fechaUltimoRespaldo">nunca</span></p></div></div>
+        <div id="tab3" class="tab-panel">
+            <div class="card">
+                <h3>📝 Registro de Componentes</h3>
+                <div class="grid-3">
+                    <div><label>Grupo</label><select id="evalGrupoSelect"></select></div>
+                    <div><label>Estudiante</label><select id="evalEstudianteSelect"></select></div>
+                    <div><label>Periodo</label><select id="evalPeriodoSelect"></select></div>
+                </div>
+                <div id="notasForm" style="margin: 2rem 0;"></div>
+                <button class="btn btn-primary" id="guardarNotas"><i class="fas fa-calculator"></i> Calcular y guardar</button>
+                <div id="promedioCalculado" class="alert" style="margin-top:1rem"></div>
+            </div>
+        </div>
+
+        <!-- PANEL 4: INSTRUMENTOS (completo) -->
+        <div id="tab4" class="tab-panel">
+            <div class="card">
+                <h3>📋 Instrumentos de Evaluación</h3>
+                <div class="barra-acciones">
+                    <button class="btn" id="nuevoInstrumento"><i class="fas fa-plus"></i> Nuevo instrumento</button>
+                    <select id="tipoInstrumento">
+                        <option value="rubrica">Rúbrica analítica</option>
+                        <option value="lista">Lista de cotejo</option>
+                        <option value="escala">Escala de desempeño</option>
+                        <option value="prueba">Prueba estructurada</option>
+                    </select>
+                </div>
+                <div id="instrumentosList" class="grid-3"></div>
+                <div id="instrumentoEditor" style="margin-top:2rem; display:none;">
+                    <h4 id="editorTitulo">Editar instrumento</h4>
+                    <input type="text" id="instrumentoNombre" placeholder="Nombre del instrumento">
+                    <div id="indicadoresContainer"></div>
+                    <button class="btn btn-success" id="guardarInstrumento"><i class="fas fa-save"></i> Guardar instrumento</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 5: ASISTENCIA (completo) -->
+        <div id="tab5" class="tab-panel">
+            <div class="card">
+                <h3>📅 Control de Asistencia</h3>
+                <div class="grid-2">
+                    <div><label>Grupo</label><select id="asistGrupoSelect"></select></div>
+                    <div><label>Mes</label><input type="month" id="asistMes" value="2026-02"></div>
+                </div>
+                <div id="calendarioAsistencia"></div>
+                <div class="barra-acciones">
+                    <button class="btn" id="guardarAsistencia"><i class="fas fa-save"></i> Guardar asistencia</button>
+                    <button class="btn btn-warning" id="generarAlertaWA"><i class="fab fa-whatsapp"></i> Alerta WhatsApp</button>
+                    <button class="btn" id="reporteAusentismo"><i class="fas fa-chart-line"></i> Reporte ausentismo</button>
+                </div>
+                <div id="ausentismoResultado"></div>
+            </div>
+        </div>
+
+        <!-- PANEL 6: BITÁCORA (completa) -->
+        <div id="tab6" class="tab-panel">
+            <div class="card">
+                <h3>📓 Bitácora Docente</h3>
+                <div class="barra-acciones">
+                    <button class="btn" id="nuevaEntradaBitacora"><i class="fas fa-pen"></i> Nueva entrada</button>
+                    <input type="text" id="buscarBitacora" placeholder="Buscar por tema...">
+                    <button class="btn" id="exportarBitacoraPDF"><i class="fas fa-file-pdf"></i> PDF</button>
+                    <button class="btn" id="exportarBitacoraWord"><i class="fas fa-file-word"></i> Word</button>
+                </div>
+                <div id="bitacoraEntries" style="margin-top:2rem;"></div>
+            </div>
+        </div>
+
+        <!-- PANEL 7: REPORTES (completos) -->
+        <div id="tab7" class="tab-panel">
+            <div class="card">
+                <h3>📊 Reportes por Periodo</h3>
+                <div class="grid-3">
+                    <div><label>Periodo</label><select id="reportePeriodoSelect"></select></div>
+                    <div><label>Grupo</label><select id="reporteGrupoSelect"></select></div>
+                    <div><label>Estudiante</label><select id="reporteEstudianteSelect"><option value="">Todos</option></select></div>
+                </div>
+                <div class="barra-acciones">
+                    <button class="btn" id="generarReporteIndividual"><i class="fas fa-user"></i> Individual</button>
+                    <button class="btn" id="generarReporteGrupal"><i class="fas fa-users"></i> Grupal</button>
+                    <button class="btn" id="exportarReportePDF"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+                    <button class="btn" id="exportarReporteWord"><i class="fas fa-file-word"></i> Exportar Word</button>
+                    <button class="btn" id="exportarReporteCSV"><i class="fas fa-file-csv"></i> Exportar CSV</button>
+                </div>
+                <div id="reporteResultado" style="margin-top:2rem;"></div>
+            </div>
+        </div>
+
+        <!-- PANEL 8: ACTA FINAL (completa) -->
+        <div id="tab8" class="tab-panel">
+            <div class="card">
+                <h3>📜 Acta Final de Curso Lectivo</h3>
+                <div class="barra-acciones">
+                    <button class="btn btn-primary" id="consolidarActa"><i class="fas fa-file-signature"></i> Consolidar acta</button>
+                    <button class="btn" id="exportarActaPDF"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+                    <button class="btn" id="exportarActaWord"><i class="fas fa-file-word"></i> Exportar Word</button>
+                </div>
+                <div id="actaResultado" style="margin-top:2rem; white-space:pre-wrap; font-family: monospace;"></div>
+            </div>
+        </div>
+
+        <!-- PANEL 9: RESPALDOS (completos) -->
+        <div id="tab9" class="tab-panel">
+            <div class="card">
+                <h3>💾 Respaldo Global</h3>
+                <div class="grid-2">
+                    <div>
+                        <button class="btn btn-primary" id="exportarJSON"><i class="fas fa-download"></i> Exportar JSON</button>
+                        <button class="btn" id="importarJSONBtn"><i class="fas fa-upload"></i> Importar JSON</button>
+                        <input type="file" id="importJSONFile" accept=".json" style="display:none;">
+                    </div>
+                    <div>
+                        <button class="btn" id="exportarTodoCSV"><i class="fas fa-file-csv"></i> Exportar CSV masivo</button>
+                    </div>
+                </div>
+                <hr>
+                <p><strong>Última copia:</strong> <span id="fechaUltimoRespaldo">nunca</span></p>
+            </div>
+        </div>
 
         <div class="toast" id="toastMsg">✅ Listo</div>
     </div>
 
+    <!-- INYECTAR PARTE 2 AQUÍ -->
+    <!-- (este marcador se reemplazará con el código de la parte 2) -->
+
     <script>
+        // ----- INICIO DE LA PARTE 1 (JS BASE) -----
+        // Configuración de modalidades según Reglamento MEP 2026
+        const MODALIDADES = {
+            primaria: {
+                nombre: 'Educación Primaria',
+                componentes: { tc: true, tareas: true, proyecto: false, prueba: true, demo: false },
+                etiquetas: { tc: 'Trabajo Cotidiano', tareas: 'Tareas', proyecto: 'Proyecto', prueba: 'Prueba', demo: 'Demostración' }
+            },
+            secundaria: {
+                nombre: 'Secundaria Académica',
+                componentes: { tc: true, tareas: true, proyecto: true, prueba: true, demo: false },
+                etiquetas: { tc: 'Trabajo Cotidiano', tareas: 'Tareas', proyecto: 'Proyecto', prueba: 'Prueba', demo: 'Demostración' }
+            },
+            tecnica: {
+                nombre: 'Educación Técnica / CINDEA',
+                componentes: { tc: true, tareas: true, proyecto: true, prueba: false, demo: true },
+                etiquetas: { tc: 'Trabajo Cotidiano', tareas: 'Tareas', proyecto: 'Proyecto', prueba: 'Prueba', demo: 'Demostración' }
+            },
+            epja: {
+                nombre: 'Educación de Personas Jóvenes y Adultas',
+                componentes: { tc: true, tareas: false, proyecto: true, prueba: false, demo: true },
+                etiquetas: { tc: 'Trabajo Cotidiano', tareas: 'Tareas', proyecto: 'Proyecto', prueba: 'Prueba', demo: 'Demostración' }
+            }
+        };
+
+        // Estado inicial completo
+        let state = {
+            institucion: { nombre: 'Liceo de Costa Rica', logo: '' },
+            modalidad: 'secundaria',
+            periodos: [
+                { id: 'p1', nombre: 'I Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true },
+                { id: 'p2', nombre: 'II Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true },
+                { id: 'p3', nombre: 'III Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true }
+            ],
+            grupos: [
+                { id: 'g1', nombre: '7-1', nivel: 'Secundaria', estudiantes: [
+                    { id: 'e1', nombre: 'María Pérez', telefono: '8888-1111', correo: 'maria@e.cr', acs: false, observaciones: '', traslados: [], notas: {} },
+                    { id: 'e2', nombre: 'Juan Castro', telefono: '8888-2222', correo: 'juan@e.cr', acs: true, observaciones: 'ACS', traslados: [], notas: {} }
+                ]}
+            ],
+            instrumentos: [], // cada instrumento: { id, nombre, tipo, indicadores: [] }
+            bitacora: [],
+            asistencia: [], // { id, fecha, grupoId, estudianteId, estado }
+            respaldo: { fecha: null }
+        };
+
+        // Cargar de localStorage
         (function() {
-            // ---------- CONFIGURACIÓN DE MODALIDADES (basada en Reglamento 2026) ----------
-            const MODALIDADES = {
-                primaria: {
-                    nombre: 'Educación Primaria',
-                    componentes: { tc: true, tareas: true, proyecto: false, prueba: true, demo: false },
-                    etiquetas: { tc: 'Trabajo Cotidiano', tareas: 'Tareas', proyecto: 'Proyecto', prueba: 'Prueba', demo: 'Demostración' }
-                },
-                secundaria: {
-                    nombre: 'Secundaria Académica',
-                    componentes: { tc: true, tareas: true, proyecto: true, prueba: true, demo: false },
-                    etiquetas: { tc: 'Trabajo Cotidiano', tareas: 'Tareas', proyecto: 'Proyecto', prueba: 'Prueba', demo: 'Demostración' }
-                },
-                tecnica: {
-                    nombre: 'Educación Técnica / CINDEA',
-                    componentes: { tc: true, tareas: true, proyecto: true, prueba: false, demo: true },
-                    etiquetas: { tc: 'Trabajo Cotidiano', tareas: 'Tareas', proyecto: 'Proyecto', prueba: 'Prueba', demo: 'Demostración' }
-                },
-                epja: {
-                    nombre: 'Educación de Personas Jóvenes y Adultas',
-                    componentes: { tc: true, tareas: false, proyecto: true, prueba: false, demo: true },
-                    etiquetas: { tc: 'Trabajo Cotidiano', tareas: 'Tareas', proyecto: 'Proyecto', prueba: 'Prueba', demo: 'Demostración' }
-                }
-            };
+            try {
+                const saved = localStorage.getItem('mepFinalCompleto');
+                if (saved) state = JSON.parse(saved);
+            } catch(e) { console.warn('Error cargando estado'); }
+        })();
 
-            // Estado inicial
-            let state = {
-                institucion: { nombre: 'Liceo de Costa Rica', logo: '' },
-                modalidad: 'secundaria', // por defecto
-                periodos: [
-                    { id: 'p1', nombre: 'I Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true },
-                    { id: 'p2', nombre: 'II Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true },
-                    { id: 'p3', nombre: 'III Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, demo: 0, activo: true }
-                ],
-                grupos: [
-                    { id: 'g1', nombre: '7-1', nivel: 'Secundaria', estudiantes: [
-                        { id: 'e1', nombre: 'María Pérez', telefono: '8888-1111', correo: 'maria@e.cr', acs: false, observaciones: '', traslados: [], notas: {} },
-                        { id: 'e2', nombre: 'Juan Castro', telefono: '8888-2222', correo: 'juan@e.cr', acs: true, observaciones: 'ACS', traslados: [], notas: {} }
-                    ]}
-                ],
-                instrumentos: [],
-                bitacora: [],
-                asistencia: [],
-                respaldo: { fecha: null }
-            };
+        function saveToast(msg = '✅ Guardado') {
+            localStorage.setItem('mepFinalCompleto', JSON.stringify(state));
+            const t = document.getElementById('toastMsg');
+            t.style.display = 'block'; t.innerText = msg;
+            setTimeout(() => t.style.display = 'none', 2000);
+        }
 
-            // Cargar de localStorage
-            try { if(localStorage.getItem('mepFinal')) state = JSON.parse(localStorage.getItem('mepFinal')); } catch(e) {}
+        // Utilidades
+        function componentesActivos() {
+            return MODALIDADES[state.modalidad]?.componentes || MODALIDADES.secundaria.componentes;
+        }
 
-            function saveToast(msg) {
-                localStorage.setItem('mepFinal', JSON.stringify(state));
-                const t = document.getElementById('toastMsg');
-                t.style.display = 'block'; t.innerText = msg || '✅ Guardado';
-                setTimeout(() => t.style.display = 'none', 2000);
-            }
+        function validarSumaPeriodo(p) {
+            let comp = componentesActivos();
+            let suma = 0;
+            if(comp.tc) suma += p.tc || 0;
+            if(comp.tareas) suma += p.tareas || 0;
+            if(comp.proyecto) suma += p.proyecto || 0;
+            if(comp.prueba) suma += p.prueba || 0;
+            if(comp.demo) suma += p.demo || 0;
+            return suma;
+        }
 
-            // Obtener componentes activos según modalidad
-            function componentesActivos() {
-                return MODALIDADES[state.modalidad]?.componentes || MODALIDADES.secundaria.componentes;
-            }
+        function actualizarMsgComponentes() {
+            let comp = componentesActivos();
+            let activos = [];
+            if(comp.tc) activos.push('TC');
+            if(comp.tareas) activos.push('Tareas');
+            if(comp.proyecto) activos.push('Proyecto');
+            if(comp.prueba) activos.push('Prueba');
+            if(comp.demo) activos.push('Demostración');
+            document.getElementById('componentesActivosMsg').innerHTML = `📌 Componentes activos: <strong>${activos.join(' · ')}</strong>`;
+            document.getElementById('modalidadLabel').innerText = MODALIDADES[state.modalidad]?.nombre || 'Secundaria';
+        }
 
-            // Validar suma de porcentajes para un periodo (solo componentes activos)
-            function validarSumaPeriodo(p) {
-                let comp = componentesActivos();
-                let suma = 0;
-                if(comp.tc) suma += p.tc || 0;
-                if(comp.tareas) suma += p.tareas || 0;
-                if(comp.proyecto) suma += p.proyecto || 0;
-                if(comp.prueba) suma += p.prueba || 0;
-                if(comp.demo) suma += p.demo || 0;
-                return suma;
-            }
+        // Renderizado básico de periodos
+        function renderPeriodos() {
+            let container = document.getElementById('periodosContainer');
+            if(!container) return;
+            let comp = componentesActivos();
+            let html = '';
+            state.periodos.forEach((p, idx) => {
+                html += `<div style="border:1px solid var(--border); border-radius:24px; padding:1.5rem; margin-bottom:1.5rem;">`;
+                html += `<input type="text" value="${p.nombre}" placeholder="Nombre" data-idx="${idx}" class="periodoNombre" style="margin-bottom:1rem;">`;
+                html += `<div style="display:flex; flex-wrap:wrap; gap:1rem;">`;
+                if(comp.tc) html += `<label>TC <input type="number" class="periodoTc" data-idx="${idx}" value="${p.tc}" min="0" max="100" style="width:90px;"></label>`;
+                if(comp.tareas) html += `<label>Tareas <input type="number" class="periodoTareas" data-idx="${idx}" value="${p.tareas}" min="0" max="100" style="width:90px;"></label>`;
+                if(comp.proyecto) html += `<label>Proyecto <input type="number" class="periodoProyecto" data-idx="${idx}" value="${p.proyecto}" min="0" max="100" style="width:90px;"></label>`;
+                if(comp.prueba) html += `<label>Prueba <input type="number" class="periodoPrueba" data-idx="${idx}" value="${p.prueba}" min="0" max="100" style="width:90px;"></label>`;
+                if(comp.demo) html += `<label>Demostración <input type="number" class="periodoDemo" data-idx="${idx}" value="${p.demo || 0}" min="0" max="100" style="width:90px;"></label>`;
+                html += `</div>`;
+                html += `<button class="btn btn-sm btn-danger eliminarPeriodo" data-idx="${idx}" style="margin-top:1rem;"><i class="fas fa-trash"></i> Eliminar</button>`;
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+            actualizarMsgComponentes();
+            recalcularTotalPeriodos();
+        }
 
-            // Renderizar periodos con campos condicionales
-            function renderPeriodos() {
-                let container = document.getElementById('periodosContainer');
-                if(!container) return;
-                let comp = componentesActivos();
-                let html = '';
-                state.periodos.forEach((p, idx) => {
-                    html += `<div style="border:1px solid var(--border); border-radius:24px; padding:1.5rem; margin-bottom:1.5rem;">`;
-                    html += `<input type="text" value="${p.nombre}" placeholder="Nombre" data-idx="${idx}" class="periodoNombre" style="margin-bottom:1rem;">`;
-                    html += `<div style="display:flex; flex-wrap:wrap; gap:1rem;">`;
-                    if(comp.tc) html += `<label>TC <input type="number" class="periodoTc" data-idx="${idx}" value="${p.tc}" min="0" max="100" style="width:90px;"></label>`;
-                    if(comp.tareas) html += `<label>Tareas <input type="number" class="periodoTareas" data-idx="${idx}" value="${p.tareas}" min="0" max="100" style="width:90px;"></label>`;
-                    if(comp.proyecto) html += `<label>Proyecto <input type="number" class="periodoProyecto" data-idx="${idx}" value="${p.proyecto}" min="0" max="100" style="width:90px;"></label>`;
-                    if(comp.prueba) html += `<label>Prueba <input type="number" class="periodoPrueba" data-idx="${idx}" value="${p.prueba}" min="0" max="100" style="width:90px;"></label>`;
-                    if(comp.demo) html += `<label>Demostración <input type="number" class="periodoDemo" data-idx="${idx}" value="${p.demo || 0}" min="0" max="100" style="width:90px;"></label>`;
-                    html += `</div>`;
-                    html += `<button class="btn btn-sm btn-danger eliminarPeriodo" data-idx="${idx}" style="margin-top:1rem;"><i class="fas fa-trash"></i> Eliminar</button>`;
-                    html += `</div>`;
+        function recalcularTotalPeriodos() {
+            let sumaTotal = 0;
+            state.periodos.forEach(p => { sumaTotal += validarSumaPeriodo(p); });
+            document.getElementById('totalPorcentajesDisplay').innerText = `Total suma: ${sumaTotal}% (debe ser 100%)`;
+            if(sumaTotal !== 100) document.getElementById('totalPorcentajesDisplay').className = 'alert alert-warning';
+            else document.getElementById('totalPorcentajesDisplay').className = 'alert';
+        }
+
+        // Render grupos básico
+        function renderGrupos() {
+            let div = document.getElementById('gruposList');
+            if(!div) return;
+            let html = '';
+            state.grupos.forEach((g, idxG) => {
+                html += `<div style="background:var(--accent-light); padding:1.5rem; border-radius:24px; margin-bottom:1.5rem;">`;
+                html += `<div style="display:flex; justify-content:space-between;"><h4>${g.nombre}</h4>`;
+                html += `<div><button class="btn btn-sm" onclick="editarGrupo(${idxG})"><i class="fas fa-edit"></i></button> <button class="btn btn-sm btn-danger" onclick="eliminarGrupo(${idxG})"><i class="fas fa-trash"></i></button></div></div>`;
+                html += `<table class="table"><tr><th>Nombre</th><th>Teléfono</th><th>ACS</th><th>Acciones</th></tr>`;
+                (g.estudiantes || []).forEach((e, idxE) => {
+                    html += `<tr><td>${e.nombre}</td><td>${e.telefono || ''}</td><td>${e.acs ? 'ACS' : ''}</td>`;
+                    html += `<td class="fila-acciones"><i class="fas fa-edit" onclick="editarEstudiante(${idxG},${idxE})"></i> <i class="fas fa-trash" onclick="eliminarEstudiante(${idxG},${idxE})"></i></td></tr>`;
                 });
-                container.innerHTML = html;
-                document.querySelectorAll('.eliminarPeriodo').forEach(b => b.addEventListener('click', (e) => {
-                    if(confirm('¿Eliminar periodo?')) { state.periodos.splice(e.target.closest('button').dataset.idx, 1); saveToast(); actualizarTodo(); }
-                }));
-                actualizarMsgComponentes();
-            }
-
-            function actualizarMsgComponentes() {
-                let comp = componentesActivos();
-                let activos = [];
-                if(comp.tc) activos.push('TC'); if(comp.tareas) activos.push('Tareas'); if(comp.proyecto) activos.push('Proyecto'); if(comp.prueba) activos.push('Prueba'); if(comp.demo) activos.push('Demostración');
-                document.getElementById('componentesActivosMsg').innerHTML = `📌 Componentes activos según modalidad: <strong>${activos.join(' · ')}</strong>`;
-                document.getElementById('modalidadLabel').innerText = MODALIDADES[state.modalidad]?.nombre || 'Secundaria';
-            }
-
-            function recalcularTotalPeriodos() {
-                let sumaTotal = 0;
-                state.periodos.forEach(p => { sumaTotal += validarSumaPeriodo(p); });
-                document.getElementById('totalPorcentajesDisplay').innerText = `Total suma: ${sumaTotal}% (debe ser 100%)`;
-                if(sumaTotal !== 100) document.getElementById('totalPorcentajesDisplay').className = 'alert alert-warning';
-                else document.getElementById('totalPorcentajesDisplay').className = 'alert';
-            }
-
-            // Render grupos, estudiantes, etc (simplificado pero funcional)
-            function renderGrupos() {
-                let div = document.getElementById('gruposList');
-                if(!div) return;
-                let html = '';
-                state.grupos.forEach((g, idxG) => {
-                    html += `<div class="grupo-item" style="background:var(--accent-light); padding:1.5rem; border-radius:24px; margin-bottom:1.5rem;">`;
-                    html += `<div style="display:flex; justify-content:space-between;"><h4>${g.nombre}</h4>`;
-                    html += `<div><button class="btn btn-sm" onclick="editarGrupo(${idxG})"><i class="fas fa-edit"></i></button> <button class="btn btn-sm btn-danger" onclick="eliminarGrupo(${idxG})"><i class="fas fa-trash"></i></button></div></div>`;
-                    html += `<table class="table"><tr><th>Nombre</th><th>Teléfono</th><th>ACS</th><th>Acciones</th></tr>`;
-                    (g.estudiantes || []).forEach((e, idxE) => {
-                        html += `<tr><td>${e.nombre}</td><td>${e.telefono || ''}</td><td>${e.acs ? 'ACS' : ''}</td>`;
-                        html += `<td class="fila-acciones"><i class="fas fa-edit" onclick="editarEstudiante(${idxG},${idxE})"></i> <i class="fas fa-trash" onclick="eliminarEstudiante(${idxG},${idxE})"></i></td></tr>`;
-                    });
-                    html += `</table><button class="btn btn-sm" onclick="agregarEstudiante(${idxG})"><i class="fas fa-user-plus"></i> Añadir</button>`;
-                    html += `</div>`;
-                });
-                div.innerHTML = html || '<p>No hay grupos</p>';
-            }
-
-            window.agregarEstudiante = (g) => { let nom = prompt('Nombre'); if(nom) { state.grupos[g].estudiantes.push({ id:'e'+Date.now(), nombre: nom, telefono:'', correo:'', acs:false, notas:{} }); saveToast(); renderGrupos(); } };
-            window.editarEstudiante = (g, e) => { let est = state.grupos[g].estudiantes[e]; est.nombre = prompt('Nombre', est.nombre) || est.nombre; est.acs = confirm('¿ACS?'); saveToast(); renderGrupos(); };
-            window.eliminarEstudiante = (g, e) => { if(confirm('Eliminar?')) { state.grupos[g].estudiantes.splice(e,1); saveToast(); renderGrupos(); } };
-            window.editarGrupo = (g) => { let nom = prompt('Nombre grupo', state.grupos[g].nombre); if(nom) { state.grupos[g].nombre = nom; saveToast(); renderGrupos(); } };
-            window.eliminarGrupo = (g) => { if(confirm('Eliminar grupo?')) { state.grupos.splice(g,1); saveToast(); renderGrupos(); } };
-
-            // Evaluación: llenar selects
-            function llenarSelectores() {
-                let selG = document.getElementById('evalGrupoSelect');
-                let selA = document.getElementById('asistGrupoSelect');
-                let selR = document.getElementById('reporteGrupoSelect');
-                let op = '<option value="">--</option>' + state.grupos.map((g,i)=>`<option value="${i}">${g.nombre}</option>`).join('');
-                if(selG) selG.innerHTML = op;
-                if(selA) selA.innerHTML = op;
-                if(selR) selR.innerHTML = op;
-                let selP = document.getElementById('reportePeriodoSelect');
-                if(selP) selP.innerHTML = state.periodos.map((p,i)=>`<option value="${i}">${p.nombre}</option>`).join('');
-            }
-
-            // Guardar notas (con validación de componentes activos)
-            document.getElementById('guardarNotas')?.addEventListener('click', ()=>{
-                let g = document.getElementById('evalGrupoSelect').value;
-                let e = document.getElementById('evalEstudianteSelect').value;
-                if(g===''||e==='') return alert('Seleccione grupo y estudiante');
-                let estudiante = state.grupos[g].estudiantes[e];
-                let periodo = state.periodos[0]; // por simplicidad usamos el primero
-                let pid = periodo.id;
-                if(!estudiante.notas[pid]) estudiante.notas[pid] = {};
-                let comp = componentesActivos();
-                let tc = comp.tc ? parseFloat(prompt('Trabajo Cotidiano (0-100)', estudiante.notas[pid]?.tc||'0'))||0 : 0;
-                let tareas = comp.tareas ? parseFloat(prompt('Tareas (0-100)', estudiante.notas[pid]?.tareas||'0'))||0 : 0;
-                let proyecto = comp.proyecto ? parseFloat(prompt('Proyecto (0-100)', estudiante.notas[pid]?.proyecto||'0'))||0 : 0;
-                let prueba = comp.prueba ? parseFloat(prompt('Prueba (0-100)', estudiante.notas[pid]?.prueba||'0'))||0 : 0;
-                let demo = comp.demo ? parseFloat(prompt('Demostración (0-100)', estudiante.notas[pid]?.demo||'0'))||0 : 0;
-                if(tc>100||tareas>100||proyecto>100||prueba>100||demo>100) return alert('Máx 100');
-                estudiante.notas[pid] = { tc, tareas, proyecto, prueba, demo };
-                // Calcular promedio ponderado según modalidad
-                let ponderado = 0;
-                if(comp.tc) ponderado += tc * (periodo.tc/100);
-                if(comp.tareas) ponderado += tareas * (periodo.tareas/100);
-                if(comp.proyecto) ponderado += proyecto * (periodo.proyecto/100);
-                if(comp.prueba) ponderado += prueba * (periodo.prueba/100);
-                if(comp.demo) ponderado += demo * ((periodo.demo||0)/100);
-                if(estudiante.acs) ponderado = ponderado * 0.9; // ejemplo fórmula ACS
-                estudiante.notas[pid].promedio = ponderado.toFixed(2);
-                document.getElementById('promedioCalculado').innerText = `📊 Promedio: ${ponderado.toFixed(2)}%`;
-                saveToast();
+                html += `</table><button class="btn btn-sm" onclick="agregarEstudiante(${idxG})"><i class="fas fa-user-plus"></i> Añadir</button>`;
+                html += `</div>`;
             });
+            div.innerHTML = html || '<p>No hay grupos</p>';
+        }
 
-            // Reporte individual
-            document.getElementById('generarReporteIndividual')?.addEventListener('click', ()=>{
-                let g = document.getElementById('reporteGrupoSelect').value;
-                let p = document.getElementById('reportePeriodoSelect').value;
-                if(g===''||p==='') return;
-                let grupo = state.grupos[g];
-                let periodo = state.periodos[p];
-                let html = `<table class="table"><tr><th>Estudiante</th><th>TC</th><th>Tareas</th><th>Proyecto</th><th>Prueba</th><th>Demo</th><th>Prom</th></tr>`;
-                grupo.estudiantes.forEach(e => {
-                    let n = e.notas[periodo.id] || {};
-                    html += `<tr><td>${e.nombre}</td><td>${n.tc||'-'}</td><td>${n.tareas||'-'}</td><td>${n.proyecto||'-'}</td><td>${n.prueba||'-'}</td><td>${n.demo||'-'}</td><td>${n.promedio||'-'}</td></tr>`;
-                });
-                html += '</table>';
-                document.getElementById('reporteResultado').innerHTML = html;
-            });
+        // Funciones globales para botones inline
+        window.agregarEstudiante = (g) => { 
+            let nom = prompt('Nombre completo'); 
+            if(nom) { 
+                state.grupos[g].estudiantes.push({ 
+                    id: 'e'+Date.now()+Math.random(), 
+                    nombre: nom, 
+                    telefono: '', 
+                    correo: '', 
+                    acs: false, 
+                    observaciones: '', 
+                    traslados: [], 
+                    notas: {} 
+                }); 
+                saveToast(); 
+                renderGrupos(); 
+            } 
+        };
+        window.editarEstudiante = (g, e) => { 
+            let est = state.grupos[g].estudiantes[e]; 
+            est.nombre = prompt('Nombre', est.nombre) || est.nombre; 
+            est.telefono = prompt('Teléfono', est.telefono || ''); 
+            est.acs = confirm('¿ACS?'); 
+            saveToast(); 
+            renderGrupos(); 
+        };
+        window.eliminarEstudiante = (g, e) => { 
+            if(confirm('¿Eliminar estudiante?')) { 
+                state.grupos[g].estudiantes.splice(e,1); 
+                saveToast(); 
+                renderGrupos(); 
+            } 
+        };
+        window.editarGrupo = (g) => { 
+            let nom = prompt('Nombre del grupo', state.grupos[g].nombre); 
+            if(nom) { 
+                state.grupos[g].nombre = nom; 
+                saveToast(); 
+                renderGrupos(); 
+            } 
+        };
+        window.eliminarGrupo = (g) => { 
+            if(confirm('¿Eliminar grupo completo?')) { 
+                state.grupos.splice(g,1); 
+                saveToast(); 
+                renderGrupos(); 
+            } 
+        };
 
-            // Acta final
-            document.getElementById('consolidarActa')?.addEventListener('click', ()=>{
-                let acta = 'ACTA FINAL DE EVALUACIÓN 2026\n\n';
-                state.grupos.forEach(g => {
-                    acta += `${g.nombre}\n`;
-                    g.estudiantes.forEach(e => {
-                        let suma = 0, c = 0;
-                        state.periodos.forEach(p => { if(e.notas[p.id]?.promedio) { suma += parseFloat(e.notas[p.id].promedio); c++; } });
-                        let prom = c>0 ? (suma/c).toFixed(2) : '--';
-                        let cond = prom>=65 ? 'Aprobado' : (prom>0? 'Convocatoria':'Reprobado');
-                        acta += `${e.nombre}: ${prom} - ${cond}\n`;
-                    });
-                });
-                document.getElementById('actaResultado').innerText = acta;
-            });
+        // Llenar selects básicos
+        function llenarSelectores() {
+            let selEvalG = document.getElementById('evalGrupoSelect');
+            let selAsist = document.getElementById('asistGrupoSelect');
+            let selRepoG = document.getElementById('reporteGrupoSelect');
+            let op = '<option value="">-- Seleccionar --</option>' + state.grupos.map((g,i)=>`<option value="${i}">${g.nombre}</option>`).join('');
+            if(selEvalG) selEvalG.innerHTML = op;
+            if(selAsist) selAsist.innerHTML = op;
+            if(selRepoG) selRepoG.innerHTML = op;
 
-            // Respaldos
-            document.getElementById('exportarJSON')?.addEventListener('click', ()=>{
-                let data = JSON.stringify(state,null,2);
-                let a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data],{type:'application/json'})); a.download = 'mep_respaldo.json'; a.click();
-                state.respaldo.fecha = new Date().toLocaleString(); document.getElementById('fechaUltimoRespaldo').innerText = state.respaldo.fecha; saveToast();
-            });
-            document.getElementById('importarJSONBtn')?.addEventListener('click', ()=> document.getElementById('importJSONFile').click());
-            document.getElementById('importJSONFile')?.addEventListener('change', (e)=>{
-                let file = e.target.files[0]; if(!file) return;
-                let reader = new FileReader();
-                reader.onload = (ev) => { try { let newState = JSON.parse(ev.target.result); if(confirm('¿Sobrescribir todo?')) { state = newState; saveToast(); actualizarTodo(); } } catch(ex){ alert('Error'); } };
-                reader.readAsText(file);
-            });
+            let selPeriodo = document.getElementById('evalPeriodoSelect');
+            if(selPeriodo) selPeriodo.innerHTML = state.periodos.map((p,i)=>`<option value="${i}">${p.nombre}</option>`).join('');
 
-            // Guardar configuración
-            document.getElementById('guardarInstitucion')?.addEventListener('click', ()=>{
-                state.institucion.nombre = document.getElementById('institucionNombre').value;
-                state.institucion.logo = document.getElementById('institucionLogo').value;
-                saveToast();
-            });
-            document.getElementById('selectModalidad')?.addEventListener('change', (e)=>{
-                state.modalidad = e.target.value;
-                saveToast(); actualizarTodo();
-            });
+            let selRepoP = document.getElementById('reportePeriodoSelect');
+            if(selRepoP) selRepoP.innerHTML = state.periodos.map((p,i)=>`<option value="${i}">${p.nombre}</option>`).join('');
+        }
 
-            document.getElementById('agregarPeriodo')?.addEventListener('click', ()=>{
-                state.periodos.push({ id:'p'+Date.now(), nombre:'Nuevo periodo', tc:25, tareas:25, proyecto:25, prueba:25, demo:0 });
-                saveToast(); actualizarTodo();
-            });
+        // Event listeners básicos
+        document.getElementById('toggleModo')?.addEventListener('click', () => document.body.classList.toggle('dark'));
 
-            document.getElementById('guardarPorcentajes')?.addEventListener('click', ()=>{
-                document.querySelectorAll('.periodoNombre').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].nombre = i.value; });
-                document.querySelectorAll('.periodoTc').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].tc = parseInt(i.value)||0; });
-                document.querySelectorAll('.periodoTareas').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].tareas = parseInt(i.value)||0; });
-                document.querySelectorAll('.periodoProyecto').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].proyecto = parseInt(i.value)||0; });
-                document.querySelectorAll('.periodoPrueba').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].prueba = parseInt(i.value)||0; });
-                document.querySelectorAll('.periodoDemo').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].demo = parseInt(i.value)||0; });
-                let ok = true;
-                state.periodos.forEach((p,idx) => { let s = validarSumaPeriodo(p); if(s !== 100) { alert(`Periodo ${p.nombre} suma ${s}%`); ok = false; } });
-                if(ok) { saveToast('✅ Porcentajes válidos'); actualizarTodo(); }
-            });
-
-            // Modo oscuro
-            document.getElementById('toggleModo')?.addEventListener('click', ()=> document.body.classList.toggle('dark'));
-
-            // Menú pestañas
-            document.querySelectorAll('#menuNav button').forEach(b => b.addEventListener('click', (e)=>{
-                document.querySelectorAll('#menuNav button').forEach(bb=>bb.classList.remove('active'));
+        document.querySelectorAll('#menuNav button').forEach(b => {
+            b.addEventListener('click', (e) => {
+                document.querySelectorAll('#menuNav button').forEach(bb => bb.classList.remove('active'));
                 b.classList.add('active');
-                document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
                 document.getElementById(b.dataset.tab).classList.add('active');
-            }));
+            });
+        });
 
-            function actualizarTodo() {
-                renderPeriodos();
+        document.getElementById('guardarInstitucion')?.addEventListener('click', ()=>{
+            state.institucion.nombre = document.getElementById('institucionNombre').value;
+            state.institucion.logo = document.getElementById('institucionLogo').value;
+            document.getElementById('currentInstitucion').innerText = state.institucion.nombre;
+            saveToast();
+        });
+
+        document.getElementById('selectModalidad')?.addEventListener('change', (e)=>{
+            state.modalidad = e.target.value;
+            saveToast();
+            renderPeriodos();
+            llenarSelectores();
+        });
+
+        document.getElementById('agregarPeriodo')?.addEventListener('click', ()=>{
+            state.periodos.push({ id:'p'+Date.now(), nombre:'Nuevo periodo', tc:25, tareas:25, proyecto:25, prueba:25, demo:0 });
+            saveToast();
+            renderPeriodos();
+            llenarSelectores();
+        });
+
+        document.getElementById('guardarPorcentajes')?.addEventListener('click', ()=>{
+            document.querySelectorAll('.periodoNombre').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].nombre = i.value; });
+            document.querySelectorAll('.periodoTc').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].tc = parseInt(i.value)||0; });
+            document.querySelectorAll('.periodoTareas').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].tareas = parseInt(i.value)||0; });
+            document.querySelectorAll('.periodoProyecto').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].proyecto = parseInt(i.value)||0; });
+            document.querySelectorAll('.periodoPrueba').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].prueba = parseInt(i.value)||0; });
+            document.querySelectorAll('.periodoDemo').forEach(i => { let idx=i.dataset.idx; state.periodos[idx].demo = parseInt(i.value)||0; });
+            let ok = true;
+            state.periodos.forEach((p,idx) => { let s = validarSumaPeriodo(p); if(s !== 100) { alert(`Periodo ${p.nombre} suma ${s}%`); ok = false; } });
+            if(ok) { saveToast('✅ Porcentajes válidos'); renderPeriodos(); }
+        });
+
+        document.getElementById('btnNuevoGrupo')?.addEventListener('click', ()=>{
+            let nom = prompt('Nombre del grupo (ej. 8-2)');
+            if(nom) { state.grupos.push({ id:'g'+Date.now(), nombre: nom, nivel: 'Secundaria', estudiantes: [] }); saveToast(); renderGrupos(); llenarSelectores(); }
+        });
+
+        document.getElementById('btnExportarCSVEst')?.addEventListener('click', ()=>{
+            let csv = "Grupo,Nombre,Teléfono,Correo,ACS\n";
+            state.grupos.forEach(g => g.estudiantes?.forEach(e => csv+=`${g.nombre},${e.nombre},${e.telefono||''},${e.correo||''},${e.acs?1:0}\n`));
+            let blob = new Blob([csv],{type:'text/csv'}); 
+            let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'estudiantes.csv'; a.click();
+        });
+
+        // Auto-guardado
+        setInterval(() => saveToast('⏲️ Auto-guardado'), 45000);
+
+        // Inicializar vista
+        renderPeriodos();
+        renderGrupos();
+        llenarSelectores();
+    </script>
+    <!-- ========== PARTE 2: FUNCIONALIDADES COMPLETAS ========== -->
+<!-- Instrucciones: Pegar este contenido justo después del marcador en la Parte 1, antes del cierre </body> -->
+
+<script>
+    // ============================================================
+    // PARTE 2: MÓDULOS COMPLETOS - INSTRUMENTOS, ASISTENCIA, 
+    // BITÁCORA, REPORTES, ACTA FINAL, EXPORTACIONES
+    // ============================================================
+
+    // ---------- 1. INSTRUMENTOS (Rúbricas, Listas, Escalas) ----------
+    function renderInstrumentos() {
+        let container = document.getElementById('instrumentosList');
+        if (!container) return;
+        
+        let html = '';
+        state.instrumentos.forEach((inst, idx) => {
+            html += `<div class="card" style="padding:1.2rem; cursor:pointer;" onclick="editarInstrumento(${idx})">`;
+            html += `<div style="display:flex; justify-content:space-between;">`;
+            html += `<strong>${inst.nombre}</strong>`;
+            html += `<span class="badge">${inst.tipo}</span>`;
+            html += `</div>`;
+            html += `<small>${inst.indicadores?.length || 0} indicadores</small>`;
+            html += `<div style="margin-top:1rem;">`;
+            html += `<i class="fas fa-copy" onclick="duplicarInstrumento(${idx}); event.stopPropagation();"></i> `;
+            html += `<i class="fas fa-trash" onclick="eliminarInstrumento(${idx}); event.stopPropagation();"></i>`;
+            html += `</div>`;
+            html += `</div>`;
+        });
+        container.innerHTML = html || '<p>No hay instrumentos. Cree uno nuevo.</p>';
+    }
+
+    window.eliminarInstrumento = (idx) => {
+        if (confirm('¿Eliminar instrumento?')) {
+            state.instrumentos.splice(idx, 1);
+            saveToast();
+            renderInstrumentos();
+        }
+    };
+
+    window.duplicarInstrumento = (idx) => {
+        let copia = JSON.parse(JSON.stringify(state.instrumentos[idx]));
+        copia.id = 'inst' + Date.now() + Math.random();
+        copia.nombre += ' (copia)';
+        state.instrumentos.push(copia);
+        saveToast();
+        renderInstrumentos();
+    };
+
+    let instrumentoEditando = null;
+
+    window.editarInstrumento = (idx) => {
+        instrumentoEditando = idx;
+        let inst = state.instrumentos[idx];
+        document.getElementById('instrumentoEditor').style.display = 'block';
+        document.getElementById('editorTitulo').innerText = 'Editando: ' + inst.nombre;
+        document.getElementById('instrumentoNombre').value = inst.nombre;
+        
+        let indicadoresContainer = document.getElementById('indicadoresContainer');
+        let html = '<h5>Indicadores / Criterios</h5>';
+        
+        if (inst.tipo === 'rubrica') {
+            html += `<p><small>Rúbrica analítica - definir niveles (4=Excelente, 3=Bueno, 2=Suficiente, 1=Insuficiente)</small></p>`;
+            (inst.indicadores || []).forEach((ind, i) => {
+                html += `<div class="rubrica-item" style="margin-bottom:1.5rem; padding:1rem; background:var(--accent-light); border-radius:16px;">`;
+                html += `<input type="text" placeholder="Indicador" value="${ind.nombre || ''}" id="ind_nombre_${i}" style="width:100%;">`;
+                for (let nivel = 4; nivel >= 1; nivel--) {
+                    let nivelNombre = nivel === 4 ? 'Excelente' : (nivel === 3 ? 'Bueno' : (nivel === 2 ? 'Suficiente' : 'Insuficiente'));
+                    html += `<label>${nivelNombre}: <input type="text" value="${ind.niveles?.[nivel] || ''}" id="ind_${i}_nivel${nivel}" placeholder="Descripción"></label>`;
+                }
+                html += `<button class="btn btn-sm btn-danger" onclick="eliminarIndicador(${i})" style="margin-top:0.5rem;">Eliminar indicador</button>`;
+                html += `</div>`;
+            });
+        } else if (inst.tipo === 'lista') {
+            html += `<p><small>Lista de cotejo (Sí/No)</small></p>`;
+            (inst.indicadores || []).forEach((ind, i) => {
+                html += `<div style="margin-bottom:1rem;">`;
+                html += `<input type="text" placeholder="Criterio" value="${ind.nombre || ''}" id="ind_nombre_${i}" style="width:80%; display:inline-block;">`;
+                html += `<button class="btn btn-sm btn-danger" onclick="eliminarIndicador(${i})"><i class="fas fa-trash"></i></button>`;
+                html += `</div>`;
+            });
+        } else {
+            // escala o prueba
+            (inst.indicadores || []).forEach((ind, i) => {
+                html += `<div><input type="text" placeholder="Indicador" value="${ind.nombre || ''}" id="ind_nombre_${i}" style="width:80%;">`;
+                html += `<button class="btn btn-sm btn-danger" onclick="eliminarIndicador(${i})"><i class="fas fa-trash"></i></button></div>`;
+            });
+        }
+        
+        html += `<button class="btn btn-sm" id="agregarIndicadorBtn"><i class="fas fa-plus"></i> Agregar indicador</button>`;
+        indicadoresContainer.innerHTML = html;
+        
+        document.getElementById('agregarIndicadorBtn')?.addEventListener('click', () => {
+            if (!state.instrumentos[instrumentoEditando].indicadores) 
+                state.instrumentos[instrumentoEditando].indicadores = [];
+            state.instrumentos[instrumentoEditando].indicadores.push({ nombre: '' });
+            editarInstrumento(instrumentoEditando); // re-render
+        });
+    };
+
+    window.eliminarIndicador = (idxInd) => {
+        if (instrumentoEditando !== null) {
+            state.instrumentos[instrumentoEditando].indicadores.splice(idxInd, 1);
+            editarInstrumento(instrumentoEditando);
+        }
+    };
+
+    document.getElementById('guardarInstrumento')?.addEventListener('click', () => {
+        if (instrumentoEditando === null) return;
+        let inst = state.instrumentos[instrumentoEditando];
+        inst.nombre = document.getElementById('instrumentoNombre').value;
+        
+        // Guardar indicadores según tipo
+        if (inst.tipo === 'rubrica') {
+            inst.indicadores = inst.indicadores || [];
+            inst.indicadores.forEach((ind, i) => {
+                ind.nombre = document.getElementById(`ind_nombre_${i}`)?.value || '';
+                ind.niveles = {
+                    4: document.getElementById(`ind_${i}_nivel4`)?.value || '',
+                    3: document.getElementById(`ind_${i}_nivel3`)?.value || '',
+                    2: document.getElementById(`ind_${i}_nivel2`)?.value || '',
+                    1: document.getElementById(`ind_${i}_nivel1`)?.value || ''
+                };
+            });
+        } else {
+            inst.indicadores = inst.indicadores || [];
+            inst.indicadores.forEach((ind, i) => {
+                ind.nombre = document.getElementById(`ind_nombre_${i}`)?.value || '';
+            });
+        }
+        
+        saveToast('✅ Instrumento guardado');
+        document.getElementById('instrumentoEditor').style.display = 'none';
+        renderInstrumentos();
+    });
+
+    document.getElementById('nuevoInstrumento')?.addEventListener('click', () => {
+        let tipo = document.getElementById('tipoInstrumento').value;
+        let nombre = prompt('Nombre del instrumento', 'Nuevo instrumento');
+        if (!nombre) return;
+        
+        let nuevo = {
+            id: 'inst' + Date.now(),
+            nombre: nombre,
+            tipo: tipo,
+            indicadores: []
+        };
+        state.instrumentos.push(nuevo);
+        saveToast();
+        renderInstrumentos();
+        editarInstrumento(state.instrumentos.length - 1);
+    });
+
+    // ---------- 2. ASISTENCIA COMPLETA (calendario + reporte ausentismo) ----------
+    function renderCalendarioAsistencia() {
+        let container = document.getElementById('calendarioAsistencia');
+        let grupoSelect = document.getElementById('asistGrupoSelect');
+        let mesInput = document.getElementById('asistMes');
+        if (!container || !grupoSelect) return;
+
+        let grupoIdx = grupoSelect.value;
+        if (grupoIdx === '') {
+            container.innerHTML = '<p>Seleccione un grupo</p>';
+            return;
+        }
+        let grupo = state.grupos[grupoIdx];
+        let fechaBase = mesInput.value ? new Date(mesInput.value + '-01') : new Date();
+        let year = fechaBase.getFullYear();
+        let month = fechaBase.getMonth();
+        let diasEnMes = new Date(year, month + 1, 0).getDate();
+
+        let html = '<div class="calendario">';
+        for (let d = 1; d <= diasEnMes; d++) {
+            let fechaStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            html += `<div class="dia">`;
+            html += `<div><strong>${d}</strong></div>`;
+            
+            grupo.estudiantes.forEach((est, estIdx) => {
+                let asistKey = `${fechaStr}_${grupo.id}_${est.id}`;
+                let registro = state.asistencia.find(a => a.id === asistKey);
+                let estado = registro ? registro.estado : 'P';
+                html += `<select data-fecha="${fechaStr}" data-grupo="${grupoIdx}" data-estudiante="${estIdx}" class="asistSelect" style="margin-top:2px; font-size:0.7rem;">`;
+                html += `<option value="P" ${estado==='P'?'selected':''}>P</option>`;
+                html += `<option value="A" ${estado==='A'?'selected':''}>A</option>`;
+                html += `<option value="J" ${estado==='J'?'selected':''}>J</option>`;
+                html += `<option value="T" ${estado==='T'?'selected':''}>T</option>`;
+                html += `</select>`;
+            });
+            html += '</div>';
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    document.getElementById('guardarAsistencia')?.addEventListener('click', () => {
+        let selects = document.querySelectorAll('.asistSelect');
+        selects.forEach(sel => {
+            let fecha = sel.dataset.fecha;
+            let grupoIdx = sel.dataset.grupo;
+            let estudianteIdx = sel.dataset.estudiante;
+            let estado = sel.value;
+            let grupo = state.grupos[grupoIdx];
+            let estudiante = grupo.estudiantes[estudianteIdx];
+            let asistId = `${fecha}_${grupo.id}_${estudiante.id}`;
+            let idx = state.asistencia.findIndex(a => a.id === asistId);
+            if (idx >= 0) state.asistencia[idx].estado = estado;
+            else state.asistencia.push({ id: asistId, fecha, grupoId: grupo.id, estudianteId: estudiante.id, estado });
+        });
+        saveToast('✅ Asistencia guardada');
+    });
+
+    document.getElementById('generarAlertaWA')?.addEventListener('click', () => {
+        let grupoIdx = document.getElementById('asistGrupoSelect').value;
+        if (grupoIdx === '') return alert('Seleccione un grupo');
+        let estudiantes = state.grupos[grupoIdx].estudiantes;
+        let ausentes = [];
+        
+        estudiantes.forEach(e => {
+            let ausencias = state.asistencia.filter(a => a.estudianteId === e.id && a.estado === 'A').length;
+            if (ausencias >= 3) ausentes.push(`${e.nombre} (${ausencias} ausencias)`);
+        });
+        
+        if (ausentes.length === 0) {
+            alert('No hay estudiantes con ausencias críticas');
+            return;
+        }
+        
+        let msg = '⚠️ ALERTA DE AUSENTISMO MEP\n\nEstudiantes con 3+ ausencias:\n' + ausentes.join('\n');
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
+    });
+
+    document.getElementById('reporteAusentismo')?.addEventListener('click', () => {
+        let grupoIdx = document.getElementById('asistGrupoSelect').value;
+        if (grupoIdx === '') return alert('Seleccione grupo');
+        let grupo = state.grupos[grupoIdx];
+        let html = '<h4>Reporte de ausentismo</h4><table class="table"><tr><th>Estudiante</th><th>Ausencias (A)</th><th>Justificadas (J)</th><th>Tardías (T)</th></tr>';
+        
+        grupo.estudiantes.forEach(e => {
+            let aus = state.asistencia.filter(a => a.estudianteId === e.id && a.estado === 'A').length;
+            let jus = state.asistencia.filter(a => a.estudianteId === e.id && a.estado === 'J').length;
+            let tar = state.asistencia.filter(a => a.estudianteId === e.id && a.estado === 'T').length;
+            html += `<tr><td>${e.nombre}</td><td>${aus}</td><td>${jus}</td><td>${tar}</td></tr>`;
+        });
+        html += '</table>';
+        document.getElementById('ausentismoResultado').innerHTML = html;
+    });
+
+    // ---------- 3. BITÁCORA COMPLETA (con exportaciones) ----------
+    function renderBitacora() {
+        let div = document.getElementById('bitacoraEntries');
+        if (!div) return;
+        let filtro = document.getElementById('buscarBitacora')?.value?.toLowerCase() || '';
+        let items = state.bitacora.filter(b => !filtro || b.tema?.toLowerCase().includes(filtro) || b.actividad?.toLowerCase().includes(filtro));
+        
+        let html = '';
+        items.forEach((b, idx) => {
+            html += `<div style="border-bottom:1px solid var(--border); padding:1rem;">`;
+            html += `<strong>${b.fecha}</strong> - ${b.tema}<br>`;
+            html += `<p>${b.actividad}</p>`;
+            if (b.observaciones) html += `<small><i>${b.observaciones}</i></small>`;
+            html += `<div class="fila-acciones">`;
+            html += `<i class="fas fa-edit" onclick="editarBitacora(${idx})"></i> `;
+            html += `<i class="fas fa-trash" onclick="eliminarBitacora(${idx})"></i>`;
+            html += `</div></div>`;
+        });
+        div.innerHTML = html || '<p>No hay entradas en la bitácora.</p>';
+    }
+
+    window.eliminarBitacora = (idx) => {
+        if (confirm('¿Eliminar entrada?')) {
+            state.bitacora.splice(idx, 1);
+            saveToast();
+            renderBitacora();
+        }
+    };
+
+    window.editarBitacora = (idx) => {
+        let b = state.bitacora[idx];
+        let nuevaAct = prompt('Actividad', b.actividad);
+        if (nuevaAct) b.actividad = nuevaAct;
+        b.observaciones = prompt('Observaciones', b.observaciones || '');
+        saveToast();
+        renderBitacora();
+    };
+
+    document.getElementById('nuevaEntradaBitacora')?.addEventListener('click', () => {
+        let fecha = prompt('Fecha (YYYY-MM-DD)', new Date().toISOString().slice(0,10));
+        let tema = prompt('Tema');
+        let actividad = prompt('Actividad');
+        if (tema && actividad) {
+            state.bitacora.push({
+                id: Date.now(),
+                fecha,
+                tema,
+                actividad,
+                observaciones: '',
+                ajustesDUA: ''
+            });
+            saveToast();
+            renderBitacora();
+        }
+    });
+
+    document.getElementById('buscarBitacora')?.addEventListener('input', renderBitacora);
+
+    // Exportar Bitácora PDF
+    document.getElementById('exportarBitacoraPDF')?.addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text('Bitácora Docente - MEP 2026', 10, 10);
+        let y = 20;
+        state.bitacora.slice(0, 15).forEach((b, i) => {
+            doc.text(`${b.fecha} - ${b.tema}`, 10, y);
+            y += 7;
+            doc.text(`${b.actividad.substring(0, 50)}...`, 15, y);
+            y += 10;
+            if (y > 280) { doc.addPage(); y = 20; }
+        });
+        doc.save('bitacora.pdf');
+    });
+
+    // Exportar Bitácora Word (simulado como HTML)
+    document.getElementById('exportarBitacoraWord')?.addEventListener('click', () => {
+        let html = `<html><head><meta charset="UTF-8"><title>Bitácora MEP</title></head><body>`;
+        html += `<h1>Bitácora Docente</h1>`;
+        state.bitacora.forEach(b => {
+            html += `<div><strong>${b.fecha} - ${b.tema}</strong><br>${b.actividad}<br><i>${b.observaciones || ''}</i><hr></div>`;
+        });
+        html += `</body></html>`;
+        let blob = new Blob([html], { type: 'application/msword' });
+        let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'bitacora.doc'; a.click();
+    });
+
+    // ---------- 4. EVALUACIÓN COMPLETA (con selector de período) ----------
+    document.getElementById('evalGrupoSelect')?.addEventListener('change', (e) => {
+        let idx = e.target.value;
+        let estSelect = document.getElementById('evalEstudianteSelect');
+        if (idx === '') { estSelect.innerHTML = '<option value="">--</option>'; return; }
+        let estudiantes = state.grupos[idx]?.estudiantes || [];
+        estSelect.innerHTML = '<option value="">-- Estudiante --</option>' + 
+            estudiantes.map((es, i) => `<option value="${i}">${es.nombre}</option>`).join('');
+    });
+
+    document.getElementById('guardarNotas')?.addEventListener('click', () => {
+        let gIdx = document.getElementById('evalGrupoSelect').value;
+        let eIdx = document.getElementById('evalEstudianteSelect').value;
+        let pIdx = document.getElementById('evalPeriodoSelect').value;
+        if (gIdx === '' || eIdx === '' || pIdx === '') {
+            alert('Seleccione grupo, estudiante y período');
+            return;
+        }
+        
+        let estudiante = state.grupos[gIdx].estudiantes[eIdx];
+        let periodo = state.periodos[pIdx];
+        let pid = periodo.id;
+        
+        if (!estudiante.notas[pid]) estudiante.notas[pid] = {};
+        
+        let comp = componentesActivos();
+        let tc = comp.tc ? parseFloat(prompt('Trabajo Cotidiano (0-100)', estudiante.notas[pid]?.tc || '0')) || 0 : 0;
+        let tareas = comp.tareas ? parseFloat(prompt('Tareas (0-100)', estudiante.notas[pid]?.tareas || '0')) || 0 : 0;
+        let proyecto = comp.proyecto ? parseFloat(prompt('Proyecto (0-100)', estudiante.notas[pid]?.proyecto || '0')) || 0 : 0;
+        let prueba = comp.prueba ? parseFloat(prompt('Prueba (0-100)', estudiante.notas[pid]?.prueba || '0')) || 0 : 0;
+        let demo = comp.demo ? parseFloat(prompt('Demostración (0-100)', estudiante.notas[pid]?.demo || '0')) || 0 : 0;
+        
+        if (tc > 100 || tareas > 100 || proyecto > 100 || prueba > 100 || demo > 100) {
+            alert('Las notas no pueden superar 100');
+            return;
+        }
+        
+        estudiante.notas[pid] = { tc, tareas, proyecto, prueba, demo };
+        
+        // Cálculo ponderado
+        let ponderado = 0;
+        if (comp.tc) ponderado += tc * (periodo.tc / 100);
+        if (comp.tareas) ponderado += tareas * (periodo.tareas / 100);
+        if (comp.proyecto) ponderado += proyecto * (periodo.proyecto / 100);
+        if (comp.prueba) ponderado += prueba * (periodo.prueba / 100);
+        if (comp.demo) ponderado += demo * ((periodo.demo || 0) / 100);
+        
+        // Fórmula ACS (ejemplo: 10% de bonificación)
+        if (estudiante.acs) ponderado = Math.min(ponderado * 1.1, 100);
+        
+        estudiante.notas[pid].promedio = ponderado.toFixed(2);
+        document.getElementById('promedioCalculado').innerHTML = 
+            `<strong>✅ Promedio período ${periodo.nombre}: ${ponderado.toFixed(2)}%</strong>`;
+        saveToast();
+    });
+
+    // ---------- 5. REPORTES COMPLETOS (con exportaciones reales) ----------
+    document.getElementById('reporteGrupoSelect')?.addEventListener('change', (e) => {
+        let gIdx = e.target.value;
+        let estSelect = document.getElementById('reporteEstudianteSelect');
+        if (gIdx === '') { estSelect.innerHTML = '<option value="">Todos</option>'; return; }
+        let estudiantes = state.grupos[gIdx]?.estudiantes || [];
+        estSelect.innerHTML = '<option value="">Todos</option>' + 
+            estudiantes.map((es, i) => `<option value="${i}">${es.nombre}</option>`).join('');
+    });
+
+    function generarReporteHTML(grupoIdx, periodoIdx, estudianteIdx = null) {
+        if (grupoIdx === '' || periodoIdx === '') return '<p>Seleccione grupo y período</p>';
+        let grupo = state.grupos[grupoIdx];
+        let periodo = state.periodos[periodoIdx];
+        let comp = componentesActivos();
+        
+        let html = `<h3>Reporte: ${grupo.nombre} - ${periodo.nombre}</h3>`;
+        html += '<table class="table"><tr><th>Estudiante</th>';
+        if (comp.tc) html += '<th>TC</th>';
+        if (comp.tareas) html += '<th>Tareas</th>';
+        if (comp.proyecto) html += '<th>Proyecto</th>';
+        if (comp.prueba) html += '<th>Prueba</th>';
+        if (comp.demo) html += '<th>Demo</th>';
+        html += '<th>Promedio</th></tr>';
+        
+        let estudiantes = estudianteIdx !== null && estudianteIdx !== '' 
+            ? [grupo.estudiantes[estudianteIdx]] 
+            : grupo.estudiantes;
+        
+        estudiantes.forEach(e => {
+            let n = e.notas[periodo.id] || {};
+            html += '<tr>';
+            html += `<td>${e.nombre}</td>`;
+            if (comp.tc) html += `<td>${n.tc || '-'}</td>`;
+            if (comp.tareas) html += `<td>${n.tareas || '-'}</td>`;
+            if (comp.proyecto) html += `<td>${n.proyecto || '-'}</td>`;
+            if (comp.prueba) html += `<td>${n.prueba || '-'}</td>`;
+            if (comp.demo) html += `<td>${n.demo || '-'}</td>`;
+            html += `<td><strong>${n.promedio || '-'}</strong></td>`;
+            html += '</tr>';
+        });
+        html += '</table>';
+        return html;
+    }
+
+    document.getElementById('generarReporteIndividual')?.addEventListener('click', () => {
+        let g = document.getElementById('reporteGrupoSelect').value;
+        let p = document.getElementById('reportePeriodoSelect').value;
+        let e = document.getElementById('reporteEstudianteSelect').value;
+        if (e === '') { alert('Seleccione un estudiante'); return; }
+        document.getElementById('reporteResultado').innerHTML = generarReporteHTML(g, p, e);
+    });
+
+    document.getElementById('generarReporteGrupal')?.addEventListener('click', () => {
+        let g = document.getElementById('reporteGrupoSelect').value;
+        let p = document.getElementById('reportePeriodoSelect').value;
+        document.getElementById('reporteResultado').innerHTML = generarReporteHTML(g, p);
+    });
+
+    // Exportar reporte PDF
+    document.getElementById('exportarReportePDF')?.addEventListener('click', () => {
+        let contenido = document.getElementById('reporteResultado').innerHTML;
+        if (!contenido) { alert('Genere un reporte primero'); return; }
+        
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.html(contenido, {
+            callback: function(doc) {
+                doc.save('reporte.pdf');
+            },
+            x: 10,
+            y: 10,
+            width: 180
+        });
+    });
+
+    // Exportar reporte Word
+    document.getElementById('exportarReporteWord')?.addEventListener('click', () => {
+        let contenido = document.getElementById('reporteResultado').innerHTML;
+        if (!contenido) { alert('Genere un reporte primero'); return; }
+        
+        let html = `<html><head><meta charset="UTF-8"><title>Reporte MEP</title></head><body>${contenido}</body></html>`;
+        let blob = new Blob([html], { type: 'application/msword' });
+        let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'reporte.doc'; a.click();
+    });
+
+    // Exportar reporte CSV
+    document.getElementById('exportarReporteCSV')?.addEventListener('click', () => {
+        let g = document.getElementById('reporteGrupoSelect').value;
+        let p = document.getElementById('reportePeriodoSelect').value;
+        if (g === '' || p === '') { alert('Seleccione grupo y período'); return; }
+        
+        let grupo = state.grupos[g];
+        let periodo = state.periodos[p];
+        let comp = componentesActivos();
+        
+        let csv = 'Estudiante';
+        if (comp.tc) csv += ',TC';
+        if (comp.tareas) csv += ',Tareas';
+        if (comp.proyecto) csv += ',Proyecto';
+        if (comp.prueba) csv += ',Prueba';
+        if (comp.demo) csv += ',Demostración';
+        csv += ',Promedio\n';
+        
+        grupo.estudiantes.forEach(e => {
+            let n = e.notas[periodo.id] || {};
+            csv += e.nombre;
+            if (comp.tc) csv += `,${n.tc || ''}`;
+            if (comp.tareas) csv += `,${n.tareas || ''}`;
+            if (comp.proyecto) csv += `,${n.proyecto || ''}`;
+            if (comp.prueba) csv += `,${n.prueba || ''}`;
+            if (comp.demo) csv += `,${n.demo || ''}`;
+            csv += `,${n.promedio || ''}\n`;
+        });
+        
+        let blob = new Blob([csv], { type: 'text/csv' });
+        let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'reporte.csv'; a.click();
+    });
+
+    // ---------- 6. ACTA FINAL COMPLETA (con exportaciones) ----------
+    function generarActaHTML() {
+        let acta = '<h2>ACTA FINAL DE EVALUACIÓN MEP 2026</h2>';
+        acta += '<p>Institución: ' + state.institucion.nombre + '</p>';
+        acta += '<table class="table"><tr><th>Grupo</th><th>Estudiante</th><th>Promedio Final</th><th>Condición</th></tr>';
+        
+        let incompleto = false;
+        state.grupos.forEach(g => {
+            g.estudiantes.forEach(e => {
+                let suma = 0, count = 0;
+                state.periodos.forEach(p => {
+                    if (e.notas[p.id]?.promedio) {
+                        suma += parseFloat(e.notas[p.id].promedio);
+                        count++;
+                    }
+                });
+                if (count < state.periodos.length) incompleto = true;
+                let promFinal = count > 0 ? (suma / count).toFixed(2) : '--';
+                let condicion = promFinal >= 65 ? 'Aprobado' : (promFinal > 0 ? 'Convocatoria' : 'Reprobado');
+                acta += `<tr><td>${g.nombre}</td><td>${e.nombre}</td><td>${promFinal}</td><td>${condicion}</td></tr>`;
+            });
+        });
+        acta += '</table>';
+        if (incompleto) acta += '<p class="alert-warning">⚠️ Algunos períodos tienen notas incompletas</p>';
+        return acta;
+    }
+
+    document.getElementById('consolidarActa')?.addEventListener('click', () => {
+        document.getElementById('actaResultado').innerHTML = generarActaHTML();
+    });
+
+    document.getElementById('exportarActaPDF')?.addEventListener('click', () => {
+        let contenido = generarActaHTML();
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.html(contenido, {
+            callback: function(doc) {
+                doc.save('acta_final.pdf');
+            },
+            x: 10,
+            y: 10,
+            width: 180
+        });
+    });
+
+    document.getElementById('exportarActaWord')?.addEventListener('click', () => {
+        let contenido = generarActaHTML();
+        let html = `<html><head><meta charset="UTF-8"><title>Acta Final MEP</title></head><body>${contenido}</body></html>`;
+        let blob = new Blob([html], { type: 'application/msword' });
+        let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'acta_final.doc'; a.click();
+    });
+
+    // ---------- 7. IMPORTACIÓN CSV ----------
+    document.getElementById('btnImportarCSVEst')?.addEventListener('click', () => {
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.csv';
+        input.onchange = (e) => {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onload = (ev) => {
+                let lines = ev.target.result.split('\n');
+                let headers = lines[0].split(',');
+                // Formato esperado: Grupo,Nombre,Teléfono,Correo,ACS
+                for (let i = 1; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    let values = lines[i].split(',');
+                    if (values.length < 2) continue;
+                    let grupoNombre = values[0].trim();
+                    let estudianteNombre = values[1].trim();
+                    let telefono = values[2]?.trim() || '';
+                    let correo = values[3]?.trim() || '';
+                    let acs = values[4]?.trim() === '1';
+                    
+                    // Buscar o crear grupo
+                    let grupo = state.grupos.find(g => g.nombre === grupoNombre);
+                    if (!grupo) {
+                        grupo = { id: 'g'+Date.now(), nombre: grupoNombre, nivel: 'Secundaria', estudiantes: [] };
+                        state.grupos.push(grupo);
+                    }
+                    grupo.estudiantes.push({
+                        id: 'e'+Date.now()+Math.random(),
+                        nombre: estudianteNombre,
+                        telefono: telefono,
+                        correo: correo,
+                        acs: acs,
+                        observaciones: '',
+                        traslados: [],
+                        notas: {}
+                    });
+                }
+                saveToast('✅ Estudiantes importados');
                 renderGrupos();
                 llenarSelectores();
-                recalcularTotalPeriodos();
-                document.getElementById('selectModalidad').value = state.modalidad;
-                document.getElementById('institucionNombre').value = state.institucion.nombre;
-                document.getElementById('currentInstitucion').innerText = state.institucion.nombre;
-            }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    });
 
-            actualizarTodo();
-            setInterval(() => saveToast('⏲️ Auto-guardado'), 45000);
-        })();
-    </script>
+    // ---------- 8. EXPORTACIÓN MASIVA CSV ----------
+    document.getElementById('exportarTodoCSV')?.addEventListener('click', () => {
+        let csv = "=== REGISTRO COMPLETO MEP ===\n\n";
+        csv += "INSTITUCIÓN," + state.institucion.nombre + "\n";
+        csv += "MODALIDAD," + MODALIDADES[state.modalidad].nombre + "\n\n";
+        
+        csv += "PERIODOS\n";
+        csv += "Nombre,TC,Tareas,Proyecto,Prueba,Demo\n";
+        state.periodos.forEach(p => {
+            csv += `${p.nombre},${p.tc},${p.tareas},${p.proyecto},${p.prueba},${p.demo || 0}\n`;
+        });
+        
+        csv += "\nGRUPOS Y ESTUDIANTES\n";
+        csv += "Grupo,Estudiante,Teléfono,Correo,ACS\n";
+        state.grupos.forEach(g => {
+            g.estudiantes.forEach(e => {
+                csv += `${g.nombre},${e.nombre},${e.telefono || ''},${e.correo || ''},${e.acs?1:0}\n`;
+            });
+        });
+        
+        let blob = new Blob([csv], { type: 'text/csv' });
+        let a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'respaldo_completo.csv'; a.click();
+    });
+
+    // ---------- 9. MEJORAS EN RESPALDO ----------
+    document.getElementById('exportarJSON')?.addEventListener('click', () => {
+        let data = JSON.stringify(state, null, 2);
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
+        a.download = `mep_respaldo_${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        state.respaldo.fecha = new Date().toLocaleString();
+        document.getElementById('fechaUltimoRespaldo').innerText = state.respaldo.fecha;
+        saveToast();
+    });
+
+    document.getElementById('importarJSONBtn')?.addEventListener('click', () => {
+        document.getElementById('importJSONFile').click();
+    });
+
+    document.getElementById('importJSONFile')?.addEventListener('change', (e) => {
+        let file = e.target.files[0];
+        if (!file) return;
+        let reader = new FileReader();
+        reader.onload = (ev) => {
+            try {
+                let newState = JSON.parse(ev.target.result);
+                if (confirm('¿Sobrescribir todos los datos actuales?')) {
+                    state = newState;
+                    saveToast('✅ Datos restaurados');
+                    location.reload(); // Recargar para aplicar todo
+                }
+            } catch (ex) { alert('Archivo inválido'); }
+        };
+        reader.readAsText(file);
+    });
+
+    // ---------- 10. INICIALIZAR TODOS LOS MÓDULOS ----------
+    // (Los módulos base ya se inicializan en Parte 1)
+    // Añadimos render de instrumentos y bitácora
+    renderInstrumentos();
+    renderBitacora();
+    
+    // Evento para actualizar calendario al cambiar grupo o mes
+    document.getElementById('asistGrupoSelect')?.addEventListener('change', renderCalendarioAsistencia);
+    document.getElementById('asistMes')?.addEventListener('change', renderCalendarioAsistencia);
+    renderCalendarioAsistencia();
+
+    // Llenar selectores de período en evaluación si no se llenaron
+    if (document.getElementById('evalPeriodoSelect')) {
+        document.getElementById('evalPeriodoSelect').innerHTML = state.periodos.map((p,i)=>`<option value="${i}">${p.nombre}</option>`).join('');
+    }
+
+    console.log('✅ Parte 2 cargada: todos los módulos completos');
+</script>
 </body>
 </html>
