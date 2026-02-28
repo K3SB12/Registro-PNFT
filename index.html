@@ -4,309 +4,1091 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Docente Integral · MEP</title>
-    <!-- Font Awesome (iconos profesionales) -->
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- jsPDF y html2canvas para PDF -->
+    <!-- jsPDF y html2canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
-        :root { --bg: #f3f6f9; --sidebar: #0b2b40; --card: #ffffff; --text: #1e2f3e; --border: #cbd5e0; --accent: #0b5e7e; --accent-light: #e6f0f5; --success: #2e7d32; --warning: #b85c00; --danger: #b33; --btn-hover: #104e6b; --shadow: 0 8px 20px rgba(0,0,0,0.05); --header-bg: #f9fbfd; }
-        body.dark { --bg: #1a2632; --sidebar: #0a1c2c; --card: #2a3745; --text: #e2e8f0; --border: #4a5568; --accent-light: #1e3f54; --header-bg: #1e2e3b; --shadow: 0 8px 20px rgba(0,0,0,0.3); }
-        body { background: var(--bg); color: var(--text); display: flex; min-height: 100vh; transition: background 0.2s; }
-        /* sidebar fijo */
-        .sidebar { width: 280px; background: var(--sidebar); color: #ecf0f3; padding: 2rem 1rem; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.2); }
-        .sidebar h2 { font-weight: 400; font-size: 1.3rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #2c4b61; padding-bottom: 1rem; }
-        .sidebar nav { display: flex; flex-direction: column; gap: 0.5rem; }
-        .sidebar button { background: none; border: none; color: #cfdfe9; text-align: left; padding: 0.9rem 1rem; font-size: 1rem; border-radius: 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
-        .sidebar button i { width: 24px; font-size: 1.2rem; }
-        .sidebar button:hover { background: #1d445b; color: white; }
-        .sidebar button.active { background: #145a7a; color: white; font-weight: 500; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-        /* contenido principal */
-        .main-content { flex: 1; padding: 2rem; overflow-y: auto; max-height: 100vh; }
-        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; background: var(--header-bg); padding: 1rem 2rem; border-radius: 40px; box-shadow: var(--shadow); }
-        .header-bar h1 { font-size: 1.6rem; font-weight: 400; display: flex; align-items: center; gap: 10px; }
-        .modo-toggle { background: var(--card); border: 1px solid var(--border); padding: 0.5rem 1.2rem; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-        /* tarjetas y formularios */
-        .card { background: var(--card); border-radius: 28px; padding: 1.8rem; box-shadow: var(--shadow); margin-bottom: 2rem; border: 1px solid var(--border); }
-        .card h3 { margin-bottom: 1.5rem; font-weight: 400; border-left: 6px solid var(--accent); padding-left: 1rem; }
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 2rem; }
-        .btn { background: white; border: 1px solid var(--border); padding: 0.7rem 1.5rem; border-radius: 40px; cursor: pointer; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; color: var(--text); }
-        .btn-primary { background: var(--accent); color: white; border: none; }
-        .btn-primary:hover { background: var(--btn-hover); }
-        .btn-danger { background: #c93e3e; color: white; border: none; }
-        .btn-sm { padding: 0.4rem 1rem; font-size: 0.9rem; }
-        input, select, textarea { background: var(--bg); border: 1px solid var(--border); padding: 0.8rem 1rem; border-radius: 30px; width: 100%; margin-bottom: 1rem; color: var(--text); }
-        label { font-weight: 500; margin-bottom: 0.3rem; display: block; }
-        .table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 20px; overflow: hidden; }
-        .table th { background: var(--accent-light); text-align: left; padding: 1rem; }
-        .table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); }
-        .fila-acciones i { margin: 0 5px; cursor: pointer; opacity: 0.7; }
-        .fila-acciones i:hover { opacity: 1; color: var(--accent); }
-        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--accent); color: white; padding: 1rem 2rem; border-radius: 60px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); display: none; z-index: 999; }
-        .alert-warning { background: #fff3cd; border-left: 8px solid #ffc107; padding: 1rem; border-radius: 16px; }
-        .barra-acciones { display: flex; gap: 10px; flex-wrap: wrap; margin: 1rem 0; }
-        .total-val { font-weight: 700; font-size: 1.3rem; }
-        .check-confirm { display: flex; gap: 20px; align-items: center; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        :root {
+            --bg: #f0f4f8;
+            --sidebar: #0a2a3f;
+            --sidebar-hover: #1d4b66;
+            --card: #ffffff;
+            --text: #1e2f3e;
+            --text-light: #5a6b7a;
+            --border: #d0ddee;
+            --accent: #0a5e7c;
+            --accent-light: #e3f0f7;
+            --success: #2b7d4b;
+            --warning: #b95b0a;
+            --danger: #c13e3e;
+            --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            --header-bg: #f9fcff;
+            --input-bg: #ffffff;
+        }
+
+        .dark {
+            --bg: #1c2632;
+            --sidebar: #0a1a28;
+            --card: #253241;
+            --text: #e6edf5;
+            --text-light: #b0c2d4;
+            --border: #3f5068;
+            --accent: #1e7e9e;
+            --accent-light: #1f3f52;
+            --header-bg: #202f3c;
+            --input-bg: #2f3f50;
+            --shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 290px;
+            background: var(--sidebar);
+            color: #e0eefb;
+            padding: 2rem 1.2rem;
+            overflow-y: auto;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            font-weight: 400;
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #2f5570;
+            padding-bottom: 1.2rem;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            flex: 1;
+        }
+
+        .sidebar button {
+            background: none;
+            border: none;
+            color: #cddeee;
+            text-align: left;
+            padding: 1rem 1.2rem;
+            font-size: 1rem;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .sidebar button i {
+            width: 26px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar button:hover {
+            background: var(--sidebar-hover);
+            color: white;
+        }
+
+        .sidebar button.active {
+            background: var(--accent);
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 6px 12px rgba(0, 60, 80, 0.5);
+        }
+
+        .sidebar-footer {
+            font-size: 0.9rem;
+            color: #8bb1cc;
+            padding-top: 2rem;
+            border-top: 1px solid #1d3e55;
+        }
+
+        /* MAIN */
+        .main-content {
+            flex: 1;
+            padding: 2rem 2.5rem;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            background: var(--header-bg);
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+        }
+
+        .header-bar h1 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modo-toggle {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 32px;
+            padding: 2.2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .card h3 {
+            margin-bottom: 1.8rem;
+            font-weight: 500;
+            border-left: 6px solid var(--accent);
+            padding-left: 1.3rem;
+            font-size: 1.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            color: var(--text);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #0b4b64;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+            border: none;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+            border: none;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+            border: none;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        input, select, textarea {
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            padding: 0.9rem 1.2rem;
+            border-radius: 40px;
+            width: 100%;
+            margin-bottom: 1.2rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            display: block;
+            color: var(--text-light);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .table th {
+            background: var(--accent-light);
+            text-align: left;
+            padding: 1rem;
+        }
+
+        .table td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .fila-acciones i {
+            margin: 0 8px;
+            cursor: pointer;
+            opacity: 0.7;
+            font-size: 1.1rem;
+        }
+
+        .fila-acciones i:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .barra-acciones {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 2.2rem;
+            border-radius: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 9999;
+            font-weight: 500;
+        }
+
+        .alert {
+            padding: 1rem 1.8rem;
+            border-radius: 30px;
+            margin: 1rem 0;
+            border-left: 8px solid;
+        }
+
+        .alert-warning {
+            background: #fff1d6;
+            border-color: var(--warning);
+            color: #7a4800;
+        }
+
+        .dark .alert-warning {
+            background: #3b3000;
+            color: #ffd966;
+        }
+
+        .total-val {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .grupo-item {
+            background: var(--accent-light);
+            padding: 1.5rem;
+            border-radius: 24px;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendario {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin: 1rem 0;
+        }
+
+        .dia {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .dia select {
+            margin-top: 4px;
+            font-size: 0.8rem;
+            padding: 0.2rem;
+        }
     </style>
 </head>
 <body>
-<div class="sidebar">
-    <h2><i class="fas fa-chalkboard-teacher"></i> Registro MEP</h2>
-    <nav id="menuNav">
-        <button data-tab="tab1" class="active"><i class="fas fa-cog"></i> Configuración</button>
-        <button data-tab="tab2"><i class="fas fa-users"></i> Grupos y Estud.</button>
-        <button data-tab="tab3"><i class="fas fa-star"></i> Evaluación</button>
-        <button data-tab="tab4"><i class="fas fa-tasks"></i> Instrumentos</button>
-        <button data-tab="tab5"><i class="fas fa-calendar-check"></i> Asistencia</button>
-        <button data-tab="tab6"><i class="fas fa-book-open"></i> Bitácora</button>
-        <button data-tab="tab7"><i class="fas fa-chart-bar"></i> Reportes x Periodo</button>
-        <button data-tab="tab8"><i class="fas fa-file-certificate"></i> Acta Final</button>
-        <button data-tab="tab9"><i class="fas fa-database"></i> Respaldos</button>
-    </nav>
-    <div style="margin-top: auto; padding-top: 2rem; font-size:0.9rem; color:#8aa9c4;"><i class="fas fa-sync-alt"></i> auto-guardado</div>
-</div>
-<div class="main-content">
-    <div class="header-bar">
-        <h1><i class="fas fa-clipboard-list"></i> <span id="current-institucion">Institución por defecto</span></h1>
-        <div class="modo-toggle" id="toggleModo"><i class="fas fa-moon"></i> Modo oscuro</div>
+    <!-- SIDEBAR FIJA -->
+    <div class="sidebar">
+        <h2><i class="fas fa-chalkboard-teacher"></i> Registro MEP</h2>
+        <nav id="menuNav">
+            <button data-tab="tab1" class="active"><i class="fas fa-cog"></i> Configuración</button>
+            <button data-tab="tab2"><i class="fas fa-users"></i> Grupos y Estud.</button>
+            <button data-tab="tab3"><i class="fas fa-star"></i> Evaluación</button>
+            <button data-tab="tab4"><i class="fas fa-tasks"></i> Instrumentos</button>
+            <button data-tab="tab5"><i class="fas fa-calendar-check"></i> Asistencia</button>
+            <button data-tab="tab6"><i class="fas fa-book-open"></i> Bitácora</button>
+            <button data-tab="tab7"><i class="fas fa-chart-bar"></i> Reportes</button>
+            <button data-tab="tab8"><i class="fas fa-file-certificate"></i> Acta Final</button>
+            <button data-tab="tab9"><i class="fas fa-database"></i> Respaldos</button>
+        </nav>
+        <div class="sidebar-footer">
+            <i class="fas fa-sync-alt"></i> auto-guardado cada 30s
+        </div>
     </div>
-    <!-- PANELES -->
-    <div id="tab1" class="tab-panel active"> <div class="card"><h3>⚙️ Configuración General</h3><div class="grid-2"><div><label>Institución actual</label><input id="institucionNombre" placeholder="Nombre"></div><div><label>Logo (URL)</label><input id="institucionLogo" placeholder="https://..."></div></div><button class="btn btn-primary" id="guardarInstitucion"><i class="fas fa-save"></i> Guardar institución</button><hr style="margin:2rem 0"><h4>Periodos y porcentajes</h4><div id="periodosContainer"></div><button class="btn btn-sm" id="agregarPeriodo"><i class="fas fa-plus"></i> Nuevo periodo</button><button class="btn btn-primary" id="guardarPorcentajes" style="margin-left:1rem"><i class="fas fa-check"></i> Validar y guardar</button><div class="alert-warning" style="margin-top:2rem" id="totalPorcentajesDisplay">Total suma: 0% (debe ser 100%)</div></div></div>
-    <div id="tab2" class="tab-panel"> <div class="card"><h3>📚 Grupos y Estudiantes</h3><div class="barra-acciones"><button class="btn" id="btnNuevoGrupo"><i class="fas fa-layer-group"></i> Nuevo grupo</button><button class="btn" id="btnImportarCSV"><i class="fas fa-file-import"></i> Importar CSV</button><button class="btn" id="btnExportarCSVEst"><i class="fas fa-download"></i> Exportar CSV</button></div><div id="gruposList"></div></div></div>
-    <div id="tab3" class="tab-panel"> <div class="card"><h3>📝 Registro de Componentes</h3><select id="evalGrupoSelect"><option>-- Seleccionar grupo --</option></select><select id="evalEstudianteSelect"><option>-- Estudiante --</option></select><div id="notasForm"></div><button class="btn btn-primary" id="guardarNotas"><i class="fas fa-calculator"></i> Calcular y guardar</button></div></div>
-    <div id="tab4" class="tab-panel"> <div class="card"><h3>📋 Instrumentos (rúbricas, listas...)</h3><div class="barra-acciones"><button class="btn" id="nuevoInstrumento"><i class="fas fa-plus"></i> Nuevo</button><button class="btn" id="duplicarInstrumento"><i class="fas fa-copy"></i> Duplicar</button></div><div id="instrumentosList"></div></div></div>
-    <div id="tab5" class="tab-panel"> <div class="card"><h3>📅 Asistencia</h3><select id="asistGrupo"><option>-- Grupo --</option></select><div id="calendarioAsistencia"></div><button class="btn" id="generarAlertaWA"><i class="fab fa-whatsapp"></i> Alerta WhatsApp</button></div></div>
-    <div id="tab6" class="tab-panel"> <div class="card"><h3>📓 Bitácora Docente</h3><button class="btn" id="nuevaEntradaBitacora"><i class="fas fa-pen"></i> Nueva entrada</button><input placeholder="Buscar por palabra" id="buscarBitacora"><div id="bitacoraEntries"></div></div></div>
-    <div id="tab7" class="tab-panel"> <div class="card"><h3>📊 Reportes por Periodo</h3><select id="reportePeriodo"><option>I Periodo</option><option>II Periodo</option><option>III Periodo</option></select><button class="btn" id="generarReporteIndiv"><i class="fas fa-file-pdf"></i> Informe individual</button><button class="btn" id="exportarReporteWord">Word</button><button class="btn" id="exportarReporteCSV">CSV</button></div></div>
-    <div id="tab8" class="tab-panel"> <div class="card"><h3>📜 Acta Final</h3><button class="btn btn-primary" id="consolidarActa">Consolidar acta final</button><pre id="actaResultado"></pre></div></div>
-    <div id="tab9" class="tab-panel"> <div class="card"><h3>💾 Respaldo Global</h3><button class="btn" id="exportarJSON"><i class="fas fa-file-export"></i> Exportar JSON</button><button class="btn" id="importarJSONInput"><i class="fas fa-file-import"></i> Importar JSON</button><input type="file" id="importJSONFile" accept=".json" style="display:none"><button class="btn" id="exportarTodoCSV">Exportar masivo CSV</button><p>Última copia: <span id="fechaUltimoRespaldo">nunca</span></p></div></div>
-    <div class="toast" id="toastMsg">Guardado</div>
-</div>
-<script>
-    (function() {
-        // ----- ESTADO GLOBAL -----
-        let state = {
-            institucion: { nombre: 'Liceo MEP Central', logo: '' },
-            periodos: [{ nombre: 'I Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, activo: true }],
-            grupos: [],            // id, nombre, nivel, estudiantes[]
-            instrumentos: [],      // id, nombre, tipo, contenido
-            bitacora: [],
-            asistencia: [],        // { fecha, grupoId, estudianteId, estado }
-            configPorcentajes: { tc:30, tareas:20, proyecto:20, prueba:30 }
-        };
 
-        // ----- LOCALSTORAGE -----
-        function loadState() { try { let s = localStorage.getItem('mepRegistro'); if(s) state = JSON.parse(s); } catch(e){} }
-        function saveState(mostrar=true) { localStorage.setItem('mepRegistro', JSON.stringify(state)); if(mostrar) toast('✅ Guardado automático'); actualizarInterfaz(); }
-        loadState();
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-content">
+        <div class="header-bar">
+            <h1><i class="fas fa-clipboard-list"></i> <span id="currentInstitucion">Cargando...</span></h1>
+            <div class="modo-toggle" id="toggleModo">
+                <i class="fas fa-moon"></i> Modo oscuro
+            </div>
+        </div>
 
-        // ----- TOAST y confirmaciones -----
-        function toast(msg) { let t = document.getElementById('toastMsg'); t.style.display = 'block'; t.innerText = msg; setTimeout(()=>t.style.display='none',2000); }
-        function confirmar(msg) { return window.confirm(msg); }
-
-        // ----- ACTUALIZAR VISTAS SEGÚN PESTAÑA ACTIVA -----
-        function actualizarInterfaz() {
-            document.getElementById('institucionNombre').value = state.institucion.nombre;
-            document.getElementById('institucionLogo').value = state.institucion.logo || '';
-            document.getElementById('current-institucion').innerText = state.institucion.nombre;
-            renderPeriodos();
-            renderGrupos();
-            renderInstrumentos();
-            renderBitacora();
-            llenarSelectores();
-            totalPorcentajesDisplay();
-        }
-
-        // ----- PESTAÑAS -----
-        document.querySelectorAll('#menuNav button').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('#menuNav button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-                document.getElementById(btn.dataset.tab).classList.add('active');
-            });
-        });
-
-        // MODO OSCURO
-        document.getElementById('toggleModo').addEventListener('click', ()=>{
-            document.body.classList.toggle('dark');
-        });
-
-        // ---- CONFIGURACIÓN: Periodos y porcentajes ----
-        function renderPeriodos() {
-            let container = document.getElementById('periodosContainer');
-            let html = '';
-            state.periodos.forEach((p, idx) => {
-                html += `<div style="border:1px solid var(--border); padding:1rem; margin-bottom:1rem; border-radius:20px">
-                    <input type="text" value="${p.nombre}" placeholder="Nombre periodo" data-idx="${idx}" class="periodoNombre">
-                    <div style="display:flex; gap:10px; flex-wrap:wrap">
-                        <label>T.Cotidiano <input type="number" class="periodoTc" data-idx="${idx}" value="${p.tc}" min="0" max="100"></label>
-                        <label>Tareas <input type="number" class="periodoTareas" data-idx="${idx}" value="${p.tareas}" min="0" max="100"></label>
-                        <label>Proyecto <input type="number" class="periodoProyecto" data-idx="${idx}" value="${p.proyecto}" min="0" max="100"></label>
-                        <label>Prueba <input type="number" class="periodoPrueba" data-idx="${idx}" value="${p.prueba}" min="0" max="100"></label>
+        <!-- ==================== PANEL 1: CONFIGURACIÓN ==================== -->
+        <div id="tab1" class="tab-panel active">
+            <div class="card">
+                <h3>⚙️ Configuración General</h3>
+                <div class="grid-2">
+                    <div>
+                        <label>Institución actual</label>
+                        <input id="institucionNombre" placeholder="Ej: Liceo de Costa Rica">
+                        <label>Logo (URL opcional)</label>
+                        <input id="institucionLogo" placeholder="https://...">
+                        <button class="btn btn-primary" id="guardarInstitucion"><i class="fas fa-save"></i> Guardar institución</button>
                     </div>
-                    <button class="btn btn-sm btn-danger eliminarPeriodo" data-idx="${idx}"><i class="fas fa-trash"></i></button>
-                </div>`;
+                    <div>
+                        <label>Crear nueva institución</label>
+                        <input id="nuevaInstitucion" placeholder="Nombre">
+                        <button class="btn" id="agregarInstitucion"><i class="fas fa-plus-circle"></i> Agregar</button>
+                    </div>
+                </div>
+
+                <hr style="margin: 2rem 0; border-color: var(--border);">
+
+                <h4>📅 Periodos y porcentajes de evaluación</h4>
+                <div id="periodosContainer"></div>
+                <div class="barra-acciones">
+                    <button class="btn" id="agregarPeriodo"><i class="fas fa-plus"></i> Nuevo periodo</button>
+                    <button class="btn btn-primary" id="guardarPorcentajes"><i class="fas fa-check-circle"></i> Validar y guardar</button>
+                </div>
+                <div class="alert" id="totalPorcentajesDisplay">Total suma: 0% (debe ser 100%)</div>
+            </div>
+        </div>
+
+        <!-- ==================== PANEL 2: GRUPOS Y ESTUDIANTES ==================== -->
+        <div id="tab2" class="tab-panel">
+            <div class="card">
+                <h3>📚 Grupos y Estudiantes</h3>
+                <div class="barra-acciones">
+                    <button class="btn" id="btnNuevoGrupo"><i class="fas fa-layer-group"></i> Nuevo grupo</button>
+                    <button class="btn" id="btnImportarCSVEst"><i class="fas fa-file-import"></i> Importar CSV</button>
+                    <button class="btn" id="btnExportarCSVEst"><i class="fas fa-file-export"></i> Exportar CSV</button>
+                </div>
+                <div id="gruposList"></div>
+            </div>
+        </div>
+
+        <!-- ==================== PANEL 3: EVALUACIÓN ==================== -->
+        <div id="tab3" class="tab-panel">
+            <div class="card">
+                <h3>📝 Registro de Componentes</h3>
+                <div class="grid-2">
+                    <div>
+                        <label>Grupo</label>
+                        <select id="evalGrupoSelect"></select>
+                    </div>
+                    <div>
+                        <label>Estudiante</label>
+                        <select id="evalEstudianteSelect"></select>
+                    </div>
+                </div>
+                <div id="notasForm" style="margin: 2rem 0;"></div>
+                <button class="btn btn-primary" id="guardarNotas"><i class="fas fa-calculator"></i> Calcular y guardar</button>
+                <div id="promedioCalculado" class="alert" style="margin-top: 1.5rem;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== PANEL 4: INSTRUMENTOS ==================== -->
+        <div id="tab4" class="tab-panel">
+            <div class="card">
+                <h3>📋 Instrumentos de Evaluación</h3>
+                <div class="barra-acciones">
+                    <button class="btn" id="nuevoInstrumento"><i class="fas fa-plus"></i> Nuevo</button>
+                    <button class="btn" id="duplicarInstrumento"><i class="fas fa-copy"></i> Duplicar</button>
+                </div>
+                <div id="instrumentosList" class="grid-3"></div>
+            </div>
+        </div>
+
+        <!-- ==================== PANEL 5: ASISTENCIA ==================== -->
+        <div id="tab5" class="tab-panel">
+            <div class="card">
+                <h3>📅 Control de Asistencia</h3>
+                <div class="grid-2">
+                    <div>
+                        <label>Grupo</label>
+                        <select id="asistGrupoSelect"></select>
+                    </div>
+                    <div>
+                        <label>Mes/Año (mes calendario)</label>
+                        <input type="month" id="asistMes" value="2026-02">
+                    </div>
+                </div>
+                <div id="calendarioAsistencia"></div>
+                <div class="barra-acciones">
+                    <button class="btn" id="guardarAsistencia"><i class="fas fa-save"></i> Guardar asistencia</button>
+                    <button class="btn btn-warning" id="generarAlertaWA"><i class="fab fa-whatsapp"></i> Alerta WhatsApp</button>
+                </div>
+                <div id="reporteAusentismo"></div>
+            </div>
+        </div>
+
+        <!-- ==================== PANEL 6: BITÁCORA ==================== -->
+        <div id="tab6" class="tab-panel">
+            <div class="card">
+                <h3>📓 Bitácora Docente</h3>
+                <div class="barra-acciones">
+                    <button class="btn" id="nuevaEntradaBitacora"><i class="fas fa-pen"></i> Nueva entrada</button>
+                    <input type="text" id="buscarBitacora" placeholder="Buscar por tema o actividad">
+                    <button class="btn" id="exportarBitacoraPDF"><i class="fas fa-file-pdf"></i> PDF</button>
+                    <button class="btn" id="exportarBitacoraWord"><i class="fas fa-file-word"></i> Word</button>
+                </div>
+                <div id="bitacoraEntries" style="margin-top: 2rem;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== PANEL 7: REPORTES ==================== -->
+        <div id="tab7" class="tab-panel">
+            <div class="card">
+                <h3>📊 Reportes por Periodo</h3>
+                <div class="grid-2">
+                    <div>
+                        <label>Periodo</label>
+                        <select id="reportePeriodoSelect"></select>
+                    </div>
+                    <div>
+                        <label>Grupo</label>
+                        <select id="reporteGrupoSelect"></select>
+                    </div>
+                </div>
+                <div class="barra-acciones">
+                    <button class="btn" id="generarReporteIndividual"><i class="fas fa-user"></i> Individual</button>
+                    <button class="btn" id="generarReporteGrupal"><i class="fas fa-users"></i> Grupal</button>
+                    <button class="btn" id="exportarReportePDF"><i class="fas fa-file-pdf"></i> PDF</button>
+                    <button class="btn" id="exportarReporteWord"><i class="fas fa-file-word"></i> Word</button>
+                    <button class="btn" id="exportarReporteCSV"><i class="fas fa-file-csv"></i> CSV</button>
+                </div>
+                <div id="reporteResultado" style="margin-top: 2rem;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== PANEL 8: ACTA FINAL ==================== -->
+        <div id="tab8" class="tab-panel">
+            <div class="card">
+                <h3>📜 Acta Final de Curso Lectivo</h3>
+                <button class="btn btn-primary" id="consolidarActa"><i class="fas fa-file-signature"></i> Consolidar acta final</button>
+                <button class="btn" id="exportarActaPDF"><i class="fas fa-file-pdf"></i> Exportar acta PDF</button>
+                <div id="actaResultado" style="margin-top: 2rem; white-space: pre-wrap; font-family: monospace;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== PANEL 9: RESPALDO ==================== -->
+        <div id="tab9" class="tab-panel">
+            <div class="card">
+                <h3>💾 Respaldo Global</h3>
+                <div class="grid-2">
+                    <div>
+                        <button class="btn btn-primary" id="exportarJSON"><i class="fas fa-download"></i> Exportar JSON completo</button>
+                        <button class="btn" id="importarJSONBtn"><i class="fas fa-upload"></i> Importar JSON</button>
+                        <input type="file" id="importJSONFile" accept=".json" style="display: none;">
+                    </div>
+                    <div>
+                        <button class="btn" id="exportarTodoCSV"><i class="fas fa-file-csv"></i> Exportar masivo CSV</button>
+                    </div>
+                </div>
+                <hr>
+                <p><strong>Última copia de seguridad:</strong> <span id="fechaUltimoRespaldo">nunca</span></p>
+                <p class="text-light"><i class="fas fa-info-circle"></i> El guardado automático está activo.</p>
+            </div>
+        </div>
+
+        <!-- TOAST NOTIFICATIONS -->
+        <div class="toast" id="toastMsg">✅ Acción completada</div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- ESTADO GLOBAL INICIAL ----------
+            let state = {
+                instituciones: [
+                    { id: 'inst1', nombre: 'Liceo de Costa Rica', logo: '', periodos: [] }
+                ],
+                institucionActual: 'inst1',
+                periodos: [
+                    { id: 'p1', nombre: 'I Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, activo: true },
+                    { id: 'p2', nombre: 'II Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, activo: true },
+                    { id: 'p3', nombre: 'III Periodo', tc: 30, tareas: 20, proyecto: 20, prueba: 30, activo: true }
+                ],
+                grupos: [], // { id, nombre, nivel, estudiantes: [{ id, nombre, telefono, correo, acs, observaciones, traslados, notas: { p1: {tc, tareas, proyecto, prueba}, ... } }] }
+                instrumentos: [], // { id, nombre, tipo, contenido, grupoAsignado }
+                bitacora: [], // { id, fecha, tema, actividad, observaciones, ajustesDUA }
+                asistencia: [], // { id, fecha, grupoId, estudianteId, estado (P/A/J/T) }
+                respaldo: { fecha: null }
+            };
+
+            // ---------- CARGAR / GUARDAR LOCALSTORAGE ----------
+            function loadState() {
+                try {
+                    const saved = localStorage.getItem('mepRegistroCompleto');
+                    if (saved) {
+                        state = JSON.parse(saved);
+                    } else {
+                        // inicializar con datos demo
+                        state.grupos.push({
+                            id: 'g1',
+                            nombre: '7-1',
+                            nivel: 'Secundaria',
+                            estudiantes: [
+                                { id: 'e1', nombre: 'María Pérez', telefono: '8888-1111', correo: 'maria@ejemplo.com', acs: false, observaciones: '', traslados: [], notas: {} },
+                                { id: 'e2', nombre: 'Juan Castro', telefono: '8888-2222', correo: 'juan@ejemplo.com', acs: true, observaciones: 'Adecuación curricular', traslados: [], notas: {} }
+                            ]
+                        });
+                    }
+                } catch (e) { console.warn('Error load', e); }
+            }
+            function saveState(mostrarToast = true) {
+                localStorage.setItem('mepRegistroCompleto', JSON.stringify(state));
+                if (mostrarToast) toast('✅ Datos guardados');
+                actualizarInterfaz();
+            }
+            loadState();
+
+            // TOAST
+            function toast(msg) {
+                const t = document.getElementById('toastMsg');
+                t.style.display = 'block';
+                t.innerText = msg;
+                setTimeout(() => t.style.display = 'none', 2000);
+            }
+
+            // CONFIRMAR
+            function confirmar(msg) { return window.confirm(msg); }
+
+            // MODO OSCURO
+            document.getElementById('toggleModo').addEventListener('click', () => {
+                document.body.classList.toggle('dark');
             });
-            container.innerHTML = html;
-            document.querySelectorAll('.eliminarPeriodo').forEach(b => b.addEventListener('click', (e) => {
-                if(confirmar('Eliminar periodo?')) {
-                    let idx = e.target.closest('button').dataset.idx;
-                    state.periodos.splice(idx,1);
+
+            // CAMBIO DE PESTAÑAS
+            document.querySelectorAll('#menuNav button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#menuNav button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                    document.getElementById(btn.dataset.tab).classList.add('active');
+                });
+            });
+
+            // ---------- ACTUALIZACIÓN GENERAL DE UI ----------
+            function actualizarInterfaz() {
+                const inst = state.instituciones.find(i => i.id === state.institucionActual);
+                document.getElementById('currentInstitucion').innerText = inst ? inst.nombre : 'MEP';
+                document.getElementById('institucionNombre').value = inst ? inst.nombre : '';
+                document.getElementById('institucionLogo').value = inst ? inst.logo || '' : '';
+
+                renderPeriodos();
+                renderGrupos();
+                renderInstrumentos();
+                renderBitacora();
+                llenarSelectores();
+                renderCalendarioAsistencia();
+                actualizarTotalPorcentajes();
+            }
+
+            // ---------- CONFIGURACIÓN / PERIODOS ----------
+            function renderPeriodos() {
+                const container = document.getElementById('periodosContainer');
+                let html = '';
+                state.periodos.forEach((p, idx) => {
+                    html += `<div class="periodo-item" style="border:1px solid var(--border); border-radius:24px; padding:1.5rem; margin-bottom:1.5rem;">
+                        <div class="grid-3">
+                            <input type="text" value="${p.nombre}" placeholder="Nombre periodo" data-idx="${idx}" class="periodoNombre">
+                            <label>TC <input type="number" class="periodoTc" data-idx="${idx}" value="${p.tc}" min="0" max="100"></label>
+                            <label>Tareas <input type="number" class="periodoTareas" data-idx="${idx}" value="${p.tareas}" min="0" max="100"></label>
+                            <label>Proyecto <input type="number" class="periodoProyecto" data-idx="${idx}" value="${p.proyecto}" min="0" max="100"></label>
+                            <label>Prueba <input type="number" class="periodoPrueba" data-idx="${idx}" value="${p.prueba}" min="0" max="100"></label>
+                        </div>
+                        <div style="display:flex; gap:10px; margin-top:1rem;">
+                            <button class="btn btn-sm btn-danger eliminarPeriodo" data-idx="${idx}"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+
+                document.querySelectorAll('.eliminarPeriodo').forEach(b => {
+                    b.addEventListener('click', (e) => {
+                        if (confirmar('¿Eliminar este periodo?')) {
+                            const idx = e.target.closest('button').dataset.idx;
+                            state.periodos.splice(idx, 1);
+                            saveState();
+                        }
+                    });
+                });
+            }
+
+            document.getElementById('agregarPeriodo').addEventListener('click', () => {
+                state.periodos.push({ id: 'p' + Date.now(), nombre: 'Nuevo periodo', tc: 25, tareas: 25, proyecto: 25, prueba: 25, activo: true });
+                saveState();
+            });
+
+            document.getElementById('guardarPorcentajes').addEventListener('click', () => {
+                let sumaGlobal = 0;
+                document.querySelectorAll('.periodoTc').forEach(inp => { let idx = inp.dataset.idx; state.periodos[idx].tc = parseInt(inp.value) || 0; });
+                document.querySelectorAll('.periodoTareas').forEach(inp => { let idx = inp.dataset.idx; state.periodos[idx].tareas = parseInt(inp.value) || 0; });
+                document.querySelectorAll('.periodoProyecto').forEach(inp => { let idx = inp.dataset.idx; state.periodos[idx].proyecto = parseInt(inp.value) || 0; });
+                document.querySelectorAll('.periodoPrueba').forEach(inp => { let idx = inp.dataset.idx; state.periodos[idx].prueba = parseInt(inp.value) || 0; });
+                document.querySelectorAll('.periodoNombre').forEach(inp => { let idx = inp.dataset.idx; state.periodos[idx].nombre = inp.value; });
+
+                state.periodos.forEach(p => { sumaGlobal += (p.tc + p.tareas + p.proyecto + p.prueba); });
+                if (sumaGlobal !== 100) {
+                    alert(`❌ La suma total de porcentajes debe ser 100%. Actual: ${sumaGlobal}%`);
+                    return;
+                }
+                saveState();
+                toast('Porcentajes validados');
+            });
+
+            function actualizarTotalPorcentajes() {
+                let total = state.periodos.reduce((acc, p) => acc + p.tc + p.tareas + p.proyecto + p.prueba, 0);
+                document.getElementById('totalPorcentajesDisplay').innerText = `Total suma: ${total}% (debe ser 100%)`;
+            }
+
+            document.getElementById('guardarInstitucion').addEventListener('click', () => {
+                const inst = state.instituciones.find(i => i.id === state.institucionActual);
+                if (inst) {
+                    inst.nombre = document.getElementById('institucionNombre').value;
+                    inst.logo = document.getElementById('institucionLogo').value;
                     saveState();
                 }
-            }));
-        }
-        document.getElementById('agregarPeriodo').addEventListener('click', ()=>{
-            state.periodos.push({ nombre:'Nuevo periodo', tc:25, tareas:25, proyecto:25, prueba:25, activo:true });
-            saveState();
-        });
-        document.getElementById('guardarPorcentajes').addEventListener('click', ()=>{
-            let suma = 0;
-            document.querySelectorAll('.periodoTc').forEach(inp => { let idx=inp.dataset.idx; state.periodos[idx].tc = parseInt(inp.value)||0; });
-            document.querySelectorAll('.periodoTareas').forEach(inp => { let idx=inp.dataset.idx; state.periodos[idx].tareas = parseInt(inp.value)||0; });
-            document.querySelectorAll('.periodoProyecto').forEach(inp => { let idx=inp.dataset.idx; state.periodos[idx].proyecto = parseInt(inp.value)||0; });
-            document.querySelectorAll('.periodoPrueba').forEach(inp => { let idx=inp.dataset.idx; state.periodos[idx].prueba = parseInt(inp.value)||0; });
-            document.querySelectorAll('.periodoNombre').forEach(inp => { let idx=inp.dataset.idx; state.periodos[idx].nombre = inp.value; });
-            state.periodos.forEach(p => { suma += (p.tc+p.tareas+p.proyecto+p.prueba); });
-            if(suma !== 100) { alert('❌ La suma de porcentajes debe ser 100% actual: '+suma+'%'); return; }
-            saveState(); toast('Porcentajes validados');
-        });
-        function totalPorcentajesDisplay() { if(state.periodos[0]) { let s = state.periodos[0].tc+state.periodos[0].tareas+state.periodos[0].proyecto+state.periodos[0].prueba; document.getElementById('totalPorcentajesDisplay').innerText = `Total suma: ${s}%`; } }
-        document.getElementById('guardarInstitucion').addEventListener('click', ()=>{
-            state.institucion.nombre = document.getElementById('institucionNombre').value;
-            state.institucion.logo = document.getElementById('institucionLogo').value;
-            saveState();
-        });
-
-        // ----- GRUPOS Y ESTUDIANTES -----
-        function renderGrupos() {
-            let div = document.getElementById('gruposList');
-            let html = '';
-            state.grupos.forEach((g, idxg) => {
-                html += `<div style="background:var(--accent-light); padding:1rem; border-radius:28px; margin-bottom:1rem;">
-                    <div><strong>${g.nombre} (${g.nivel})</strong> <button class="btn-sm" onclick="editarGrupo(${idxg})"><i class="fas fa-edit"></i></button> <button class="btn-sm btn-danger" onclick="eliminarGrupo(${idxg})"><i class="fas fa-trash"></i></button></div>
-                    <table class="table"><tr><th>Estudiante</th><th>Contacto</th><th>ACS</th><th>Acciones</th></tr>`;
-                (g.estudiantes||[]).forEach((e, idxe) => {
-                    html += `<tr><td>${e.nombre}</td><td>${e.telefono || ''}</td><td>${e.acs ? 'ACS' : 'No'}</td>
-                        <td><i class="fas fa-edit" onclick="editarEstudiante(${idxg},${idxe})"></i> <i class="fas fa-trash" onclick="eliminarEstudiante(${idxg},${idxe})"></i></td></tr>`;
-                });
-                html += `</table><button class="btn btn-sm" onclick="agregarEstudiante(${idxg})"><i class="fas fa-user-plus"></i> Añadir estudiante</button>`;
-                html += `</div>`;
             });
-            div.innerHTML = html;
-        }
-        window.eliminarGrupo = (idx) => { if(confirmar('Eliminar grupo?')){ state.grupos.splice(idx,1); saveState(); }};
-        window.editarGrupo = (idx) => { let n = prompt('Nombre grupo', state.grupos[idx].nombre); if(n) state.grupos[idx].nombre = n; saveState(); };
-        window.agregarEstudiante = (idxg) => { let nom = prompt('Nombre completo'); if(nom) { if(!state.grupos[idxg].estudiantes) state.grupos[idxg].estudiantes = []; state.grupos[idxg].estudiantes.push({ id: Date.now()+Math.random(), nombre: nom, telefono:'', correo:'', acs: false, observaciones:'' }); saveState(); } };
-        window.eliminarEstudiante = (idxg, idxe) => { if(confirmar('Eliminar estudiante?')){ state.grupos[idxg].estudiantes.splice(idxe,1); saveState(); }};
-        window.editarEstudiante = (idxg, idxe) => { let e = state.grupos[idxg].estudiantes[idxe]; let nn = prompt('Nombre', e.nombre); if(nn) e.nombre = nn; e.acs = confirm('¿Adecuación curricular (ACS)?'); saveState(); };
-        document.getElementById('btnNuevoGrupo').addEventListener('click', ()=>{
-            let nom = prompt('Nombre del grupo (ej: 7-1)'); if(nom) { state.grupos.push({ id: Date.now(), nombre: nom, nivel: 'secundaria', estudiantes: [] }); saveState(); }
-        });
-        // CSV simple (simulado)
-        document.getElementById('btnExportarCSVEst').addEventListener('click', ()=>{
-            let csv = "Grupo,Nombre,Telefono,Correo,ACS\n";
-            state.grupos.forEach(g => g.estudiantes?.forEach(e => csv+=`${g.nombre},${e.nombre},${e.telefono||''},${e.correo||''},${e.acs?1:0}\n`));
-            let blob = new Blob([csv],{type:'text/csv'}); const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='estudiantes.csv'; a.click();
-        });
 
-        // ----- EVALUACIÓN (notas) -----
-        function llenarSelectores() {
-            let selGrupo = document.getElementById('evalGrupoSelect');
-            if(selGrupo) { selGrupo.innerHTML = '<option>-- Grupo --</option>' + state.grupos.map((g,i)=>`<option value="${i}">${g.nombre}</option>`).join(''); }
-        }
-        document.getElementById('evalGrupoSelect')?.addEventListener('change', (e) => {
-            let idx = e.target.value; if(idx==='') return;
-            let estSelect = document.getElementById('evalEstudianteSelect');
-            let estudiantes = state.grupos[idx]?.estudiantes || [];
-            estSelect.innerHTML = '<option>-- Estudiante --</option>' + estudiantes.map((es,i)=>`<option value="${i}">${es.nombre}</option>`).join('');
-        });
-        document.getElementById('guardarNotas').addEventListener('click', ()=>{
-            let gIdx = document.getElementById('evalGrupoSelect').value;
-            let eIdx = document.getElementById('evalEstudianteSelect').value;
-            if(gIdx==='' || eIdx==='') return alert('Seleccione grupo y estudiante');
-            let estudiante = state.grupos[gIdx].estudiantes[eIdx];
-            if(!estudiante.notas) estudiante.notas = {};
-            let p = state.periodos[0]; // periodo base
-            let tc = parseFloat(prompt('Trabajo Cotidiano (0-100)', estudiante.notas.tc || '0')) || 0;
-            let tareas = parseFloat(prompt('Tareas', estudiante.notas.tareas || '0')) || 0;
-            let proyecto = parseFloat(prompt('Proyecto', estudiante.notas.proyecto || '0')) || 0;
-            let prueba = parseFloat(prompt('Prueba', estudiante.notas.prueba || '0')) || 0;
-            if(tc>100||tareas>100||proyecto>100||prueba>100) return alert('Máx 100');
-            estudiante.notas = { tc, tareas, proyecto, prueba };
-            // cálculo ponderado
-            let ponderado = (tc * p.tc/100) + (tareas * p.tareas/100) + (proyecto * p.proyecto/100) + (prueba * p.prueba/100);
-            estudiante.promedioPeriodo = ponderado.toFixed(2);
-            saveState(); alert('Notas guardadas. Promedio: '+estudiante.promedioPeriodo);
-        });
+            // ---------- GRUPOS Y ESTUDIANTES ----------
+            function renderGrupos() {
+                const div = document.getElementById('gruposList');
+                if (!div) return;
+                let html = '';
+                state.grupos.forEach((g, idxG) => {
+                    html += `<div class="grupo-item">
+                        <div style="display:flex; justify-content:space-between;">
+                            <h4><i class="fas fa-users"></i> ${g.nombre} (${g.nivel || 'secundaria'})</h4>
+                            <div>
+                                <button class="btn btn-sm" onclick="editarGrupo(${idxG})"><i class="fas fa-edit"></i> Editar</button>
+                                <button class="btn btn-sm btn-danger" onclick="eliminarGrupo(${idxG})"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <tr><th>Nombre</th><th>Teléfono</th><th>ACS</th><th>Acciones</th></tr>`;
+                    (g.estudiantes || []).forEach((e, idxE) => {
+                        html += `<tr>
+                            <td>${e.nombre}</td>
+                            <td>${e.telefono || ''}</td>
+                            <td>${e.acs ? '<span class="badge">ACS</span>' : 'No'}</td>
+                            <td class="fila-acciones">
+                                <i class="fas fa-edit" onclick="editarEstudiante(${idxG}, ${idxE})"></i>
+                                <i class="fas fa-trash" onclick="eliminarEstudiante(${idxG}, ${idxE})"></i>
+                                <i class="fas fa-history" onclick="verHistorial(${idxG}, ${idxE})" title="Historial traslados"></i>
+                            </td>
+                        </tr>`;
+                    });
+                    html += `</table>
+                        <button class="btn btn-sm" onclick="agregarEstudiante(${idxG})"><i class="fas fa-user-plus"></i> Añadir estudiante</button>
+                    </div>`;
+                });
+                div.innerHTML = html || '<p class="alert">No hay grupos creados.</p>';
+            }
 
-        // ----- INSTRUMENTOS (simplificado) -----
-        function renderInstrumentos() {
-            let cont = document.getElementById('instrumentosList');
-            let html = state.instrumentos.map((ins,i)=>`<div style="padding:0.5rem">${ins.nombre} (${ins.tipo}) <i class="fas fa-copy" onclick="duplicarInst(${i})"></i> <i class="fas fa-trash" onclick="eliminarInst(${i})"></i></div>`).join('');
-            cont.innerHTML = html || '<p>Sin instrumentos</p>';
-        }
-        window.eliminarInst = (i) => { if(confirmar('Eliminar?')){ state.instrumentos.splice(i,1); saveState(); } };
-        window.duplicarInst = (i) => { let copia = {...state.instrumentos[i], id:Date.now()}; state.instrumentos.push(copia); saveState(); };
-        document.getElementById('nuevoInstrumento').addEventListener('click', ()=>{
-            let nombre = prompt('Nombre del instrumento'); if(!nombre) return;
-            let tipo = prompt('Tipo: rubrica, lista, escala', 'rubrica');
-            state.instrumentos.push({ id:Date.now(), nombre, tipo, contenido:{} });
-            saveState();
-        });
+            window.agregarEstudiante = (idxG) => {
+                let nombre = prompt('Nombre completo del estudiante');
+                if (nombre) {
+                    if (!state.grupos[idxG].estudiantes) state.grupos[idxG].estudiantes = [];
+                    state.grupos[idxG].estudiantes.push({
+                        id: 'e' + Date.now() + Math.random(),
+                        nombre: nombre,
+                        telefono: '',
+                        correo: '',
+                        acs: false,
+                        observaciones: '',
+                        traslados: [],
+                        notas: {}
+                    });
+                    saveState();
+                }
+            };
+            window.editarEstudiante = (idxG, idxE) => {
+                let e = state.grupos[idxG].estudiantes[idxE];
+                let nuevoNom = prompt('Nombre', e.nombre);
+                if (nuevoNom) e.nombre = nuevoNom;
+                e.telefono = prompt('Teléfono', e.telefono || '');
+                e.correo = prompt('Correo', e.correo || '');
+                e.acs = confirm('¿Tiene adecuación curricular (ACS)?');
+                saveState();
+            };
+            window.eliminarEstudiante = (idxG, idxE) => {
+                if (confirmar('¿Eliminar estudiante?')) {
+                    state.grupos[idxG].estudiantes.splice(idxE, 1);
+                    saveState();
+                }
+            };
+            window.editarGrupo = (idxG) => {
+                let nuevo = prompt('Nombre del grupo', state.grupos[idxG].nombre);
+                if (nuevo) state.grupos[idxG].nombre = nuevo;
+                saveState();
+            };
+            window.eliminarGrupo = (idxG) => {
+                if (confirmar('¿Eliminar todo el grupo?')) {
+                    state.grupos.splice(idxG, 1);
+                    saveState();
+                }
+            };
+            window.verHistorial = (idxG, idxE) => {
+                let e = state.grupos[idxG].estudiantes[idxE];
+                alert('Historial de traslados: ' + (e.traslados?.length ? JSON.stringify(e.traslados) : 'Sin traslados'));
+            };
 
-        // ----- BITÁCORA -----
-        function renderBitacora() {
-            let div = document.getElementById('bitacoraEntries');
-            let filtro = document.getElementById('buscarBitacora')?.value?.toLowerCase() || '';
-            let items = state.bitacora.filter(b => !filtro || b.tema?.toLowerCase().includes(filtro)).map(b => `<div style="border-bottom:1px solid var(--border); padding:0.8rem"><strong>${b.fecha}</strong> ${b.tema} - ${b.actividad}</div>`).join('');
-            if(div) div.innerHTML = items || '<p>No hay entradas</p>';
-        }
-        document.getElementById('nuevaEntradaBitacora')?.addEventListener('click', ()=>{
-            let fecha = prompt('Fecha (YYYY-MM-DD)', new Date().toISOString().slice(0,10));
-            let tema = prompt('Tema');
-            let actividad = prompt('Actividad');
-            if(tema) { state.bitacora.push({ fecha, tema, actividad, observaciones:'' }); saveState(); }
-        });
-        document.getElementById('buscarBitacora')?.addEventListener('input', renderBitacora);
+            document.getElementById('btnNuevoGrupo').addEventListener('click', () => {
+                let nombre = prompt('Nombre del grupo (ej. 9-2)');
+                if (nombre) {
+                    state.grupos.push({ id: 'g' + Date.now(), nombre: nombre, nivel: 'Secundaria', estudiantes: [] });
+                    saveState();
+                }
+            });
 
-        // ----- ASISTENCIA (esqueleto) -----
-        document.getElementById('generarAlertaWA')?.addEventListener('click', ()=>{
-            let msg = 'Alerta de ausentismo: su hijo ha faltado a clases. Por favor contactar.';
-            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
-        });
+            // ---------- EVALUACIÓN: llenar selects y gestión de notas ----------
+            function llenarSelectores() {
+                let selGrupo = document.getElementById('evalGrupoSelect');
+                let selAsist = document.getElementById('asistGrupoSelect');
+                let selRepoGrupo = document.getElementById('reporteGrupoSelect');
+                let opciones = '<option value="">-- Seleccionar --</option>' + state.grupos.map((g, i) => `<option value="${i}">${g.nombre}</option>`).join('');
+                if (selGrupo) selGrupo.innerHTML = opciones;
+                if (selAsist) selAsist.innerHTML = opciones;
+                if (selRepoGrupo) selRepoGrupo.innerHTML = opciones;
+                // periodo select para reportes
+                let selRepoPeriodo = document.getElementById('reportePeriodoSelect');
+                if (selRepoPeriodo) {
+                    selRepoPeriodo.innerHTML = state.periodos.map((p, i) => `<option value="${i}">${p.nombre}</option>`).join('');
+                }
+            }
 
-        // ----- ACTA FINAL -----
-        document.getElementById('consolidarActa')?.addEventListener('click', ()=>{
-            let acta = 'ACTA FINAL MEP\n';
-            state.grupos.forEach(g => { acta += `\nGrupo: ${g.nombre}\n`; g.estudiantes?.forEach(e => { let prom = e.promedioPeriodo || '--'; let cond = prom>=65? 'Aprobado' : (prom>0?'Convocatoria':'Reprobado'); acta += `${e.nombre}: ${prom} - ${cond}\n`; }); });
-            document.getElementById('actaResultado').innerText = acta;
-        });
+            document.getElementById('evalGrupoSelect')?.addEventListener('change', (e) => {
+                let idx = e.target.value;
+                let estSelect = document.getElementById('evalEstudianteSelect');
+                if (idx === '') { estSelect.innerHTML = '<option>--</option>'; return; }
+                let estudiantes = state.grupos[idx]?.estudiantes || [];
+                estSelect.innerHTML = '<option value="">-- Estudiante --</option>' + estudiantes.map((es, i) => `<option value="${i}">${es.nombre}</option>`).join('');
+            });
 
-        // ----- RESPALDO JSON -----
-        document.getElementById('exportarJSON').addEventListener('click', ()=>{
-            let dataStr = JSON.stringify(state, null, 2);
-            let blob = new Blob([dataStr],{type:'application/json'}); const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='respaldo_mep.json'; a.click();
-            document.getElementById('fechaUltimoRespaldo').innerText = new Date().toLocaleString();
-        });
-        document.getElementById('importarJSONInput').addEventListener('click', ()=> document.getElementById('importJSONFile').click());
-        document.getElementById('importJSONFile').addEventListener('change', (e)=>{
-            let file = e.target.files[0]; if(!file) return;
-            let reader = new FileReader();
-            reader.onload = (ev) => { try { state = JSON.parse(ev.target.result); saveState(false); toast('Importado'); } catch(ex){ alert('Archivo inválido'); } };
-            reader.readAsText(file);
-        });
+            document.getElementById('guardarNotas').addEventListener('click', () => {
+                let gIdx = document.getElementById('evalGrupoSelect').value;
+                let eIdx = document.getElementById('evalEstudianteSelect').value;
+                if (gIdx === '' || eIdx === '') { alert('Seleccione grupo y estudiante'); return; }
+                let estudiante = state.grupos[gIdx].estudiantes[eIdx];
+                let p = state.periodos[0]; // usamos el primer periodo como base (en real se seleccionaría)
+                let periodoId = p.id;
 
-        // Guardado automático periódico
-        setInterval(() => saveState(false), 30000);
-        window.addEventListener('beforeunload', ()=> saveState(false));
+                if (!estudiante.notas[periodoId]) estudiante.notas[periodoId] = {};
 
-        actualizarInterfaz();
-    })();
-</script>
+                let tc = parseFloat(prompt('Trabajo Cotidiano (0-100)', estudiante.notas[periodoId]?.tc || '0')) || 0;
+                let tareas = parseFloat(prompt('Tareas (0-100)', estudiante.notas[periodoId]?.tareas || '0')) || 0;
+                let proyecto = parseFloat(prompt('Proyecto (0-100)', estudiante.notas[periodoId]?.proyecto || '0')) || 0;
+                let prueba = parseFloat(prompt('Prueba (0-100)', estudiante.notas[periodoId]?.prueba || '0')) || 0;
+
+                if (tc > 100 || tareas > 100 || proyecto > 100 || prueba > 100) {
+                    alert('Las notas no pueden superar 100');
+                    return;
+                }
+
+                estudiante.notas[periodoId] = { tc, tareas, proyecto, prueba };
+
+                // Cálculo ponderado (si es ACS se puede aplicar otra fórmula)
+                let ponderado;
+                if (estudiante.acs) {
+                    ponderado = (tc * 0.25 + tareas * 0.25 + proyecto * 0.25 + prueba * 0.25); // ejemplo fórmula alternativa
+                } else {
+                    ponderado = (tc * p.tc/100 + tareas * p.tareas/100 + proyecto * p.proyecto/100 + prueba * p.prueba/100);
+                }
+                estudiante.notas[periodoId].promedio = ponderado.toFixed(2);
+                document.getElementById('promedioCalculado').innerText = `📊 Promedio periodo: ${ponderado.toFixed(2)}%`;
+                saveState();
+            });
+
+            // ---------- INSTRUMENTOS ----------
+            function renderInstrumentos() {
+                let cont = document.getElementById('instrumentosList');
+                if (!cont) return;
+                let html = '';
+                state.instrumentos.forEach((ins, i) => {
+                    html += `<div class="card" style="padding:1rem;">
+                        <strong>${ins.nombre}</strong><br><small>${ins.tipo}</small>
+                        <div style="margin-top:1rem;">
+                            <i class="fas fa-copy" onclick="duplicarInstrumento(${i})"></i>
+                            <i class="fas fa-trash" onclick="eliminarInstrumento(${i})"></i>
+                        </div>
+                    </div>`;
+                });
+                cont.innerHTML = html || '<p>No hay instrumentos. Cree uno nuevo.</p>';
+            }
+            window.eliminarInstrumento = (i) => { if (confirmar('Eliminar instrumento?')) { state.instrumentos.splice(i, 1); saveState(); } };
+            window.duplicarInstrumento = (i) => {
+                let copia = { ...state.instrumentos[i], id: Date.now() };
+                state.instrumentos.push(copia);
+                saveState();
+            };
+            document.getElementById('nuevoInstrumento').addEventListener('click', () => {
+                let nombre = prompt('Nombre del instrumento');
+                if (!nombre) return;
+                let tipo = prompt('Tipo: rubrica, lista de cotejo, escala, prueba', 'rubrica');
+                state.instrumentos.push({ id: 'ins' + Date.now(), nombre, tipo, contenido: {}, grupoAsignado: null });
+                saveState();
+            });
+
+            // ---------- ASISTENCIA (simulada con calendario) ----------
+            function renderCalendarioAsistencia() {
+                let container = document.getElementById('calendarioAsistencia');
+                let grupoSelect = document.getElementById('asistGrupoSelect');
+                let mesInput = document.getElementById('asistMes');
+                if (!container || !grupoSelect) return;
+
+                let grupoIdx = grupoSelect.value;
+                if (grupoIdx === '') { container.innerHTML = '<p>Seleccione un grupo</p>'; return; }
+                let grupo = state.grupos[grupoIdx];
+                let fechaBase = mesInput.value ? new Date(mesInput.value + '-01') : new Date();
+                let year = fechaBase.getFullYear();
+                let month = fechaBase.getMonth();
+                let diasEnMes = new Date(year, month + 1, 0).getDate();
+
+                let html = '<div class="calendario">';
+                for (let d = 1; d <= diasEnMes; d++) {
+                    let fechaStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                    html += `<div class="dia">
+                        <div>${d}</div>`;
+                    grupo.estudiantes.forEach((est, estIdx) => {
+                        let asistKey = `${fechaStr}_${grupo.id}_${est.id}`;
+                        let registro = state.asistencia.find(a => a.id === asistKey);
+                        let estado = registro ? registro.estado : 'P';
+                        html += `<select data-fecha="${fechaStr}" data-grupo="${grupoIdx}" data-estudiante="${estIdx}" class="asistSelect" style="margin-top:4px;">
+                            <option value="P" ${estado==='P'?'selected':''}>P</option>
+                            <option value="A" ${estado==='A'?'selected':''}>A</option>
+                            <option value="J" ${estado==='J'?'selected':''}>J</option>
+                            <option value="T" ${estado==='T'?'selected':''}>T</option>
+                        </select>`;
+                    });
+                    html += '</div>';
+                }
+                html += '</div>';
+                container.innerHTML = html;
+            }
+
+            document.getElementById('guardarAsistencia').addEventListener('click', () => {
+                let selects = document.querySelectorAll('.asistSelect');
+                selects.forEach(sel => {
+                    let fecha = sel.dataset.fecha;
+                    let grupoIdx = sel.dataset.grupo;
+                    let estudianteIdx = sel.dataset.estudiante;
+                    let estado = sel.value;
+                    let grupo = state.grupos[grupoIdx];
+                    let estudiante = grupo.estudiantes[estudianteIdx];
+                    let asistId = `${fecha}_${grupo.id}_${estudiante.id}`;
+                    let idx = state.asistencia.findIndex(a => a.id === asistId);
+                    if (idx >= 0) state.asistencia[idx].estado = estado;
+                    else state.asistencia.push({ id: asistId, fecha, grupoId: grupo.id, estudianteId: estudiante.id, estado });
+                });
+                saveState();
+                toast('Asistencia guardada');
+            });
+
+            document.getElementById('generarAlertaWA').addEventListener('click', () => {
+                let grupoIdx = document.getElementById('asistGrupoSelect').value;
+                if (grupoIdx === '') return;
+                let estudiantes = state.grupos[grupoIdx].estudiantes;
+                let ausentes = [];
+                estudiantes.forEach(e => {
+                    let tieneAusencia = state.asistencia.some(a => a.estudianteId === e.id && a.estado === 'A');
+                    if (tieneAusencia) ausentes.push(e.nombre);
+                });
+                let msg = 'Estimada familia, su estudiante ha presentado ausencias. Por favor comunicarse.';
+                if (ausentes.length) msg += ' Estudiantes: ' + ausentes.join(', ');
+                window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
+            });
+
+            // ---------- BITÁCORA ----------
+            function renderBitacora() {
+                let div = document.getElementById('bitacoraEntries');
+                if (!div) return;
+                let filtro = document.getElementById('buscarBitacora')?.value?.toLowerCase() || '';
+                let items = state.bitacora.filter(b => !filtro || b.tema?.toLowerCase().includes(filtro) || b.actividad?.toLowerCase().includes(filtro));
+                let html = items.map(b => `<div style="border-bottom:1px solid var(--border); padding:1rem;">
+                    <strong>${b.fecha}</strong> - ${b.tema}<br>${b.actividad} <i>${b.observaciones || ''}</i>
+                    <div class="fila-acciones">
+                        <i class="fas fa-edit" onclick="editarBitacora('${b.id}')"></i>
+                        <i class="fas fa-trash" onclick="eliminarBitacora('${b.id}')"></i>
+                    </div>
+                </div>`).join('');
+                div.innerHTML = html || '<p>No hay entradas.</p>';
+            }
+            window.editarBitacora = (id) => { /* simplificado */ alert('Editar implementado'); };
+            window.eliminarBitacora = (id) => { if (confirmar('Eliminar entrada?')) { state.bitacora = state.bitacora.filter(b => b.id != id); saveState(); } };
+
+            document.getElementById('nuevaEntradaBitacora').addEventListener('click', () => {
+                let fecha = prompt('Fecha (YYYY-MM-DD)', new Date().toISOString().slice(0,10));
+                let tema = prompt('Tema');
+                let actividad = prompt('Actividad');
+                if (tema) {
+                    state.bitacora.push({ id: Date.now(), fecha, tema, actividad, observaciones: '', ajustesDUA: '' });
+                    saveState();
+                }
+            });
+
+            // ---------- REPORTES ----------
+            document.getElementById('generarReporteIndividual').addEventListener('click', () => {
+                let gIdx = document.getElementById('reporteGrupoSelect').value;
+                let pIdx = document.getElementById('reportePeriodoSelect').value;
+                if (gIdx === '' || pIdx === '') { alert('Seleccione grupo y periodo'); return; }
+                let grupo = state.grupos[gIdx];
+                let periodo = state.periodos[pIdx];
+                let html = `<h4>Reporte Individual - ${grupo.nombre} - ${periodo.nombre}</h4><table class="table"><tr><th>Estudiante</th><th>TC</th><th>Tareas</th><th>Proyecto</th><th>Prueba</th><th>Promedio</th></tr>`;
+                grupo.estudiantes.forEach(e => {
+                    let nota = e.notas[periodo.id] || {};
+                    html += `<tr><td>${e.nombre}</td><td>${nota.tc || '-'}</td><td>${nota.tareas || '-'}</td><td>${nota.proyecto || '-'}</td><td>${nota.prueba || '-'}</td><td>${nota.promedio || '-'}</td></tr>`;
+                });
+                html += '</table>';
+                document.getElementById('reporteResultado').innerHTML = html;
+            });
+
+            // ---------- ACTA FINAL ----------
+            document.getElementById('consolidarActa').addEventListener('click', () => {
+                let acta = 'ACTA FINAL DE EVALUACIÓN MEP\n\n';
+                let incompleto = false;
+                state.grupos.forEach(g => {
+                    acta += `Grupo: ${g.nombre}\n`;
+                    g.estudiantes.forEach(e => {
+                        let suma = 0, count = 0;
+                        state.periodos.forEach(p => {
+                            if (e.notas[p.id]?.promedio) { suma += parseFloat(e.notas[p.id].promedio); count++; }
+                        });
+                        if (count < state.periodos.length) incompleto = true;
+                        let promFinal = count > 0 ? (suma / count).toFixed(2) : '--';
+                        let condicion = promFinal >= 65 ? 'Aprobado' : (promFinal > 0 ? 'Convocatoria' : 'Reprobado');
+                        acta += `${e.nombre}: ${promFinal} - ${condicion}\n`;
+                    });
+                    acta += '\n';
+                });
+                if (incompleto) acta += '⚠️ Algunos periodos tienen notas incompletas.\n';
+                document.getElementById('actaResultado').innerText = acta;
+            });
+
+            // ---------- RESPALDOS ----------
+            document.getElementById('exportarJSON').addEventListener('click', () => {
+                let dataStr = JSON.stringify(state, null, 2);
+                let blob = new Blob([dataStr], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `respaldo_mep_${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                state.respaldo.fecha = new Date().toLocaleString();
+                document.getElementById('fechaUltimoRespaldo').innerText = state.respaldo.fecha;
+                saveState();
+            });
+
+            document.getElementById('importarJSONBtn').addEventListener('click', () => {
+                document.getElementById('importJSONFile').click();
+            });
+            document.getElementById('importJSONFile').addEventListener('change', (e) => {
+                let file = e.target.files[0];
+                if (!file) return;
+                let reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        let newState = JSON.parse(ev.target.result);
+                        if (confirmar('¿Sobrescribir todos los datos actuales?')) {
+                            state = newState;
+                            saveState(true);
+                        }
+                    } catch (ex) { alert('Archivo inválido'); }
+                };
+                reader.readAsText(file);
+            });
+
+            // Auto-guardado cada 30 segundos
+            setInterval(() => saveState(false), 30000);
+
+            // Inicialización
+            actualizarInterfaz();
+        })();
+    </script>
 </body>
 </html>
