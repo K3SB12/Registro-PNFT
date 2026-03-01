@@ -893,7 +893,7 @@
                 </div>
             </div>
 
-            <!-- INSTRUMENTOS - VERSIÓN MEP -->
+            <!-- INSTRUMENTOS - VERSIÓN MEP CORREGIDA -->
             <div id="instrumentos" class="tab-pane">
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
@@ -1334,7 +1334,7 @@
         </div>
     </div>
 
-    <!-- Modal Instrumento (VERSIÓN MEP) -->
+    <!-- Modal Instrumento (VERSIÓN MEP CORREGIDA) -->
     <div id="instrumentoModal" class="modal">
         <div class="modal-content max-w-6xl">
             <h3 class="text-lg font-bold mb-4 dark:text-white" id="instrumentoModalTitulo">Crear Instrumento de Evaluación - MEP</h3>
@@ -1570,6 +1570,19 @@
         let instrumentoEnEdicion = null;
         let actualInstrumentoId = null;
         let pestanaActiva = 'basicos';
+
+        // ===== DEPURACIÓN - Ver estado de instrumentos =====
+        console.log("📊 INSTRUMENTOS EN LOCALSTORAGE:", DB.get('instrumentos'));
+        console.log("📊 VARIABLE GLOBAL instrumentos:", instrumentos);
+
+        // Si no hay instrumentos en la variable global pero sí en localStorage, cargarlos
+        if (instrumentos.length === 0) {
+            const stored = DB.get('instrumentos');
+            if (stored && stored.length > 0) {
+                instrumentos = stored;
+                console.log("✅ Instrumentos cargados desde localStorage:", instrumentos.length);
+            }
+        }
 
         // ==================== PLANTILLAS MEP ====================
         const plantillasMEP = {
@@ -2519,6 +2532,7 @@
             
             const notasKey = `${grupoId}_${periodo}_${asignatura}`;
             const notasGrupo = notas[notasKey] || {};
+            console.log("Cargando notas para:", notasKey, notasGrupo);
             
             let headerHtml = '<tr><th class="dark:text-white">Estudiante</th><th class="dark:text-white">Condición</th>';
             componentes.forEach(comp => {
@@ -2596,13 +2610,18 @@
         }
 
         function guardarNotas() {
+            console.log("Intentando guardar notas...");
             const grupoId = document.getElementById('evalGrupo').value;
             const periodo = document.getElementById('evalPeriodo').value;
             const asignatura = document.getElementById('evalAsignatura').value.trim();
             
-            if (!grupoId || !asignatura) return;
+            if (!grupoId || !asignatura) {
+                Utils.mostrarToast('Faltan datos de grupo o asignatura', 'error');
+                return;
+            }
             
             const key = `${grupoId}_${periodo}_${asignatura}`;
+            if (!notas) { notas = {}; }
             notas[key] = {};
             
             document.querySelectorAll('#evaluacionTableBody tr').forEach(row => {
@@ -2611,16 +2630,18 @@
                 
                 const notaEst = {};
                 row.querySelectorAll('input[data-est]').forEach(inp => {
-                    notaEst[inp.dataset.campo] = inp.value ? parseFloat(inp.value) : null;
+                    const valor = inp.value ? parseFloat(inp.value) : null;
+                    notaEst[inp.dataset.campo] = valor;
                 });
                 notas[key][estId] = notaEst;
             });
             
             DB.set('notas', notas);
+            console.log("Notas guardadas. Clave:", key, "Datos:", notas[key]);
             Utils.mostrarToast('Notas guardadas correctamente');
         }
 
-        // ==================== INSTRUMENTOS - VERSIÓN MEP ====================
+        // ==================== INSTRUMENTOS - VERSIÓN MEP CORREGIDA ====================
         function cargarFiltrosInstrumentos() {
             const selectAsig = document.getElementById('filtroInstrumentoAsignatura');
             const asignaturas = new Set();
@@ -3116,6 +3137,8 @@
         }
 
         function guardarInstrumentoMEP() {
+            console.log("🔍 Iniciando guardado de instrumento...");
+            
             const nombre = document.getElementById('instNombre').value.trim();
             if (!nombre) {
                 Utils.mostrarToast('Ingrese el nombre del instrumento', 'error');
@@ -3123,53 +3146,58 @@
             }
             
             const tipo = document.getElementById('instTipo').value;
-            const aprendizaje = document.getElementById('instAprendizaje').value;
-            const asignatura = document.getElementById('instAsignatura').value.trim();
-            const nivel = document.getElementById('instNivel').value;
-            const puntuacionTotal = parseInt(document.getElementById('instPuntuacionTotal').value) || 100;
-            const escala = document.getElementById('instEscala').value;
+            const aprendizaje = document.getElementById('instAprendizaje')?.value || '';
+            const asignatura = document.getElementById('instAsignatura')?.value.trim() || '';
+            const nivel = document.getElementById('instNivel')?.value || '';
+            const puntuacionTotal = parseInt(document.getElementById('instPuntuacionTotal')?.value) || 100;
+            const escala = document.getElementById('instEscala')?.value || '1-3';
+            
+            console.log("📋 Tipo:", tipo);
+            console.log("📝 Nombre:", nombre);
             
             const indicadores = [];
             
-            switch(tipo) {
-                case 'rubrica_holistica':
+            try {
+                if (tipo === 'rubrica_holistica') {
                     const criterios = document.querySelectorAll('.criterio-input');
                     indicadores.push({
                         avanzado: criterios[0]?.value || '',
                         intermedio: criterios[1]?.value || '',
                         inicial: criterios[2]?.value || ''
                     });
-                    break;
+                    console.log("✅ Rúbrica Holística - criterios recolectados");
                     
-                case 'rubrica_analitica':
-                    document.querySelectorAll('#rubrica-analitica-items .rubrica-analitica-grid').forEach(fila => {
+                } else if (tipo === 'rubrica_analitica') {
+                    const filas = document.querySelectorAll('#rubrica-analitica-items .rubrica-analitica-grid');
+                    filas.forEach((fila, index) => {
                         const inputs = fila.querySelectorAll('input');
-                        if (inputs.length >= 5 && inputs[0].value.trim()) {
+                        if (inputs.length >= 5) {
                             indicadores.push({
-                                indicador: inputs[0].value.trim(),
-                                avanzado: inputs[1].value.trim(),
-                                intermedio: inputs[2].value.trim(),
-                                inicial: inputs[3].value.trim(),
-                                insuficiente: inputs[4].value.trim()
+                                id: index,
+                                indicador: inputs[0]?.value || '',
+                                avanzado: inputs[1]?.value || '',
+                                intermedio: inputs[2]?.value || '',
+                                inicial: inputs[3]?.value || '',
+                                insuficiente: inputs[4]?.value || ''
                             });
                         }
                     });
-                    break;
+                    console.log(`✅ Rúbrica Analítica - ${indicadores.length} indicadores recolectados`);
                     
-                case 'lista_cotejo':
-                    document.querySelectorAll('#cotejo-items .cotejo-item').forEach(item => {
+                } else if (tipo === 'lista_cotejo') {
+                    const items = document.querySelectorAll('#cotejo-items .cotejo-item');
+                    items.forEach((item, index) => {
                         const input = item.querySelector('.indicador-input');
                         const checkbox = item.querySelector('input[type="checkbox"]');
-                        if (input && input.value.trim()) {
-                            indicadores.push({
-                                criterio: input.value.trim(),
-                                cumple: checkbox.checked
-                            });
-                        }
+                        indicadores.push({
+                            id: index,
+                            criterio: input?.value || '',
+                            cumple: checkbox?.checked || false
+                        });
                     });
-                    break;
+                    console.log(`✅ Lista de Cotejo - ${indicadores.length} criterios recolectados`);
                     
-                case 'registro_anecdotico':
+                } else if (tipo === 'registro_anecdotico') {
                     indicadores.push({
                         estudiante: document.getElementById('anecdoticoEstudiante')?.value || '',
                         fecha: document.getElementById('anecdoticoFecha')?.value || '',
@@ -3178,11 +3206,20 @@
                         descripcion: document.getElementById('anecdoticoDescripcion')?.value || '',
                         interpretacion: document.getElementById('anecdoticoInterpretacion')?.value || ''
                     });
-                    break;
+                    console.log("✅ Registro Anecdótico - datos recolectados");
+                }
+                
+                // Para otros tipos, agregar lógica similar...
+                
+            } catch (error) {
+                console.error("❌ Error recolectando indicadores:", error);
+                Utils.mostrarToast('Error al procesar los indicadores', 'error');
+                return;
             }
             
             if (indicadores.length === 0 && tipo !== 'registro_anecdotico') {
                 Utils.mostrarToast('Debe agregar al menos un indicador', 'error');
+                console.warn("⚠️ No se encontraron indicadores para guardar");
                 return;
             }
             
@@ -3195,36 +3232,81 @@
                 nivel,
                 puntuacionTotal,
                 escala,
-                indicadores,
+                indicadores: indicadores,
                 fecha: new Date().toISOString()
             };
+            
+            console.log("📦 Instrumento a guardar:", instrumento);
             
             if (instrumentoEnEdicion) {
                 const index = instrumentos.findIndex(i => i.id === instrumentoEnEdicion);
                 if (index !== -1) {
                     instrumentos[index] = instrumento;
                     Utils.mostrarToast('Instrumento actualizado');
+                    console.log("✏️ Instrumento actualizado en posición:", index);
                 }
+                instrumentoEnEdicion = null;
             } else {
                 instrumentos.push(instrumento);
                 Utils.mostrarToast('Instrumento guardado');
+                console.log("➕ Nuevo instrumento agregado, total:", instrumentos.length);
             }
             
-            DB.set('instrumentos', instrumentos);
+            try {
+                DB.set('instrumentos', instrumentos);
+                console.log("💾 Instrumentos guardados en localStorage:", instrumentos.length);
+                
+                const verificar = DB.get('instrumentos');
+                console.log("🔍 Verificación localStorage:", verificar?.length || 0, "instrumentos");
+                
+            } catch (error) {
+                console.error("❌ Error guardando en localStorage:", error);
+                Utils.mostrarToast('Error al guardar en localStorage', 'error');
+                return;
+            }
             
             cerrarModal('instrumentoModal');
             renderizarInstrumentosMEP();
+            
+            document.querySelector('#instrumentoModal h3').textContent = 'Crear Instrumento de Evaluación - MEP';
         }
 
         function renderizarInstrumentosMEP() {
+            console.log("🖼️ Renderizando instrumentos. Total:", instrumentos.length);
             const container = document.getElementById('instrumentosLista');
             
-            if (!instrumentos.length) {
+            if (!instrumentos || instrumentos.length === 0) {
                 container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center py-8">No hay instrumentos creados. ¡Cree su primer instrumento siguiendo los formatos MEP!</p>';
                 return;
             }
             
-            container.innerHTML = instrumentos.map(i => {
+            const tipoFiltro = document.getElementById('filtroInstrumentoTipo')?.value;
+            const asigFiltro = document.getElementById('filtroInstrumentoAsignatura')?.value;
+            const buscarFiltro = document.getElementById('filtroInstrumentoBuscar')?.value.toLowerCase();
+            
+            let instrumentosFiltrados = [...instrumentos];
+            
+            if (tipoFiltro) {
+                instrumentosFiltrados = instrumentosFiltrados.filter(i => i.tipo === tipoFiltro);
+            }
+            
+            if (asigFiltro) {
+                instrumentosFiltrados = instrumentosFiltrados.filter(i => i.asignatura === asigFiltro);
+            }
+            
+            if (buscarFiltro) {
+                instrumentosFiltrados = instrumentosFiltrados.filter(i => 
+                    i.nombre.toLowerCase().includes(buscarFiltro) || 
+                    (i.asignatura && i.asignatura.toLowerCase().includes(buscarFiltro))
+                );
+            }
+            
+            if (instrumentosFiltrados.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center py-8">No hay instrumentos que coincidan con los filtros</p>';
+                return;
+            }
+            
+            container.innerHTML = instrumentosFiltrados.map(i => {
                 let tipoTexto = '';
                 let tipoClase = '';
                 
@@ -3265,6 +3347,8 @@
                     </div>
                 `;
             }).join('');
+            
+            console.log("✅ Renderizado completado. Mostrando:", instrumentosFiltrados.length, "instrumentos");
         }
 
         function filtrarInstrumentos() {
@@ -3388,9 +3472,7 @@
                     
                     cambiarTipoInstrumentoMEP();
                     
-                    setTimeout(() => {
-                        // Aquí se cargarían los indicadores guardados según el tipo
-                    }, 200);
+                    // Aquí iría la lógica para cargar los indicadores guardados
                 }
             } else {
                 instrumentoEnEdicion = null;
