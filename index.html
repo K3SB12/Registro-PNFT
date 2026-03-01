@@ -143,6 +143,11 @@
             margin-bottom: 1.5rem;
         }
 
+        .dark .card {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
         .btn-primary {
             background: #2563eb;
             color: white;
@@ -310,6 +315,10 @@
             overflow-y: auto;
         }
 
+        .dark .modal-content {
+            background: #1f2937;
+        }
+
         .toast {
             position: fixed;
             bottom: 2rem;
@@ -329,32 +338,6 @@
 
         .toast.show {
             transform: translateY(0);
-        }
-
-        .instrumento-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .instrumento-card:hover {
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-
-        .criterio-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-
-        .criterio-item:last-child {
-            border-bottom: none;
         }
 
         .component-chip {
@@ -377,30 +360,247 @@
             color: #1e40af;
         }
 
-        .component-chip input {
-            width: 60px;
-            margin-left: 0.5rem;
-            padding: 0.25rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            text-align: center;
+        /* ===== INSTRUMENTOS MEP ===== */
+        .instrumento-mep-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
-        .rubrica-fila {
+        .instrumento-mep-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            border-color: #2563eb;
+        }
+
+        .dark .instrumento-mep-card {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        .instrumento-tipo-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .tipo-rubrica { background: #f3e8ff; color: #6b21a8; }
+        .tipo-cotejo { background: #dbeafe; color: #1e40af; }
+        .tipo-escala { background: #fef3c7; color: #92400e; }
+        .tipo-desempeno { background: #dcfce7; color: #166534; }
+        .tipo-anecdotico { background: #ffe4e6; color: #9f1239; }
+
+        .dark .tipo-rubrica { background: #581c87; color: #e9d5ff; }
+        .dark .tipo-cotejo { background: #1e3a8a; color: #bfdbfe; }
+        .dark .tipo-escala { background: #854d0e; color: #fef08a; }
+        .dark .tipo-desempeno { background: #166534; color: #bbf7d0; }
+        .dark .tipo-anecdotico { background: #9f1239; color: #fecaca; }
+
+        .rubrica-analitica-grid {
             display: grid;
             grid-template-columns: 2fr repeat(4, 1fr);
             gap: 0.5rem;
             margin-bottom: 0.5rem;
         }
 
-        .cotejo-item {
+        .rubrica-holistica-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .dark .rubrica-holistica-item {
+            border-color: #374151;
+        }
+
+        .escala-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
+            gap: 1rem;
+            padding: 0.75rem;
             background: #f8fafc;
             border-radius: 8px;
             margin-bottom: 0.5rem;
+        }
+
+        .dark .escala-item {
+            background: #374151;
+        }
+
+        .cotejo-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .dark .cotejo-item {
+            border-bottom-color: #374151;
+        }
+
+        .anecdotico-form {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            background: #f9fafb;
+        }
+
+        .dark .anecdotico-form {
+            background: #374151;
+            border-color: #4b5563;
+        }
+
+        .nivel-desempeno {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .nivel-1 { background: #fee2e2; color: #991b1b; }
+        .nivel-2 { background: #fed7aa; color: #92400e; }
+        .nivel-3 { background: #fef9c3; color: #854d0e; }
+        .nivel-4 { background: #d9f99d; color: #3f6212; }
+        .nivel-5 { background: #bbf7d0; color: #14532d; }
+
+        .dark .nivel-1 { background: #7f1d1d; color: #fecaca; }
+        .dark .nivel-2 { background: #7f1d1d; color: #fed7aa; }
+        .dark .nivel-3 { background: #713f12; color: #fef08a; }
+        .dark .nivel-4 { background: #14532d; color: #d9f99d; }
+        .dark .nivel-5 { background: #14532d; color: #bbf7d0; }
+
+        .tabla-indicadores-preview {
+            font-size: 0.875rem;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .tabla-indicadores-preview th {
+            background: #f1f5f9;
+            padding: 0.5rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+        }
+
+        .dark .tabla-indicadores-preview th {
+            background: #374151;
+            border-color: #4b5563;
+        }
+
+        .tabla-indicadores-preview td {
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+        }
+
+        .dark .tabla-indicadores-preview td {
+            border-color: #4b5563;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Modo oscuro general */
+        .dark body {
+            background: #1a1a1a;
+            color: #e5e5e5;
+        }
+
+        .dark .main-content {
+            background: #1a1a1a;
+        }
+
+        .dark .sidebar {
+            background: #1f2937;
+            border-right-color: #374151;
+        }
+
+        .dark .card {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        .dark .form-input, .dark .form-select {
+            background: #3d3d3d;
+            border-color: #4a4a4a;
+            color: #e5e5e5;
+        }
+
+        .dark .table-container {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        .dark th {
+            background: #333333;
+            color: #ffffff;
+            border-bottom-color: #4b5563;
+        }
+
+        .dark td {
+            border-bottom-color: #404040;
+            color: #e5e5e5;
+        }
+
+        .dark .btn-secondary {
+            background: #3d3d3d;
+            border-color: #4a4a4a;
+            color: #e5e5e5;
+        }
+
+        .dark .btn-secondary:hover {
+            background: #4a4a4a;
+        }
+
+        .dark .component-chip {
+            background: #333333;
+            border-color: #4a4a4a;
+            color: #e5e5e5;
+        }
+
+        .dark .component-chip.active {
+            background: #1e3a5f;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .dark .badge-success {
+            background: #14532d;
+            color: #bbf7d0;
+        }
+
+        .dark .badge-warning {
+            background: #713f12;
+            color: #fef08a;
+        }
+
+        .dark .badge-danger {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        .dark .badge-primary {
+            background: #1e3a8a;
+            color: #bfdbfe;
         }
     </style>
 </head>
@@ -424,59 +624,59 @@
 
         <!-- Navegación -->
         <nav class="p-4">
-            <button onclick="showTab('instituciones')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('instituciones')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-school w-6 text-blue-600"></i>
                 <span>🏫 Instituciones</span>
             </button>
-            <button onclick="showTab('grupos')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('grupos')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-users w-6 text-green-600"></i>
                 <span>👥 Grupos</span>
             </button>
-            <button onclick="showTab('estudiantes')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('estudiantes')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-user-graduate w-6 text-purple-600"></i>
                 <span>🎓 Estudiantes</span>
             </button>
-            <button onclick="showTab('configuracionEvaluacion')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('configuracionEvaluacion')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-sliders-h w-6 text-orange-600"></i>
                 <span>⚙️ Config. Evaluación</span>
             </button>
-            <button onclick="showTab('evaluacion')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('evaluacion')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-calculator w-6 text-indigo-600"></i>
                 <span>📝 Evaluación</span>
             </button>
-            <button onclick="showTab('instrumentos')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('instrumentos')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-clipboard-list w-6 text-red-600"></i>
                 <span>📋 Instrumentos</span>
             </button>
-            <button onclick="showTab('asistencia')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('asistencia')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-calendar-check w-6 text-teal-600"></i>
                 <span>📅 Asistencia</span>
             </button>
-            <button onclick="showTab('bitacora')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('bitacora')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-book w-6 text-pink-600"></i>
                 <span>📓 Bitácora</span>
             </button>
-            <button onclick="showTab('reportes')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('reportes')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-chart-bar w-6 text-amber-600"></i>
                 <span>📊 Reportes</span>
             </button>
-            <button onclick="showTab('acta')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('acta')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-file-signature w-6 text-rose-600"></i>
                 <span>📜 Acta Final</span>
             </button>
-            <button onclick="showTab('respaldo')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+            <button onclick="showTab('respaldo')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3 text-gray-700 dark:text-gray-300">
                 <i class="fas fa-database w-6 text-gray-600"></i>
                 <span>💾 Respaldo</span>
             </button>
         </nav>
 
         <!-- Footer -->
-        <div class="absolute bottom-0 w-full p-4 border-t bg-white">
-            <button onclick="toggleDarkMode()" class="w-full flex items-center px-4 py-2 text-sm hover:bg-gray-100 rounded-lg text-gray-700">
-                <i class="fas fa-moon w-6 text-gray-600" id="darkModeIcon"></i>
+        <div class="absolute bottom-0 w-full p-4 border-t bg-white dark:bg-gray-800">
+            <button onclick="toggleDarkMode()" class="w-full flex items-center px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-300">
+                <i class="fas fa-moon w-6 text-gray-600 dark:text-gray-400" id="darkModeIcon"></i>
                 <span id="darkModeText">Modo Oscuro</span>
             </button>
-            <button onclick="ejecutarPruebas()" class="w-full flex items-center px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg mt-2">
+            <button onclick="ejecutarPruebas()" class="w-full flex items-center px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg mt-2">
                 <i class="fas fa-vial w-6"></i>
                 <span>Pruebas del Sistema</span>
             </button>
@@ -486,14 +686,14 @@
     <!-- Contenido Principal -->
     <main class="main-content" id="mainContent">
         <!-- Header -->
-        <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between sticky top-0 z-40 border-b">
-            <h2 id="pageTitle" class="text-xl font-bold text-gray-800">Instituciones</h2>
+        <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between sticky top-0 z-40 border-b dark:bg-gray-800 dark:border-gray-700">
+            <h2 id="pageTitle" class="text-xl font-bold text-gray-800 dark:text-white">Instituciones</h2>
             <div class="flex items-center gap-4">
-                <button onclick="mostrarAlertas()" class="relative p-2 hover:bg-gray-100 rounded-full">
-                    <i class="fas fa-bell text-xl text-gray-600"></i>
+                <button onclick="mostrarAlertas()" class="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                    <i class="fas fa-bell text-xl text-gray-600 dark:text-gray-400"></i>
                     <span id="alertBadge" class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
                 </button>
-                <span id="currentDate" class="text-sm text-gray-600"></span>
+                <span id="currentDate" class="text-sm text-gray-600 dark:text-gray-400"></span>
             </div>
         </header>
 
@@ -503,7 +703,7 @@
             <div id="instituciones" class="tab-pane active">
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-gray-800">Mis Instituciones Educativas</h3>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white">Mis Instituciones Educativas</h3>
                         <button onclick="abrirModalInstitucion()" class="btn-primary">
                             <i class="fas fa-plus"></i> Nueva Institución
                         </button>
@@ -517,14 +717,14 @@
             <div id="grupos" class="tab-pane">
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-gray-800">Grupos por Institución</h3>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white">Grupos por Institución</h3>
                         <button onclick="abrirModalGrupo()" class="btn-primary">
                             <i class="fas fa-plus"></i> Nuevo Grupo
                         </button>
                     </div>
                     
                     <div class="mb-4">
-                        <label class="form-label">Seleccione Institución</label>
+                        <label class="form-label dark:text-gray-300">Seleccione Institución</label>
                         <select id="filtroInstitucionGrupos" class="form-select" onchange="cargarGruposPorInstitucion()">
                             <option value="">Todas las instituciones</option>
                         </select>
@@ -538,7 +738,7 @@
             <div id="estudiantes" class="tab-pane">
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-gray-800">Estudiantes</h3>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white">Estudiantes</h3>
                         <button onclick="abrirModalEstudiante()" class="btn-primary">
                             <i class="fas fa-plus"></i> Nuevo Estudiante
                         </button>
@@ -546,13 +746,13 @@
                     
                     <div class="grid md:grid-cols-2 gap-4 mb-6">
                         <div>
-                            <label class="form-label">Institución</label>
+                            <label class="form-label dark:text-gray-300">Institución</label>
                             <select id="filtroInstitucionEstudiantes" class="form-select" onchange="cargarGruposParaEstudiantes()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Grupo</label>
+                            <label class="form-label dark:text-gray-300">Grupo</label>
                             <select id="filtroGrupoEstudiantes" class="form-select" onchange="cargarEstudiantesPorGrupo()">
                                 <option value="">Seleccione...</option>
                             </select>
@@ -563,11 +763,11 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nombre</th>
-                                    <th>Teléfono</th>
-                                    <th>Condición</th>
-                                    <th>Acciones</th>
+                                    <th class="dark:text-white">#</th>
+                                    <th class="dark:text-white">Nombre</th>
+                                    <th class="dark:text-white">Teléfono</th>
+                                    <th class="dark:text-white">Condición</th>
+                                    <th class="dark:text-white">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="estudiantesTabla"></tbody>
@@ -576,40 +776,40 @@
                 </div>
             </div>
 
-            <!-- CONFIGURACIÓN DE EVALUACIÓN (NUEVA) -->
+            <!-- CONFIGURACIÓN DE EVALUACIÓN -->
             <div id="configuracionEvaluacion" class="tab-pane">
                 <div class="card">
-                    <h3 class="text-lg font-bold text-gray-800 mb-6">Configuración de Evaluación por Asignatura</h3>
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Configuración de Evaluación por Asignatura</h3>
                     
                     <div class="grid md:grid-cols-3 gap-4 mb-6">
                         <div>
-                            <label class="form-label">Institución</label>
+                            <label class="form-label dark:text-gray-300">Institución</label>
                             <select id="configEvalInstitucion" class="form-select" onchange="cargarGruposConfigEvaluacion()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Grupo</label>
+                            <label class="form-label dark:text-gray-300">Grupo</label>
                             <select id="configEvalGrupo" class="form-select" onchange="cargarAsignaturasConfigEvaluacion()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Asignatura</label>
+                            <label class="form-label dark:text-gray-300">Asignatura</label>
                             <select id="configEvalAsignatura" class="form-select" onchange="cargarConfiguracionExistente()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                     </div>
 
-                    <div id="configEvalPanel" class="hidden border-t pt-6">
-                        <h4 class="font-semibold mb-4">Componentes de Evaluación</h4>
+                    <div id="configEvalPanel" class="hidden border-t pt-6 dark:border-gray-700">
+                        <h4 class="font-semibold mb-4 dark:text-white">Componentes de Evaluación</h4>
                         
                         <div id="componentesConfigLista" class="space-y-3 mb-6"></div>
                         
-                        <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg mb-4">
-                            <span class="font-medium">Total porcentajes:</span>
-                            <span id="totalPorcentaje" class="text-2xl font-bold">0%</span>
+                        <div class="flex justify-between items-center p-4 bg-blue-50 dark:bg-blue-900 rounded-lg mb-4">
+                            <span class="font-medium dark:text-white">Total porcentajes:</span>
+                            <span id="totalPorcentaje" class="text-2xl font-bold text-gray-800 dark:text-white">0%</span>
                         </div>
 
                         <div class="flex gap-3">
@@ -627,29 +827,29 @@
             <!-- EVALUACIÓN -->
             <div id="evaluacion" class="tab-pane">
                 <div class="card">
-                    <h3 class="text-lg font-bold text-gray-800 mb-6">Registro de Evaluación</h3>
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Registro de Evaluación</h3>
                     
                     <div class="grid md:grid-cols-3 gap-4 mb-6">
                         <div>
-                            <label class="form-label">Institución</label>
+                            <label class="form-label dark:text-gray-300">Institución</label>
                             <select id="evalInstitucion" class="form-select" onchange="cargarGruposEvaluacion()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Grupo</label>
+                            <label class="form-label dark:text-gray-300">Grupo</label>
                             <select id="evalGrupo" class="form-select" onchange="cargarAsignaturasEvaluacion()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Asignatura</label>
+                            <label class="form-label dark:text-gray-300">Asignatura</label>
                             <select id="evalAsignatura" class="form-select" onchange="cargarConfiguracionParaEvaluacion()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Periodo</label>
+                            <label class="form-label dark:text-gray-300">Periodo</label>
                             <select id="evalPeriodo" class="form-select">
                                 <option value="I">Periodo I</option>
                                 <option value="II">Periodo II</option>
@@ -663,9 +863,8 @@
                         </div>
                     </div>
 
-                    <!-- COMPONENTES ACTIVOS -->
-                    <div id="componentesContainer" class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <p class="font-semibold text-blue-800 mb-2">📋 Componentes configurados:</p>
+                    <div id="componentesContainer" class="mb-6 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <p class="font-semibold text-blue-800 dark:text-blue-200 mb-2">📋 Componentes configurados:</p>
                         <div id="componentesLista" class="flex flex-wrap"></div>
                     </div>
 
@@ -674,16 +873,17 @@
                             <table>
                                 <thead id="evalTableHeader">
                                     <tr>
-                                        <th>Estudiante</th>
+                                        <th class="dark:text-white">Estudiante</th>
+                                        <th class="dark:text-white">Condición</th>
                                     </tr>
                                 </thead>
                                 <tbody id="evaluacionTableBody"></tbody>
                             </table>
                         </div>
                         
-                        <div class="mt-4 flex justify-between items-center p-4 bg-blue-50 rounded-lg">
+                        <div class="mt-4 flex justify-between items-center p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
                             <div>
-                                <p class="text-sm font-medium">Promedio del Grupo: <span id="promedioGrupo" class="text-2xl font-bold">0.00</span></p>
+                                <p class="text-sm font-medium text-gray-800 dark:text-white">Promedio del Grupo: <span id="promedioGrupo" class="text-2xl font-bold">0.00</span></p>
                             </div>
                             <button onclick="guardarNotas()" class="btn-primary">
                                 <i class="fas fa-save"></i> Guardar Notas
@@ -693,12 +893,12 @@
                 </div>
             </div>
 
-            <!-- INSTRUMENTOS - NUEVA VERSIÓN FUNCIONAL -->
+            <!-- INSTRUMENTOS - VERSIÓN MEP -->
             <div id="instrumentos" class="tab-pane">
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-gray-800">Instrumentos de Evaluación</h3>
-                        <button onclick="abrirModalInstrumento()" class="btn-primary">
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white">Instrumentos de Evaluación - MEP</h3>
+                        <button onclick="abrirModalInstrumentoMEP()" class="btn-primary">
                             <i class="fas fa-plus"></i> Nuevo Instrumento
                         </button>
                     </div>
@@ -706,22 +906,27 @@
                     <!-- Filtros -->
                     <div class="grid md:grid-cols-3 gap-4 mb-6">
                         <div>
-                            <label class="form-label">Tipo</label>
+                            <label class="form-label dark:text-gray-300">Tipo</label>
                             <select id="filtroInstrumentoTipo" class="form-select" onchange="filtrarInstrumentos()">
                                 <option value="">Todos</option>
-                                <option value="rubrica">Rúbrica Analítica</option>
-                                <option value="cotejo">Lista de Cotejo</option>
-                                <option value="escala">Escala de Desempeño</option>
+                                <option value="rubrica_holistica">Rúbrica Holística</option>
+                                <option value="rubrica_analitica">Rúbrica Analítica</option>
+                                <option value="escala_numerica">Escala Numérica</option>
+                                <option value="escala_descriptiva">Escala Descriptiva</option>
+                                <option value="escala_desempeno">Escala de Desempeño</option>
+                                <option value="lista_cotejo">Lista de Cotejo</option>
+                                <option value="registro_desempeno">Registro de Desempeño</option>
+                                <option value="registro_anecdotico">Registro Anecdótico</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Asignatura</label>
+                            <label class="form-label dark:text-gray-300">Asignatura</label>
                             <select id="filtroInstrumentoAsignatura" class="form-select" onchange="filtrarInstrumentos()">
                                 <option value="">Todas</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Buscar</label>
+                            <label class="form-label dark:text-gray-300">Buscar</label>
                             <input type="text" id="filtroInstrumentoBuscar" class="form-input" placeholder="Nombre..." onkeyup="filtrarInstrumentos()">
                         </div>
                     </div>
@@ -734,21 +939,21 @@
             <!-- ASISTENCIA -->
             <div id="asistencia" class="tab-pane">
                 <div class="card">
-                    <h3 class="text-lg font-bold text-gray-800 mb-6">Control de Asistencia</h3>
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Control de Asistencia</h3>
                     
                     <div class="grid md:grid-cols-3 gap-4 mb-6">
                         <div>
-                            <label class="form-label">Institución</label>
+                            <label class="form-label dark:text-gray-300">Institución</label>
                             <select id="asistInstitucion" class="form-select" onchange="cargarGruposAsistencia()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Grupo</label>
+                            <label class="form-label dark:text-gray-300">Grupo</label>
                             <select id="asistGrupo" class="form-select"></select>
                         </div>
                         <div>
-                            <label class="form-label">Mes</label>
+                            <label class="form-label dark:text-gray-300">Mes</label>
                             <input type="month" id="asistMes" class="form-input" value="2026-03">
                         </div>
                         <div class="flex items-end">
@@ -779,7 +984,7 @@
             <div id="bitacora" class="tab-pane">
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-gray-800">Bitácora Docente</h3>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white">Bitácora Docente</h3>
                         <div class="flex gap-2">
                             <button onclick="exportarBitacoraWord()" class="btn-secondary">
                                 <i class="fas fa-file-word"></i> Word
@@ -804,11 +1009,11 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Fecha</th>
-                                    <th>Tema</th>
-                                    <th>Actividad</th>
-                                    <th>Ajustes DUA</th>
-                                    <th>Acciones</th>
+                                    <th class="dark:text-white">Fecha</th>
+                                    <th class="dark:text-white">Tema</th>
+                                    <th class="dark:text-white">Actividad</th>
+                                    <th class="dark:text-white">Ajustes DUA</th>
+                                    <th class="dark:text-white">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="bitacoraTabla"></tbody>
@@ -820,21 +1025,21 @@
             <!-- REPORTES -->
             <div id="reportes" class="tab-pane">
                 <div class="card">
-                    <h3 class="text-lg font-bold text-gray-800 mb-6">Reportes por Periodo</h3>
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Reportes por Periodo</h3>
                     
                     <div class="grid md:grid-cols-3 gap-4 mb-6">
                         <div>
-                            <label class="form-label">Institución</label>
+                            <label class="form-label dark:text-gray-300">Institución</label>
                             <select id="reportInstitucion" class="form-select" onchange="cargarGruposReportes()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Grupo</label>
+                            <label class="form-label dark:text-gray-300">Grupo</label>
                             <select id="reportGrupo" class="form-select"></select>
                         </div>
                         <div>
-                            <label class="form-label">Periodo</label>
+                            <label class="form-label dark:text-gray-300">Periodo</label>
                             <select id="reportPeriodo" class="form-select">
                                 <option value="I">Periodo I</option>
                                 <option value="II">Periodo II</option>
@@ -842,7 +1047,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Asignatura</label>
+                            <label class="form-label dark:text-gray-300">Asignatura</label>
                             <select id="reportAsignatura" class="form-select">
                                 <option value="">Todas</option>
                             </select>
@@ -856,20 +1061,20 @@
 
                     <div id="reporteContainer" class="hidden space-y-6">
                         <div class="grid md:grid-cols-3 gap-4">
-                            <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-lg border border-yellow-200">
-                                <h4 class="font-bold text-yellow-800 mb-2">🥇 Primer Lugar</h4>
-                                <p id="top1" class="text-lg font-semibold">-</p>
-                                <p id="top1Nota" class="text-2xl font-bold text-yellow-700">-</p>
+                            <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900 dark:to-yellow-800 p-4 rounded-lg border border-yellow-200 dark:border-yellow-700">
+                                <h4 class="font-bold text-yellow-800 dark:text-yellow-200 mb-2">🥇 Primer Lugar</h4>
+                                <p id="top1" class="text-lg font-semibold text-gray-800 dark:text-white">-</p>
+                                <p id="top1Nota" class="text-2xl font-bold text-yellow-700 dark:text-yellow-300">-</p>
                             </div>
-                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-lg border border-gray-200">
-                                <h4 class="font-bold text-gray-800 mb-2">🥈 Segundo Lugar</h4>
-                                <p id="top2" class="text-lg font-semibold">-</p>
-                                <p id="top2Nota" class="text-2xl font-bold text-gray-700">-</p>
+                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                                <h4 class="font-bold text-gray-800 dark:text-gray-200 mb-2">🥈 Segundo Lugar</h4>
+                                <p id="top2" class="text-lg font-semibold text-gray-800 dark:text-white">-</p>
+                                <p id="top2Nota" class="text-2xl font-bold text-gray-700 dark:text-gray-300">-</p>
                             </div>
-                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200">
-                                <h4 class="font-bold text-orange-800 mb-2">🥉 Tercer Lugar</h4>
-                                <p id="top3" class="text-lg font-semibold">-</p>
-                                <p id="top3Nota" class="text-2xl font-bold text-orange-700">-</p>
+                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 p-4 rounded-lg border border-orange-200 dark:border-orange-700">
+                                <h4 class="font-bold text-orange-800 dark:text-orange-200 mb-2">🥉 Tercer Lugar</h4>
+                                <p id="top3" class="text-lg font-semibold text-gray-800 dark:text-white">-</p>
+                                <p id="top3Nota" class="text-2xl font-bold text-orange-700 dark:text-orange-300">-</p>
                             </div>
                         </div>
 
@@ -898,21 +1103,21 @@
             <!-- ACTA FINAL -->
             <div id="acta" class="tab-pane">
                 <div class="card">
-                    <h3 class="text-lg font-bold text-gray-800 mb-6">Acta Final de Curso Lectivo</h3>
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-6">Acta Final de Curso Lectivo</h3>
                     
                     <div class="grid md:grid-cols-2 gap-4 mb-6">
                         <div>
-                            <label class="form-label">Institución</label>
+                            <label class="form-label dark:text-gray-300">Institución</label>
                             <select id="actaInstitucion" class="form-select" onchange="cargarGruposActa()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="form-label">Grupo</label>
+                            <label class="form-label dark:text-gray-300">Grupo</label>
                             <select id="actaGrupo" class="form-select"></select>
                         </div>
                         <div>
-                            <label class="form-label">Año Lectivo</label>
+                            <label class="form-label dark:text-gray-300">Año Lectivo</label>
                             <input type="text" id="actaAnio" class="form-input" value="2026">
                         </div>
                         <div class="flex items-end">
@@ -923,8 +1128,8 @@
                     </div>
 
                     <div id="actaContainer" class="hidden">
-                        <div class="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                            <p class="text-sm text-yellow-800">
+                        <div class="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg">
+                            <p class="text-sm text-yellow-800 dark:text-yellow-200">
                                 <i class="fas fa-info-circle mr-2"></i>
                                 Según lineamientos MEP 2026: Nota final = 50% Promedio Anual + 50% PNE
                             </p>
@@ -934,14 +1139,14 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Estudiante</th>
-                                        <th class="text-center">I Per</th>
-                                        <th class="text-center">II Per</th>
-                                        <th class="text-center">III Per</th>
-                                        <th class="text-center">Prom. Anual</th>
-                                        <th class="text-center">PNE</th>
-                                        <th class="text-center">Nota Final</th>
-                                        <th class="text-center">Condición</th>
+                                        <th class="dark:text-white">Estudiante</th>
+                                        <th class="text-center dark:text-white">I Per</th>
+                                        <th class="text-center dark:text-white">II Per</th>
+                                        <th class="text-center dark:text-white">III Per</th>
+                                        <th class="text-center dark:text-white">Prom. Anual</th>
+                                        <th class="text-center dark:text-white">PNE</th>
+                                        <th class="text-center dark:text-white">Nota Final</th>
+                                        <th class="text-center dark:text-white">Condición</th>
                                     </tr>
                                 </thead>
                                 <tbody id="actaTabla"></tbody>
@@ -964,24 +1169,24 @@
             <div id="respaldo" class="tab-pane">
                 <div class="max-w-4xl mx-auto space-y-6">
                     <div class="card">
-                        <h3 class="text-lg font-bold text-gray-800 mb-4">Respaldo y Exportación</h3>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Respaldo y Exportación</h3>
                         
                         <div class="grid md:grid-cols-2 gap-4 mb-6">
-                            <button onclick="exportarRespaldoJSON()" class="p-6 border-2 border-blue-200 rounded-lg hover:bg-blue-50 text-left">
-                                <i class="fas fa-file-code text-3xl text-blue-600 mb-2"></i>
-                                <h4 class="font-semibold">Respaldo Completo (JSON)</h4>
-                                <p class="text-sm text-gray-600">Exporta todos los datos del sistema</p>
+                            <button onclick="exportarRespaldoJSON()" class="p-6 border-2 border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900 text-left">
+                                <i class="fas fa-file-code text-3xl text-blue-600 dark:text-blue-400 mb-2"></i>
+                                <h4 class="font-semibold text-gray-800 dark:text-white">Respaldo Completo (JSON)</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Exporta todos los datos del sistema</p>
                             </button>
                             
-                            <button onclick="exportarTodoCSV()" class="p-6 border-2 border-green-200 rounded-lg hover:bg-green-50 text-left">
-                                <i class="fas fa-file-csv text-3xl text-green-600 mb-2"></i>
-                                <h4 class="font-semibold">Exportación Masiva (CSV)</h4>
-                                <p class="text-sm text-gray-600">Exporta estudiantes y notas en CSV</p>
+                            <button onclick="exportarTodoCSV()" class="p-6 border-2 border-green-200 dark:border-green-800 rounded-lg hover:bg-green-50 dark:hover:bg-green-900 text-left">
+                                <i class="fas fa-file-csv text-3xl text-green-600 dark:text-green-400 mb-2"></i>
+                                <h4 class="font-semibold text-gray-800 dark:text-white">Exportación Masiva (CSV)</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Exporta estudiantes y notas en CSV</p>
                             </button>
                         </div>
 
-                        <div class="border-t pt-6">
-                            <h4 class="font-semibold mb-4">Importar Respaldo</h4>
+                        <div class="border-t dark:border-gray-700 pt-6">
+                            <h4 class="font-semibold mb-4 dark:text-white">Importar Respaldo</h4>
                             <div class="flex gap-4">
                                 <input type="file" id="backupInput" accept=".json" class="form-input flex-1">
                                 <button onclick="importarRespaldo()" class="btn-primary">
@@ -1000,18 +1205,18 @@
     <!-- Modal Institución -->
     <div id="institucionModal" class="modal">
         <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4">Nueva Institución</h3>
+            <h3 class="text-lg font-bold mb-4 dark:text-white">Nueva Institución</h3>
             <div class="space-y-4">
                 <div>
-                    <label class="form-label">Nombre de la institución *</label>
+                    <label class="form-label dark:text-gray-300">Nombre de la institución *</label>
                     <input type="text" id="instNombre" class="form-input" placeholder="Ej: Liceo de San José">
                 </div>
                 <div>
-                    <label class="form-label">Código MEP</label>
+                    <label class="form-label dark:text-gray-300">Código MEP</label>
                     <input type="text" id="instCodigo" class="form-input" placeholder="Opcional">
                 </div>
                 <div>
-                    <label class="form-label">Modalidad *</label>
+                    <label class="form-label dark:text-gray-300">Modalidad *</label>
                     <select id="instModalidad" class="form-select">
                         <option value="primaria">Primaria (1° a 6°)</option>
                         <option value="secundaria">Secundaria Académica (7° a 12°)</option>
@@ -1030,20 +1235,20 @@
     <!-- Modal Grupo -->
     <div id="grupoModal" class="modal">
         <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4">Nuevo Grupo</h3>
+            <h3 class="text-lg font-bold mb-4 dark:text-white">Nuevo Grupo</h3>
             <div class="space-y-4">
                 <div>
-                    <label class="form-label">Institución *</label>
+                    <label class="form-label dark:text-gray-300">Institución *</label>
                     <select id="grupoInstitucion" class="form-select" required>
                         <option value="">Seleccione...</option>
                     </select>
                 </div>
                 <div>
-                    <label class="form-label">Nombre del grupo *</label>
+                    <label class="form-label dark:text-gray-300">Nombre del grupo *</label>
                     <input type="text" id="grupoNombre" class="form-input" placeholder="Ej: 7-1, 10-3, 2°B">
                 </div>
                 <div>
-                    <label class="form-label">Nivel *</label>
+                    <label class="form-label dark:text-gray-300">Nivel *</label>
                     <select id="grupoNivel" class="form-select" required>
                         <option value="">Seleccione...</option>
                         <option value="1">1° Primaria</option>
@@ -1061,7 +1266,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="form-label">Asignaturas (separadas por coma)</label>
+                    <label class="form-label dark:text-gray-300">Asignaturas (separadas por coma)</label>
                     <input type="text" id="grupoAsignaturas" class="form-input" placeholder="Ej: Matemática, Español, Ciencias">
                 </div>
             </div>
@@ -1075,41 +1280,41 @@
     <!-- Modal Estudiante -->
     <div id="estudianteModal" class="modal">
         <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4" id="estudianteModalTitulo">Agregar Estudiante</h3>
+            <h3 class="text-lg font-bold mb-4 dark:text-white" id="estudianteModalTitulo">Agregar Estudiante</h3>
             <input type="hidden" id="estudianteEditId">
             <div class="space-y-4">
                 <div>
-                    <label class="form-label">Institución *</label>
+                    <label class="form-label dark:text-gray-300">Institución *</label>
                     <select id="estInstitucion" class="form-select" onchange="cargarGruposParaModalEstudiante()" required>
                         <option value="">Seleccione...</option>
                     </select>
                 </div>
                 <div>
-                    <label class="form-label">Grupo *</label>
+                    <label class="form-label dark:text-gray-300">Grupo *</label>
                     <select id="estGrupo" class="form-select" required>
                         <option value="">Seleccione...</option>
                     </select>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="form-label">Número de lista</label>
+                        <label class="form-label dark:text-gray-300">Número de lista</label>
                         <input type="number" id="estNumero" class="form-input" placeholder="Opcional">
                     </div>
                     <div>
-                        <label class="form-label">Nombre completo *</label>
+                        <label class="form-label dark:text-gray-300">Nombre completo *</label>
                         <input type="text" id="estNombre" class="form-input" placeholder="Ej: María Pérez">
                     </div>
                 </div>
                 <div>
-                    <label class="form-label">Teléfono encargado</label>
+                    <label class="form-label dark:text-gray-300">Teléfono encargado</label>
                     <input type="tel" id="estTelefono" class="form-input" placeholder="8888-7777">
                 </div>
                 <div>
-                    <label class="form-label">Correo</label>
+                    <label class="form-label dark:text-gray-300">Correo</label>
                     <input type="email" id="estCorreo" class="form-input" placeholder="correo@ejemplo.com">
                 </div>
                 <div>
-                    <label class="form-label">Condición</label>
+                    <label class="form-label dark:text-gray-300">Condición</label>
                     <select id="estCondicion" class="form-select">
                         <option value="regular">Regular</option>
                         <option value="acs">ACS - Adecuación Significativa</option>
@@ -1118,7 +1323,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="form-label">Observaciones</label>
+                    <label class="form-label dark:text-gray-300">Observaciones</label>
                     <textarea id="estObservaciones" class="form-input" rows="2" placeholder="Notas adicionales"></textarea>
                 </div>
             </div>
@@ -1129,112 +1334,185 @@
         </div>
     </div>
 
-    <!-- Modal Instrumento (NUEVO - COMPLETAMENTE FUNCIONAL) -->
+    <!-- Modal Instrumento (VERSIÓN MEP) -->
     <div id="instrumentoModal" class="modal">
-        <div class="modal-content max-w-4xl">
-            <h3 class="text-lg font-bold mb-4" id="instrumentoModalTitulo">Crear Instrumento de Evaluación</h3>
+        <div class="modal-content max-w-6xl">
+            <h3 class="text-lg font-bold mb-4 dark:text-white" id="instrumentoModalTitulo">Crear Instrumento de Evaluación - MEP</h3>
             <input type="hidden" id="instrumentoEditId">
             
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Columna izquierda: Datos generales -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="form-label">Tipo de instrumento *</label>
-                        <select id="instTipo" class="form-select" onchange="cambiarTipoInstrumento()">
-                            <option value="rubrica">Rúbrica Analítica</option>
-                            <option value="cotejo">Lista de Cotejo</option>
-                            <option value="escala">Escala de Desempeño</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="form-label">Nombre del instrumento *</label>
-                        <input type="text" id="instNombre" class="form-input" placeholder="Ej: Rúbrica de exposición oral">
-                    </div>
-                    
-                    <div>
-                        <label class="form-label">Asignatura</label>
-                        <input type="text" id="instAsignatura" class="form-input" placeholder="Ej: Español">
-                    </div>
-                    
-                    <div>
-                        <label class="form-label">Nivel</label>
-                        <select id="instNivel" class="form-select">
-                            <option value="">Todos los niveles</option>
-                            <option value="primaria">Primaria</option>
-                            <option value="secundaria">Secundaria</option>
-                            <option value="diversificada">Diversificada</option>
-                        </select>
-                    </div>
+            <!-- Pestañas internas -->
+            <div class="border-b dark:border-gray-700 mb-6">
+                <div class="flex gap-4">
+                    <button onclick="cambiarPestanaInstrumento('basicos')" id="pestanaBasicosBtn" class="px-4 py-2 font-medium border-b-2 border-blue-600 text-blue-600">Datos Básicos</button>
+                    <button onclick="cambiarPestanaInstrumento('contenido')" id="pestanaContenidoBtn" class="px-4 py-2 font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600">Contenido del Instrumento</button>
+                    <button onclick="cambiarPestanaInstrumento('vista')" id="pestanaVistaBtn" class="px-4 py-2 font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600">Vista Previa MEP</button>
                 </div>
-                
-                <!-- Columna derecha: Configuración de calificación -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="form-label">Puntuación total</label>
-                        <input type="number" id="instPuntuacionTotal" class="form-input" value="100" min="1" max="1000">
+            </div>
+            
+            <!-- Pestaña: Datos Básicos -->
+            <div id="pestanaBasicos" class="pestana-instrumento">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Columna izquierda -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="form-label dark:text-gray-300">Tipo de instrumento (MEP) *</label>
+                            <select id="instTipo" class="form-select" onchange="cambiarTipoInstrumentoMEP()">
+                                <option value="rubrica_holistica">Rúbrica Holística</option>
+                                <option value="rubrica_analitica">Rúbrica Analítica</option>
+                                <option value="escala_numerica">Escala Numérica</option>
+                                <option value="escala_descriptiva">Escala Descriptiva</option>
+                                <option value="escala_desempeno">Escala de Desempeño</option>
+                                <option value="lista_cotejo">Lista de Cotejo</option>
+                                <option value="registro_desempeno">Registro de Desempeño</option>
+                                <option value="registro_anecdotico">Registro Anecdótico</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label dark:text-gray-300">Nombre del instrumento *</label>
+                            <input type="text" id="instNombre" class="form-input" placeholder="Ej: Rúbrica para evaluar exposición oral">
+                        </div>
+                        
+                        <div>
+                            <label class="form-label dark:text-gray-300">Aprendizaje a evaluar</label>
+                            <textarea id="instAprendizaje" class="form-input" rows="3" placeholder="Describa el aprendizaje esperado..."></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label dark:text-gray-300">Asignatura</label>
+                            <input type="text" id="instAsignatura" class="form-input" placeholder="Ej: Español">
+                        </div>
                     </div>
                     
-                    <div>
-                        <label class="form-label">Escala de calificación</label>
-                        <select id="instEscala" class="form-select">
-                            <option value="porcentaje">Porcentaje (0-100%)</option>
-                            <option value="puntos">Puntos (0-100)</option>
-                            <option value="cualitativo">Cualitativo (Insuficiente a Excelente)</option>
-                        </select>
-                    </div>
-                    
-                    <div>
-                        <label class="form-label">Aplicar a grupo</label>
-                        <select id="instGrupo" class="form-select">
-                            <option value="">Sin asignar (plantilla general)</option>
-                        </select>
+                    <!-- Columna derecha -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="form-label dark:text-gray-300">Nivel</label>
+                            <select id="instNivel" class="form-select">
+                                <option value="">Todos los niveles</option>
+                                <option value="primaria">Primaria</option>
+                                <option value="secundaria">Secundaria</option>
+                                <option value="diversificada">Diversificada</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label dark:text-gray-300">Puntuación total</label>
+                            <input type="number" id="instPuntuacionTotal" class="form-input" value="100" min="1" max="1000">
+                        </div>
+                        
+                        <div>
+                            <label class="form-label dark:text-gray-300">Escala de calificación</label>
+                            <select id="instEscala" class="form-select">
+                                <option value="1-3">1-3 (Inicial - Intermedio - Avanzado)</option>
+                                <option value="1-4">1-4 (Deficiente - Regular - Bueno - Excelente)</option>
+                                <option value="1-5">1-5 (Muy deficiente - Deficiente - Regular - Bueno - Excelente)</option>
+                                <option value="si-no">Sí / No</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label dark:text-gray-300">Aplicar a grupo</label>
+                            <select id="instGrupo" class="form-select">
+                                <option value="">Sin asignar (plantilla general)</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Área de indicadores/criterios (dinámica según tipo) -->
-            <div class="mt-6 border-t pt-6">
-                <h4 class="font-semibold mb-4">Indicadores / Criterios de evaluación</h4>
-                
-                <div id="indicadoresContainer" class="space-y-4">
-                    <!-- Se llenará dinámicamente según el tipo -->
+            
+            <!-- Pestaña: Contenido del Instrumento -->
+            <div id="pestanaContenido" class="pestana-instrumento hidden">
+                <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                    <p class="text-sm text-blue-800 dark:text-blue-200">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Complete los indicadores y criterios según el tipo de instrumento seleccionado.
+                    </p>
                 </div>
                 
-                <button type="button" onclick="agregarIndicador()" class="btn-secondary mt-4">
-                    <i class="fas fa-plus"></i> Agregar Indicador
-                </button>
+                <div id="contenedorIndicadores" class="space-y-4">
+                    <!-- Se llena dinámicamente según el tipo -->
+                </div>
+                
+                <div class="mt-4 flex justify-between">
+                    <button type="button" onclick="agregarFilaInstrumento()" class="btn-secondary" id="btnAgregarFila">
+                        <i class="fas fa-plus"></i> Agregar
+                    </button>
+                    
+                    <div class="text-sm text-gray-600 dark:text-gray-400" id="infoIndicadores">
+                        Total indicadores: <span id="totalIndicadores">0</span>
+                    </div>
+                </div>
             </div>
-
-            <!-- Área de vista previa -->
-            <div class="mt-6 border-t pt-6">
-                <h4 class="font-semibold mb-4">Vista Previa</h4>
-                <div id="vistaPreviaInstrumento" class="p-4 bg-gray-50 rounded-lg">
-                    <!-- Vista previa dinámica -->
+            
+            <!-- Pestaña: Vista Previa MEP -->
+            <div id="pestanaVista" class="pestana-instrumento hidden">
+                <div class="border rounded-lg p-6 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                    <!-- Parte Administrativa -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-700 dark:text-gray-300 mb-2">PARTE ADMINISTRATIVA</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="dark:text-gray-300"><span class="font-medium">Centro Educativo:</span> <span id="previewCentro">_________________</span></p>
+                                <p class="dark:text-gray-300"><span class="font-medium">Asignatura:</span> <span id="previewAsignatura">_________________</span></p>
+                                <p class="dark:text-gray-300"><span class="font-medium">Docente:</span> <span id="previewDocente">_________________</span></p>
+                            </div>
+                            <div>
+                                <p class="dark:text-gray-300"><span class="font-medium">Periodo:</span> <span id="previewPeriodo">_________________</span></p>
+                                <p class="dark:text-gray-300"><span class="font-medium">Nivel:</span> <span id="previewNivel">_________________</span></p>
+                                <p class="dark:text-gray-300"><span class="font-medium">Fecha:</span> <span id="previewFecha">_________________</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Parte Técnica -->
+                    <div>
+                        <h4 class="font-bold text-gray-700 dark:text-gray-300 mb-2">PARTE TÉCNICA</h4>
+                        <p class="text-sm mb-4 dark:text-gray-300"><span class="font-medium">Aprendizaje:</span> <span id="previewAprendizaje">_________________</span></p>
+                        
+                        <div id="previewInstrumento" class="mt-4">
+                            <!-- Se llena dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Instrucciones según MEP -->
+                <div class="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900 rounded-lg">
+                    <h5 class="font-semibold mb-2 dark:text-yellow-200">Instrucciones generales (MEP):</h5>
+                    <ul class="list-disc pl-5 text-sm space-y-1 dark:text-yellow-200">
+                        <li>Lea detenidamente cada indicador antes de comenzar.</li>
+                        <li>Trabaje de manera ordenada y en silencio.</li>
+                        <li>Utilice los recursos y materiales autorizados por el docente.</li>
+                        <li>La resolución es de manera individual.</li>
+                        <li>Consulte al docente si tiene dudas sobre los criterios de evaluación.</li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="mt-6 flex justify-end gap-3">
+            <!-- Botones de acción -->
+            <div class="mt-6 flex justify-end gap-3 border-t dark:border-gray-700 pt-4">
                 <button onclick="cerrarModal('instrumentoModal')" class="btn-secondary">Cancelar</button>
-                <button onclick="guardarInstrumento()" class="btn-primary">Guardar Instrumento</button>
-                <button onclick="probarInstrumento()" class="btn-secondary">Vista Previa</button>
+                <button onclick="guardarInstrumentoMEP()" class="btn-primary">
+                    <i class="fas fa-save"></i> Guardar Instrumento
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Modal Ver Instrumento -->
     <div id="verInstrumentoModal" class="modal">
-        <div class="modal-content max-w-4xl">
-            <h3 class="text-lg font-bold mb-4" id="verInstrumentoTitulo">Vista de Instrumento</h3>
+        <div class="modal-content max-w-6xl">
+            <h3 class="text-lg font-bold mb-4 dark:text-white" id="verInstrumentoTitulo">Instrumento de Evaluación - MEP</h3>
             
             <div id="verInstrumentoContenido" class="space-y-6">
                 <!-- Se llena dinámicamente -->
             </div>
             
-            <div class="mt-6 flex justify-end gap-3">
+            <div class="mt-6 flex justify-end gap-3 border-t dark:border-gray-700 pt-4">
                 <button onclick="cerrarModal('verInstrumentoModal')" class="btn-secondary">Cerrar</button>
                 <button onclick="editarInstrumentoDesdeVer()" class="btn-primary">Editar</button>
                 <button onclick="exportarInstrumentoPDF()" class="btn-secondary">Exportar PDF</button>
+                <button onclick="duplicarInstrumento(actualInstrumentoId)" class="btn-secondary">Duplicar</button>
             </div>
         </div>
     </div>
@@ -1242,7 +1520,7 @@
     <!-- Modal Alertas -->
     <div id="alertasModal" class="modal">
         <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4 flex items-center">
+            <h3 class="text-lg font-bold mb-4 flex items-center dark:text-white">
                 <i class="fas fa-bell mr-2 text-yellow-500"></i>
                 Alertas Tempranas
             </h3>
@@ -1290,10 +1568,11 @@
         let grupoEnEdicion = null;
         let estudianteEnEdicion = null;
         let instrumentoEnEdicion = null;
+        let actualInstrumentoId = null;
+        let pestanaActiva = 'basicos';
 
         // ==================== PLANTILLAS MEP ====================
         const plantillasMEP = {
-            // PRIMARIA
             primaria_academica: [
                 { nombre: 'Trabajo Cotidiano', porcentaje: 50, activo: true, minimo: null },
                 { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
@@ -1317,7 +1596,6 @@
                 { nombre: 'Tareas', porcentaje: 25, activo: true, minimo: null },
                 { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
             ],
-            // SECUNDARIA
             secundaria_academica: [
                 { nombre: 'Trabajo Cotidiano', porcentaje: 45, activo: true, minimo: null },
                 { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
@@ -1330,7 +1608,6 @@
                 { nombre: 'Proyecto', porcentaje: 40, activo: true, minimo: 1 },
                 { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
             ],
-            // DIVERSIFICADA
             diversificada_academica: [
                 { nombre: 'Trabajo Cotidiano', porcentaje: 35, activo: true, minimo: null },
                 { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
@@ -1377,18 +1654,19 @@
             overlay.classList.remove('active');
         }
 
-        // ==================== MODO OSCURO ====================
+        // ==================== MODO OSCURO CORREGIDO ====================
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
+            
             const icon = document.getElementById('darkModeIcon');
             const text = document.getElementById('darkModeText');
             
             if (document.documentElement.classList.contains('dark')) {
-                icon.className = 'fas fa-sun w-6';
+                icon.className = 'fas fa-sun w-6 text-gray-600 dark:text-gray-400';
                 text.textContent = 'Modo Claro';
                 localStorage.setItem('mep_darkMode', 'true');
             } else {
-                icon.className = 'fas fa-moon w-6';
+                icon.className = 'fas fa-moon w-6 text-gray-600 dark:text-gray-400';
                 text.textContent = 'Modo Oscuro';
                 localStorage.setItem('mep_darkMode', 'false');
             }
@@ -1436,7 +1714,7 @@
                 cargarInstitucionesSelect('actaInstitucion');
             } else if (tabId === 'instrumentos') {
                 cargarFiltrosInstrumentos();
-                renderizarInstrumentos();
+                renderizarInstrumentosMEP();
             } else if (tabId === 'bitacora') {
                 renderizarBitacora();
             }
@@ -1505,43 +1783,6 @@
             document.getElementById('estudianteModal').classList.add('active');
         }
 
-        function abrirModalInstrumento(instrumentoId = null) {
-            cargarGruposSelect('instGrupo');
-            
-            if (instrumentoId) {
-                const instrumento = instrumentos.find(i => i.id === instrumentoId);
-                if (instrumento) {
-                    instrumentoEnEdicion = instrumentoId;
-                    document.getElementById('instrumentoModalTitulo').textContent = 'Editar Instrumento';
-                    
-                    document.getElementById('instTipo').value = instrumento.tipo;
-                    document.getElementById('instNombre').value = instrumento.nombre;
-                    document.getElementById('instAsignatura').value = instrumento.asignatura || '';
-                    document.getElementById('instNivel').value = instrumento.nivel || '';
-                    document.getElementById('instPuntuacionTotal').value = instrumento.puntuacionTotal || 100;
-                    document.getElementById('instEscala').value = instrumento.escala || 'porcentaje';
-                    
-                    // Cargar indicadores
-                    cargarIndicadoresDesdeInstrumento(instrumento);
-                }
-            } else {
-                instrumentoEnEdicion = null;
-                document.getElementById('instrumentoModalTitulo').textContent = 'Crear Instrumento de Evaluación';
-                document.getElementById('instTipo').value = 'rubrica';
-                document.getElementById('instNombre').value = '';
-                document.getElementById('instAsignatura').value = '';
-                document.getElementById('instNivel').value = '';
-                document.getElementById('instPuntuacionTotal').value = '100';
-                document.getElementById('instEscala').value = 'porcentaje';
-                
-                // Inicializar con un indicador
-                inicializarIndicadoresPorTipo('rubrica');
-            }
-            
-            cambiarTipoInstrumento();
-            document.getElementById('instrumentoModal').classList.add('active');
-        }
-
         function cerrarModal(id) {
             document.getElementById(id).classList.remove('active');
             
@@ -1559,7 +1800,7 @@
             }
             if (id === 'instrumentoModal') {
                 instrumentoEnEdicion = null;
-                document.querySelector('#instrumentoModal h3').textContent = 'Crear Instrumento de Evaluación';
+                document.querySelector('#instrumentoModal h3').textContent = 'Crear Instrumento de Evaluación - MEP';
             }
         }
 
@@ -1568,7 +1809,7 @@
             const container = document.getElementById('institucionesLista');
             
             if (!instituciones.length) {
-                container.innerHTML = '<p class="text-gray-500 text-center py-8">No hay instituciones registradas. ¡Crea tu primera institución!</p>';
+                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-8">No hay instituciones registradas. ¡Crea tu primera institución!</p>';
                 return;
             }
             
@@ -1580,14 +1821,14 @@
                 }).length;
                 
                 return `
-                    <div class="p-4 border rounded-lg bg-white hover:shadow-md transition">
+                    <div class="p-4 border rounded-lg bg-white dark:bg-gray-800 hover:shadow-md transition">
                         <div class="flex justify-between items-start">
                             <div>
-                                <h4 class="font-bold text-lg">${inst.nombre}</h4>
-                                <p class="text-sm text-gray-600">${inst.codigo ? `Código: ${inst.codigo} | ` : ''}Modalidad: ${inst.modalidad}</p>
+                                <h4 class="font-bold text-lg dark:text-white">${inst.nombre}</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">${inst.codigo ? `Código: ${inst.codigo} | ` : ''}Modalidad: ${inst.modalidad}</p>
                                 <div class="flex gap-4 mt-2 text-sm">
-                                    <span><i class="fas fa-users text-blue-600 mr-1"></i> ${gruposCount} grupos</span>
-                                    <span><i class="fas fa-user-graduate text-green-600 mr-1"></i> ${estudiantesCount} estudiantes</span>
+                                    <span class="dark:text-gray-300"><i class="fas fa-users text-blue-600 mr-1"></i> ${gruposCount} grupos</span>
+                                    <span class="dark:text-gray-300"><i class="fas fa-user-graduate text-green-600 mr-1"></i> ${estudiantesCount} estudiantes</span>
                                 </div>
                             </div>
                             <div class="flex gap-2">
@@ -1716,7 +1957,7 @@
             }
             
             if (!gruposFiltrados.length) {
-                container.innerHTML = '<p class="text-gray-500 text-center py-4">No hay grupos para mostrar</p>';
+                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center py-4">No hay grupos para mostrar</p>';
                 return;
             }
             
@@ -1726,13 +1967,13 @@
                 const tipoNivel = parseInt(grupo.nivel) <= 6 ? 'Primaria' : 'Secundaria';
                 
                 return `
-                    <div class="p-4 border rounded-lg bg-gray-50">
+                    <div class="p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
                         <div class="flex justify-between items-start">
                             <div>
-                                <h4 class="font-bold">${grupo.nombre}</h4>
-                                <p class="text-sm text-gray-600">${institucion ? institucion.nombre : 'Institución no encontrada'} • ${tipoNivel} • Nivel ${grupo.nivel}</p>
-                                ${grupo.asignaturas ? `<p class="text-xs text-gray-500 mt-1">Asignaturas: ${grupo.asignaturas}</p>` : ''}
-                                <p class="text-sm mt-2"><i class="fas fa-user-graduate mr-1"></i> ${estudiantesCount} estudiantes</p>
+                                <h4 class="font-bold dark:text-white">${grupo.nombre}</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">${institucion ? institucion.nombre : 'Institución no encontrada'} • ${tipoNivel} • Nivel ${grupo.nivel}</p>
+                                ${grupo.asignaturas ? `<p class="text-xs text-gray-500 dark:text-gray-500 mt-1">Asignaturas: ${grupo.asignaturas}</p>` : ''}
+                                <p class="text-sm mt-2 dark:text-gray-300"><i class="fas fa-user-graduate mr-1"></i> ${estudiantesCount} estudiantes</p>
                             </div>
                             <div class="flex gap-2">
                                 <button onclick="editarGrupo('${grupo.id}')" class="text-blue-600 hover:text-blue-800">
@@ -1847,7 +2088,7 @@
             const grupoId = document.getElementById('filtroGrupoEstudiantes').value;
             
             if (!grupoId) {
-                document.getElementById('estudiantesTabla').innerHTML = '<tr><td colspan="5" class="text-center py-4">Seleccione un grupo</td></tr>';
+                document.getElementById('estudiantesTabla').innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-400">Seleccione un grupo</td></tr>';
                 return;
             }
             
@@ -1857,30 +2098,30 @@
             const tbody = document.getElementById('estudiantesTabla');
             
             if (!estudiantesFiltrados.length) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No hay estudiantes en este grupo</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-400">No hay estudiantes en este grupo</td></tr>';
                 return;
             }
             
             tbody.innerHTML = estudiantesFiltrados.map((e, i) => {
-                let badgeClass = 'bg-gray-100';
+                let badgeClass = 'bg-gray-100 dark:bg-gray-700 dark:text-gray-300';
                 let badgeText = 'Regular';
                 
                 if (e.condicion === 'acs') {
-                    badgeClass = 'bg-purple-100 text-purple-800';
+                    badgeClass = 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
                     badgeText = 'ACS';
                 } else if (e.condicion === 'ns') {
-                    badgeClass = 'bg-yellow-100 text-yellow-800';
+                    badgeClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
                     badgeText = 'No Signif.';
                 } else if (e.condicion === 'acceso') {
-                    badgeClass = 'bg-blue-100 text-blue-800';
+                    badgeClass = 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
                     badgeText = 'Acceso';
                 }
                 
                 return `
                     <tr>
-                        <td>${e.numero || i+1}</td>
-                        <td>${e.nombre}</td>
-                        <td>${e.telefono || '-'}</td>
+                        <td class="dark:text-gray-300">${e.numero || i+1}</td>
+                        <td class="dark:text-gray-300">${e.nombre}</td>
+                        <td class="dark:text-gray-300">${e.telefono || '-'}</td>
                         <td>
                             <span class="badge ${badgeClass}">${badgeText}</span>
                         </td>
@@ -2074,22 +2315,22 @@
                 const minimo = compExistente ? compExistente.minimo : null;
                 
                 html += `
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                         <div class="flex items-center gap-4">
                             <input type="checkbox" id="comp_${nombre}" 
                                 ${activo ? 'checked' : ''} 
                                 onchange="toggleComponente('${nombre}')"
                                 class="w-5 h-5">
-                            <label for="comp_${nombre}" class="font-medium">${nombre}</label>
-                            ${minimo ? `<span class="text-xs text-gray-500">(mínimo ${minimo})</span>` : ''}
+                            <label for="comp_${nombre}" class="font-medium dark:text-gray-300">${nombre}</label>
+                            ${minimo ? `<span class="text-xs text-gray-500 dark:text-gray-400">(mínimo ${minimo})</span>` : ''}
                         </div>
                         <div class="flex items-center gap-2">
                             <input type="number" id="pct_${nombre}" 
                                 value="${porcentaje}" 
                                 onchange="actualizarPorcentaje('${nombre}')"
-                                class="w-20 px-2 py-1 border rounded text-center"
+                                class="w-20 px-2 py-1 border rounded text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                 ${!activo ? 'disabled' : ''}>
-                            <span class="text-sm">%</span>
+                            <span class="text-sm dark:text-gray-300">%</span>
                         </div>
                     </div>
                 `;
@@ -2237,7 +2478,7 @@
             const container = document.getElementById('componentesLista');
             
             if (!grupoId || !asignatura) {
-                container.innerHTML = '<span class="text-sm text-gray-500">Seleccione grupo y asignatura</span>';
+                container.innerHTML = '<span class="text-sm text-gray-500 dark:text-gray-400">Seleccione grupo y asignatura</span>';
                 return;
             }
             
@@ -2249,7 +2490,7 @@
                 html += `<span class="component-chip active">${comp.nombre} (${comp.porcentaje}%)</span>`;
             });
             
-            container.innerHTML = html || '<span class="text-sm text-gray-500">No hay configuración para esta asignatura</span>';
+            container.innerHTML = html || '<span class="text-sm text-gray-500 dark:text-gray-400">No hay configuración para esta asignatura</span>';
             
             return componentes;
         }
@@ -2279,29 +2520,29 @@
             const notasKey = `${grupoId}_${periodo}_${asignatura}`;
             const notasGrupo = notas[notasKey] || {};
             
-            let headerHtml = '<tr><th>Estudiante</th><th>Condición</th>';
+            let headerHtml = '<tr><th class="dark:text-white">Estudiante</th><th class="dark:text-white">Condición</th>';
             componentes.forEach(comp => {
-                headerHtml += `<th class="text-center">${comp.nombre} (${comp.porcentaje}%)</th>`;
+                headerHtml += `<th class="text-center dark:text-white">${comp.nombre} (${comp.porcentaje}%)</th>`;
             });
-            headerHtml += '<th class="text-center font-bold">Prom.</th></tr>';
+            headerHtml += '<th class="text-center font-bold dark:text-white">Prom.</th></tr>';
             document.getElementById('evalTableHeader').innerHTML = headerHtml;
             
             let tbody = '', sumaPromedios = 0;
             
             estudiantesGrupo.sort((a, b) => (a.numero || 0) - (b.numero || 0)).forEach(est => {
                 const notaEst = notasGrupo[est.id] || {};
-                let row = `<tr><td class="font-medium">${est.nombre}</td>`;
+                let row = `<tr><td class="font-medium dark:text-gray-300">${est.nombre}</td>`;
                 
-                let badgeClass = 'bg-gray-100';
+                let badgeClass = 'bg-gray-100 dark:bg-gray-700 dark:text-gray-300';
                 let badgeText = 'Regular';
                 if (est.condicion === 'acs') {
-                    badgeClass = 'bg-purple-100 text-purple-800';
+                    badgeClass = 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
                     badgeText = 'ACS';
                 } else if (est.condicion === 'ns') {
-                    badgeClass = 'bg-yellow-100 text-yellow-800';
+                    badgeClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
                     badgeText = 'No Signif.';
                 } else if (est.condicion === 'acceso') {
-                    badgeClass = 'bg-blue-100 text-blue-800';
+                    badgeClass = 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
                     badgeText = 'Acceso';
                 }
                 
@@ -2311,7 +2552,7 @@
                 
                 componentes.forEach(comp => {
                     const valor = notaEst[comp.nombre] || '';
-                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded text-center" value="${valor}" data-est="${est.id}" data-campo="${comp.nombre}" data-porcentaje="${comp.porcentaje}" onchange="actualizarNota(this)"></td>`;
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded text-center dark:bg-gray-700 dark:border-gray-600 dark:text-white" value="${valor}" data-est="${est.id}" data-campo="${comp.nombre}" data-porcentaje="${comp.porcentaje}" onchange="actualizarNota(this)"></td>`;
                     
                     if (valor) {
                         sumaPonderada += parseFloat(valor) * (comp.porcentaje / 100);
@@ -2320,7 +2561,7 @@
                 
                 sumaPromedios += sumaPonderada;
                 
-                row += `<td class="font-bold text-center" id="prom_${est.id}">${sumaPonderada ? sumaPonderada.toFixed(2) : '-'}</td></tr>`;
+                row += `<td class="font-bold text-center dark:text-white" id="prom_${est.id}">${sumaPonderada ? sumaPonderada.toFixed(2) : '-'}</td></tr>`;
                 tbody += row;
             });
             
@@ -2379,7 +2620,7 @@
             Utils.mostrarToast('Notas guardadas correctamente');
         }
 
-        // ==================== INSTRUMENTOS (NUEVO - COMPLETAMENTE FUNCIONAL) ====================
+        // ==================== INSTRUMENTOS - VERSIÓN MEP ====================
         function cargarFiltrosInstrumentos() {
             const selectAsig = document.getElementById('filtroInstrumentoAsignatura');
             const asignaturas = new Set();
@@ -2399,232 +2640,482 @@
                 sortedAsignaturas.map(a => `<option value="${a}">${a}</option>`).join('');
         }
 
-        function inicializarIndicadoresPorTipo(tipo) {
-            const container = document.getElementById('indicadoresContainer');
+        function cambiarPestanaInstrumento(pestana) {
+            pestanaActiva = pestana;
             
-            if (tipo === 'rubrica') {
-                container.innerHTML = `
-                    <div class="rubrica-fila font-semibold">
-                        <div>Indicador</div>
-                        <div class="text-center">Excelente (4)</div>
-                        <div class="text-center">Bueno (3)</div>
-                        <div class="text-center">Suficiente (2)</div>
-                        <div class="text-center">Insuficiente (1)</div>
-                    </div>
-                    <div id="rubrica-items" class="space-y-2">
-                        <!-- Se agregarán dinámicamente -->
-                    </div>
-                `;
-                agregarFilaRubrica();
-            } else if (tipo === 'cotejo') {
-                container.innerHTML = `
-                    <div id="cotejo-items" class="space-y-2">
-                        <div class="cotejo-item">
-                            <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador 1">
-                            <label class="flex items-center gap-1">
-                                <input type="checkbox" class="w-4 h-4" checked> Cumple
-                            </label>
-                            <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
-                        </div>
-                    </div>
-                `;
-            } else if (tipo === 'escala') {
-                container.innerHTML = `
-                    <div id="escala-items" class="space-y-2">
-                        <div class="flex gap-2">
-                            <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador 1">
-                            <select class="form-select w-24">
-                                <option>1-3</option>
-                                <option>1-4</option>
-                                <option>1-5</option>
-                            </select>
-                            <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        function agregarFilaRubrica() {
-            const container = document.getElementById('rubrica-items');
-            const num = container.children.length + 1;
-            const div = document.createElement('div');
-            div.className = 'rubrica-fila';
-            div.innerHTML = `
-                <input type="text" class="indicador-input form-input" placeholder="Indicador ${num}">
-                <input type="text" class="form-input text-center" placeholder="Descripción">
-                <input type="text" class="form-input text-center" placeholder="Descripción">
-                <input type="text" class="form-input text-center" placeholder="Descripción">
-                <input type="text" class="form-input text-center" placeholder="Descripción">
-                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2 ml-2">-</button>
-            `;
-            container.appendChild(div);
-        }
-
-        function agregarIndicador() {
-            const tipo = document.getElementById('instTipo').value;
+            document.querySelectorAll('.pestana-instrumento').forEach(p => p.classList.add('hidden'));
+            document.getElementById(`pestana${pestana.charAt(0).toUpperCase() + pestana.slice(1)}`).classList.remove('hidden');
             
-            if (tipo === 'rubrica') {
-                agregarFilaRubrica();
-            } else if (tipo === 'cotejo') {
-                const container = document.getElementById('cotejo-items');
-                const num = container.children.length + 1;
-                const div = document.createElement('div');
-                div.className = 'cotejo-item';
-                div.innerHTML = `
-                    <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador ${num}">
-                    <label class="flex items-center gap-1">
-                        <input type="checkbox" class="w-4 h-4" checked> Cumple
-                    </label>
-                    <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
-                `;
-                container.appendChild(div);
-            } else if (tipo === 'escala') {
-                const container = document.getElementById('escala-items');
-                const num = container.children.length + 1;
-                const div = document.createElement('div');
-                div.className = 'flex gap-2';
-                div.innerHTML = `
-                    <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador ${num}">
-                    <select class="form-select w-24">
-                        <option>1-3</option>
-                        <option>1-4</option>
-                        <option>1-5</option>
-                    </select>
-                    <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
-                `;
-                container.appendChild(div);
-            }
-            
-            actualizarVistaPrevia();
-        }
-
-        function cambiarTipoInstrumento() {
-            const tipo = document.getElementById('instTipo').value;
-            inicializarIndicadoresPorTipo(tipo);
-            actualizarVistaPrevia();
-        }
-
-        function cargarIndicadoresDesdeInstrumento(instrumento) {
-            const tipo = instrumento.tipo;
-            const container = document.getElementById('indicadoresContainer');
-            
-            if (tipo === 'rubrica' && instrumento.indicadores) {
-                container.innerHTML = `
-                    <div class="rubrica-fila font-semibold">
-                        <div>Indicador</div>
-                        <div class="text-center">Excelente (4)</div>
-                        <div class="text-center">Bueno (3)</div>
-                        <div class="text-center">Suficiente (2)</div>
-                        <div class="text-center">Insuficiente (1)</div>
-                    </div>
-                    <div id="rubrica-items" class="space-y-2">
-                        ${instrumento.indicadores.map((ind, i) => `
-                            <div class="rubrica-fila">
-                                <input type="text" class="indicador-input form-input" value="${ind.text || ''}" placeholder="Indicador ${i+1}">
-                                <input type="text" class="form-input text-center" value="${ind.excelente || ''}" placeholder="Descripción">
-                                <input type="text" class="form-input text-center" value="${ind.bueno || ''}" placeholder="Descripción">
-                                <input type="text" class="form-input text-center" value="${ind.suficiente || ''}" placeholder="Descripción">
-                                <input type="text" class="form-input text-center" value="${ind.insuficiente || ''}" placeholder="Descripción">
-                                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2 ml-2">-</button>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } else if (tipo === 'cotejo' && instrumento.indicadores) {
-                container.innerHTML = `
-                    <div id="cotejo-items" class="space-y-2">
-                        ${instrumento.indicadores.map((ind, i) => `
-                            <div class="cotejo-item">
-                                <input type="text" class="indicador-input form-input flex-1" value="${ind.text || ''}" placeholder="Indicador ${i+1}">
-                                <label class="flex items-center gap-1">
-                                    <input type="checkbox" class="w-4 h-4" ${ind.cumple ? 'checked' : ''}> Cumple
-                                </label>
-                                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } else if (tipo === 'escala' && instrumento.indicadores) {
-                container.innerHTML = `
-                    <div id="escala-items" class="space-y-2">
-                        ${instrumento.indicadores.map((ind, i) => `
-                            <div class="flex gap-2">
-                                <input type="text" class="indicador-input form-input flex-1" value="${ind.text || ''}" placeholder="Indicador ${i+1}">
-                                <select class="form-select w-24">
-                                    <option ${ind.escala === '1-3' ? 'selected' : ''}>1-3</option>
-                                    <option ${ind.escala === '1-4' ? 'selected' : ''}>1-4</option>
-                                    <option ${ind.escala === '1-5' ? 'selected' : ''}>1-5</option>
-                                </select>
-                                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-        }
-
-        function actualizarVistaPrevia() {
-            const tipo = document.getElementById('instTipo').value;
-            const nombre = document.getElementById('instNombre').value || 'Instrumento sin nombre';
-            const container = document.getElementById('vistaPreviaInstrumento');
-            
-            let html = `<h5 class="font-bold mb-2">${nombre}</h5>`;
-            html += `<p class="text-sm text-gray-600 mb-4">Tipo: ${tipo === 'rubrica' ? 'Rúbrica' : tipo === 'cotejo' ? 'Lista de Cotejo' : 'Escala de Desempeño'}</p>`;
-            
-            if (tipo === 'rubrica') {
-                html += `
-                    <table class="w-full text-sm border-collapse">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="p-2 border">Indicador</th>
-                                <th class="p-2 border">Excelente (4)</th>
-                                <th class="p-2 border">Bueno (3)</th>
-                                <th class="p-2 border">Suficiente (2)</th>
-                                <th class="p-2 border">Insuficiente (1)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-                
-                document.querySelectorAll('#rubrica-items .rubrica-fila').forEach(fila => {
-                    const inputs = fila.querySelectorAll('input');
-                    if (inputs.length >= 5) {
-                        html += `
-                            <tr>
-                                <td class="p-2 border">${inputs[0].value || '...'}</td>
-                                <td class="p-2 border">${inputs[1].value || '...'}</td>
-                                <td class="p-2 border">${inputs[2].value || '...'}</td>
-                                <td class="p-2 border">${inputs[3].value || '...'}</td>
-                                <td class="p-2 border">${inputs[4].value || '...'}</td>
-                            </tr>
-                        `;
+            ['Basicos', 'Contenido', 'Vista'].forEach(p => {
+                const btn = document.getElementById(`pestana${p}Btn`);
+                if (btn) {
+                    if (p.toLowerCase() === pestana) {
+                        btn.className = 'px-4 py-2 font-medium border-b-2 border-blue-600 text-blue-600 dark:text-blue-400';
+                    } else {
+                        btn.className = 'px-4 py-2 font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600';
                     }
-                });
-                
-                html += `</tbody></table>`;
-            } else if (tipo === 'cotejo') {
-                html += `<ul class="list-disc pl-5">`;
-                document.querySelectorAll('#cotejo-items .cotejo-item').forEach(item => {
-                    const input = item.querySelector('.indicador-input');
-                    const checkbox = item.querySelector('input[type="checkbox"]');
-                    html += `<li class="mb-1">${input?.value || '...'} ${checkbox?.checked ? '✅' : '⬜'}</li>`;
-                });
-                html += `</ul>`;
-            } else if (tipo === 'escala') {
-                html += `<ul class="list-disc pl-5">`;
-                document.querySelectorAll('#escala-items .flex').forEach(item => {
-                    const input = item.querySelector('.indicador-input');
-                    const select = item.querySelector('select');
-                    html += `<li class="mb-1">${input?.value || '...'} (Escala ${select?.value || '1-3'})</li>`;
-                });
-                html += `</ul>`;
+                }
+            });
+            
+            if (pestana === 'vista') {
+                actualizarVistaPreviaMEP();
+            }
+        }
+
+        function cambiarTipoInstrumentoMEP() {
+            const tipo = document.getElementById('instTipo').value;
+            const container = document.getElementById('contenedorIndicadores');
+            const btnAgregar = document.getElementById('btnAgregarFila');
+            
+            let html = '';
+            
+            switch(tipo) {
+                case 'rubrica_holistica':
+                    html = `
+                        <div class="space-y-4">
+                            <div class="rubrica-holistica-item dark:border-gray-700">
+                                <h5 class="font-semibold mb-2 dark:text-white">Niveles de desempeño</h5>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="form-label dark:text-gray-300">Avanzado (91-100)</label>
+                                        <textarea class="form-input criterio-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Descripción del desempeño avanzado..."></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="form-label dark:text-gray-300">Intermedio (71-90)</label>
+                                        <textarea class="form-input criterio-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Descripción del desempeño intermedio..."></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="form-label dark:text-gray-300">Inicial (50-70)</label>
+                                        <textarea class="form-input criterio-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Descripción del desempeño inicial..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    btnAgregar.style.display = 'none';
+                    break;
+                    
+                case 'rubrica_analitica':
+                    html = `
+                        <div class="overflow-x-auto">
+                            <div class="rubrica-analitica-grid font-semibold bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                                <div class="dark:text-white">Indicador</div>
+                                <div class="text-center dark:text-white">Avanzado (4)</div>
+                                <div class="text-center dark:text-white">Intermedio (3)</div>
+                                <div class="text-center dark:text-white">Inicial (2)</div>
+                                <div class="text-center dark:text-white">Insuficiente (1)</div>
+                            </div>
+                            <div id="rubrica-analitica-items" class="space-y-2">
+                                <!-- Se agregarán dinámicamente -->
+                            </div>
+                        </div>
+                    `;
+                    btnAgregar.style.display = 'block';
+                    btnAgregar.innerHTML = '<i class="fas fa-plus"></i> Agregar Indicador';
+                    setTimeout(() => agregarFilaRubricaAnalitica(), 100);
+                    break;
+                    
+                case 'escala_numerica':
+                    html = `
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Defina los indicadores y asigne valores numéricos</p>
+                            <div id="escala-numerica-items" class="space-y-2">
+                                <!-- Se agregarán dinámicamente -->
+                            </div>
+                        </div>
+                    `;
+                    btnAgregar.style.display = 'block';
+                    btnAgregar.innerHTML = '<i class="fas fa-plus"></i> Agregar Indicador';
+                    setTimeout(() => agregarFilaEscalaNumerica(), 100);
+                    break;
+                    
+                case 'escala_descriptiva':
+                    html = `
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Defina los niveles descriptivos</p>
+                            <div id="escala-descriptiva-items" class="space-y-2">
+                                <!-- Se agregarán dinámicamente -->
+                            </div>
+                        </div>
+                    `;
+                    btnAgregar.style.display = 'block';
+                    btnAgregar.innerHTML = '<i class="fas fa-plus"></i> Agregar Indicador';
+                    setTimeout(() => agregarFilaEscalaDescriptiva(), 100);
+                    break;
+                    
+                case 'escala_desempeno':
+                    html = `
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Escala de desempeño con niveles graduados</p>
+                            <div id="escala-desempeno-items" class="space-y-2">
+                                <!-- Se agregarán dinámicamente -->
+                            </div>
+                        </div>
+                    `;
+                    btnAgregar.style.display = 'block';
+                    btnAgregar.innerHTML = '<i class="fas fa-plus"></i> Agregar Indicador';
+                    setTimeout(() => agregarFilaEscalaDesempeno(), 100);
+                    break;
+                    
+                case 'lista_cotejo':
+                    html = `
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Lista de cotejo (Sí/No)</p>
+                            <div id="cotejo-items" class="space-y-2">
+                                <!-- Se agregarán dinámicamente -->
+                            </div>
+                        </div>
+                    `;
+                    btnAgregar.style.display = 'block';
+                    btnAgregar.innerHTML = '<i class="fas fa-plus"></i> Agregar Criterio';
+                    setTimeout(() => agregarFilaCotejo(), 100);
+                    break;
+                    
+                case 'registro_desempeno':
+                    html = `
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Registro de desempeño con observaciones</p>
+                            <div id="registro-desempeno-items" class="space-y-2">
+                                <!-- Se agregarán dinámicamente -->
+                            </div>
+                        </div>
+                    `;
+                    btnAgregar.style.display = 'block';
+                    btnAgregar.innerHTML = '<i class="fas fa-plus"></i> Agregar Indicador';
+                    setTimeout(() => agregarFilaRegistroDesempeno(), 100);
+                    break;
+                    
+                case 'registro_anecdotico':
+                    html = `
+                        <div class="anecdotico-form dark:bg-gray-800 dark:border-gray-700">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="form-label dark:text-gray-300">Estudiante</label>
+                                    <input type="text" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" id="anecdoticoEstudiante" placeholder="Nombre del estudiante">
+                                </div>
+                                <div>
+                                    <label class="form-label dark:text-gray-300">Fecha</label>
+                                    <input type="date" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" id="anecdoticoFecha">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label dark:text-gray-300">Hora</label>
+                                <input type="time" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" id="anecdoticoHora">
+                            </div>
+                            <div>
+                                <label class="form-label dark:text-gray-300">Actividad de evaluación</label>
+                                <input type="text" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" id="anecdoticoActividad" placeholder="Actividad en desarrollo">
+                            </div>
+                            <div>
+                                <label class="form-label dark:text-gray-300">Descripción de lo observado</label>
+                                <textarea class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" id="anecdoticoDescripcion" rows="4" placeholder="Describa el hecho, suceso o situación concreta..."></textarea>
+                            </div>
+                            <div>
+                                <label class="form-label dark:text-gray-300">Interpretación / Observaciones</label>
+                                <textarea class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" id="anecdoticoInterpretacion" rows="3" placeholder="Análisis o notas adicionales..."></textarea>
+                            </div>
+                        </div>
+                    `;
+                    btnAgregar.style.display = 'none';
+                    break;
             }
             
             container.innerHTML = html;
         }
 
-        function guardarInstrumento() {
+        function agregarFilaRubricaAnalitica() {
+            const container = document.getElementById('rubrica-analitica-items');
+            const num = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'rubrica-analitica-grid';
+            div.innerHTML = `
+                <input type="text" class="indicador-input form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Indicador ${num}">
+                <input type="text" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio avanzado">
+                <input type="text" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio intermedio">
+                <input type="text" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio inicial">
+                <input type="text" class="form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio insuficiente">
+                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2 ml-2">-</button>
+            `;
+            container.appendChild(div);
+            actualizarTotalIndicadores();
+        }
+
+        function agregarFilaEscalaNumerica() {
+            const container = document.getElementById('escala-numerica-items');
+            const num = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'escala-item';
+            div.innerHTML = `
+                <input type="text" class="indicador-input form-input flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Indicador ${num}">
+                <select class="form-select w-24 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <span class="text-sm dark:text-gray-300">puntos</span>
+                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+            `;
+            container.appendChild(div);
+            actualizarTotalIndicadores();
+        }
+
+        function agregarFilaEscalaDescriptiva() {
+            const container = document.getElementById('escala-descriptiva-items');
+            const num = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'space-y-2 p-3 bg-gray-50 dark:bg-gray-800 rounded';
+            div.innerHTML = `
+                <input type="text" class="indicador-input form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Indicador ${num}">
+                <div class="grid grid-cols-3 gap-2 mt-2">
+                    <textarea class="form-input text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" rows="2" placeholder="Nivel 1 (Inicial)"></textarea>
+                    <textarea class="form-input text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" rows="2" placeholder="Nivel 2 (Intermedio)"></textarea>
+                    <textarea class="form-input text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" rows="2" placeholder="Nivel 3 (Avanzado)"></textarea>
+                </div>
+                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2 mt-2">-</button>
+            `;
+            container.appendChild(div);
+            actualizarTotalIndicadores();
+        }
+
+        function agregarFilaEscalaDesempeno() {
+            const container = document.getElementById('escala-desempeno-items');
+            const num = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'space-y-2 p-3 bg-gray-50 dark:bg-gray-800 rounded';
+            div.innerHTML = `
+                <input type="text" class="indicador-input form-input dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Indicador ${num}">
+                <div class="flex gap-4 mt-2">
+                    <div><span class="nivel-desempeno nivel-1">1</span> <input type="text" class="form-input text-sm w-32 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio"></div>
+                    <div><span class="nivel-desempeno nivel-2">2</span> <input type="text" class="form-input text-sm w-32 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio"></div>
+                    <div><span class="nivel-desempeno nivel-3">3</span> <input type="text" class="form-input text-sm w-32 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio"></div>
+                    <div><span class="nivel-desempeno nivel-4">4</span> <input type="text" class="form-input text-sm w-32 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio"></div>
+                </div>
+                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2 mt-2">-</button>
+            `;
+            container.appendChild(div);
+            actualizarTotalIndicadores();
+        }
+
+        function agregarFilaCotejo() {
+            const container = document.getElementById('cotejo-items');
+            const num = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'cotejo-item';
+            div.innerHTML = `
+                <input type="text" class="indicador-input form-input flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Criterio ${num}">
+                <label class="flex items-center gap-1 dark:text-gray-300">
+                    <input type="checkbox" class="w-4 h-4" checked> Cumple
+                </label>
+                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+            `;
+            container.appendChild(div);
+            actualizarTotalIndicadores();
+        }
+
+        function agregarFilaRegistroDesempeno() {
+            const container = document.getElementById('registro-desempeno-items');
+            const num = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'flex gap-2 items-center p-2 bg-gray-50 dark:bg-gray-800 rounded';
+            div.innerHTML = `
+                <input type="text" class="indicador-input form-input flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Indicador ${num}">
+                <select class="form-select w-20 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <option value="si">Sí</option>
+                    <option value="no">No</option>
+                    <option value="en-proceso">En proceso</option>
+                </select>
+                <input type="text" class="form-input flex-1 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Observaciones">
+                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+            `;
+            container.appendChild(div);
+            actualizarTotalIndicadores();
+        }
+
+        function agregarFilaInstrumento() {
+            const tipo = document.getElementById('instTipo').value;
+            
+            switch(tipo) {
+                case 'rubrica_analitica':
+                    agregarFilaRubricaAnalitica();
+                    break;
+                case 'escala_numerica':
+                    agregarFilaEscalaNumerica();
+                    break;
+                case 'escala_descriptiva':
+                    agregarFilaEscalaDescriptiva();
+                    break;
+                case 'escala_desempeno':
+                    agregarFilaEscalaDesempeno();
+                    break;
+                case 'lista_cotejo':
+                    agregarFilaCotejo();
+                    break;
+                case 'registro_desempeno':
+                    agregarFilaRegistroDesempeno();
+                    break;
+            }
+        }
+
+        function actualizarTotalIndicadores() {
+            const inputs = document.querySelectorAll('.indicador-input');
+            document.getElementById('totalIndicadores').textContent = inputs.length;
+        }
+
+        function actualizarVistaPreviaMEP() {
+            const tipo = document.getElementById('instTipo').value;
+            const nombre = document.getElementById('instNombre').value || 'Instrumento sin nombre';
+            const aprendizaje = document.getElementById('instAprendizaje').value || 'No especificado';
+            const asignatura = document.getElementById('instAsignatura').value || '______________';
+            const nivel = document.getElementById('instNivel').value || '______________';
+            
+            document.getElementById('previewAprendizaje').textContent = aprendizaje;
+            document.getElementById('previewAsignatura').textContent = asignatura;
+            document.getElementById('previewNivel').textContent = nivel;
+            document.getElementById('previewFecha').textContent = new Date().toLocaleDateString('es-CR');
+            
+            const container = document.getElementById('previewInstrumento');
+            let html = '';
+            
+            switch(tipo) {
+                case 'rubrica_holistica':
+                    const criterios = document.querySelectorAll('.criterio-input');
+                    html = `
+                        <table class="tabla-indicadores-preview">
+                            <thead>
+                                <tr>
+                                    <th class="dark:bg-gray-800 dark:text-white">Nivel</th>
+                                    <th class="dark:bg-gray-800 dark:text-white">Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="dark:text-gray-300">Avanzado</td>
+                                    <td class="dark:text-gray-300">${criterios[0]?.value || '...'}</td>
+                                </tr>
+                                <tr>
+                                    <td class="dark:text-gray-300">Intermedio</td>
+                                    <td class="dark:text-gray-300">${criterios[1]?.value || '...'}</td>
+                                </tr>
+                                <tr>
+                                    <td class="dark:text-gray-300">Inicial</td>
+                                    <td class="dark:text-gray-300">${criterios[2]?.value || '...'}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    break;
+                    
+                case 'rubrica_analitica':
+                    html = `
+                        <table class="tabla-indicadores-preview">
+                            <thead>
+                                <tr>
+                                    <th class="dark:bg-gray-800 dark:text-white">Indicador</th>
+                                    <th class="dark:bg-gray-800 dark:text-white">Avanzado (4)</th>
+                                    <th class="dark:bg-gray-800 dark:text-white">Intermedio (3)</th>
+                                    <th class="dark:bg-gray-800 dark:text-white">Inicial (2)</th>
+                                    <th class="dark:bg-gray-800 dark:text-white">Insuficiente (1)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    document.querySelectorAll('#rubrica-analitica-items .rubrica-analitica-grid').forEach(fila => {
+                        const inputs = fila.querySelectorAll('input');
+                        if (inputs.length >= 5) {
+                            html += `
+                                <tr>
+                                    <td class="dark:text-gray-300">${inputs[0]?.value || '...'}</td>
+                                    <td class="dark:text-gray-300">${inputs[1]?.value || '...'}</td>
+                                    <td class="dark:text-gray-300">${inputs[2]?.value || '...'}</td>
+                                    <td class="dark:text-gray-300">${inputs[3]?.value || '...'}</td>
+                                    <td class="dark:text-gray-300">${inputs[4]?.value || '...'}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+                    html += `</tbody></table>`;
+                    break;
+                    
+                case 'lista_cotejo':
+                    html = `
+                        <table class="tabla-indicadores-preview">
+                            <thead>
+                                <tr>
+                                    <th class="dark:bg-gray-800 dark:text-white">Criterio</th>
+                                    <th class="text-center dark:bg-gray-800 dark:text-white">Cumple</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    document.querySelectorAll('#cotejo-items .cotejo-item').forEach(item => {
+                        const input = item.querySelector('.indicador-input');
+                        const checkbox = item.querySelector('input[type="checkbox"]');
+                        html += `
+                            <tr>
+                                <td class="dark:text-gray-300">${input?.value || '...'}</td>
+                                <td class="text-center dark:text-gray-300">${checkbox?.checked ? '✅ Sí' : '⬜ No'}</td>
+                            </tr>
+                        `;
+                    });
+                    html += `</tbody></table>`;
+                    break;
+                    
+                case 'escala_desempeno':
+                    html = `
+                        <table class="tabla-indicadores-preview">
+                            <thead>
+                                <tr>
+                                    <th class="dark:bg-gray-800 dark:text-white">Indicador</th>
+                                    <th class="text-center dark:bg-gray-800 dark:text-white">Nivel 1</th>
+                                    <th class="text-center dark:bg-gray-800 dark:text-white">Nivel 2</th>
+                                    <th class="text-center dark:bg-gray-800 dark:text-white">Nivel 3</th>
+                                    <th class="text-center dark:bg-gray-800 dark:text-white">Nivel 4</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    document.querySelectorAll('#escala-desempeno-items .p-3').forEach(item => {
+                        const input = item.querySelector('.indicador-input');
+                        const inputs = item.querySelectorAll('input[type="text"]:not(.indicador-input)');
+                        html += `
+                            <tr>
+                                <td class="dark:text-gray-300">${input?.value || '...'}</td>
+                                <td class="text-center dark:text-gray-300">${inputs[0]?.value || '-'}</td>
+                                <td class="text-center dark:text-gray-300">${inputs[1]?.value || '-'}</td>
+                                <td class="text-center dark:text-gray-300">${inputs[2]?.value || '-'}</td>
+                                <td class="text-center dark:text-gray-300">${inputs[3]?.value || '-'}</td>
+                            </tr>
+                        `;
+                    });
+                    html += `</tbody></table>`;
+                    break;
+                    
+                case 'registro_anecdotico':
+                    html = `
+                        <div class="space-y-3">
+                            <p class="dark:text-gray-300"><span class="font-medium">Estudiante:</span> ${document.getElementById('anecdoticoEstudiante')?.value || '______________'}</p>
+                            <p class="dark:text-gray-300"><span class="font-medium">Fecha:</span> ${document.getElementById('anecdoticoFecha')?.value || '______________'}</p>
+                            <p class="dark:text-gray-300"><span class="font-medium">Hora:</span> ${document.getElementById('anecdoticoHora')?.value || '______________'}</p>
+                            <p class="dark:text-gray-300"><span class="font-medium">Actividad:</span> ${document.getElementById('anecdoticoActividad')?.value || '______________'}</p>
+                            <div class="border-t dark:border-gray-700 pt-2">
+                                <p class="font-medium dark:text-white">Descripción:</p>
+                                <p class="text-sm mt-1 dark:text-gray-300">${document.getElementById('anecdoticoDescripcion')?.value || '______________'}</p>
+                            </div>
+                            <div class="border-t dark:border-gray-700 pt-2">
+                                <p class="font-medium dark:text-white">Interpretación:</p>
+                                <p class="text-sm mt-1 dark:text-gray-300">${document.getElementById('anecdoticoInterpretacion')?.value || '______________'}</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            container.innerHTML = html || '<p class="text-gray-500 dark:text-gray-400">Complete el instrumento para ver la vista previa</p>';
+        }
+
+        function guardarInstrumentoMEP() {
             const nombre = document.getElementById('instNombre').value.trim();
             if (!nombre) {
                 Utils.mostrarToast('Ingrese el nombre del instrumento', 'error');
@@ -2632,6 +3123,7 @@
             }
             
             const tipo = document.getElementById('instTipo').value;
+            const aprendizaje = document.getElementById('instAprendizaje').value;
             const asignatura = document.getElementById('instAsignatura').value.trim();
             const nivel = document.getElementById('instNivel').value;
             const puntuacionTotal = parseInt(document.getElementById('instPuntuacionTotal').value) || 100;
@@ -2639,44 +3131,57 @@
             
             const indicadores = [];
             
-            if (tipo === 'rubrica') {
-                document.querySelectorAll('#rubrica-items .rubrica-fila').forEach(fila => {
-                    const inputs = fila.querySelectorAll('input');
-                    if (inputs.length >= 5 && inputs[0].value.trim()) {
-                        indicadores.push({
-                            text: inputs[0].value.trim(),
-                            excelente: inputs[1].value.trim(),
-                            bueno: inputs[2].value.trim(),
-                            suficiente: inputs[3].value.trim(),
-                            insuficiente: inputs[4].value.trim()
-                        });
-                    }
-                });
-            } else if (tipo === 'cotejo') {
-                document.querySelectorAll('#cotejo-items .cotejo-item').forEach(item => {
-                    const input = item.querySelector('.indicador-input');
-                    const checkbox = item.querySelector('input[type="checkbox"]');
-                    if (input && input.value.trim()) {
-                        indicadores.push({
-                            text: input.value.trim(),
-                            cumple: checkbox.checked
-                        });
-                    }
-                });
-            } else if (tipo === 'escala') {
-                document.querySelectorAll('#escala-items .flex').forEach(item => {
-                    const input = item.querySelector('.indicador-input');
-                    const select = item.querySelector('select');
-                    if (input && input.value.trim()) {
-                        indicadores.push({
-                            text: input.value.trim(),
-                            escala: select ? select.value : '1-3'
-                        });
-                    }
-                });
+            switch(tipo) {
+                case 'rubrica_holistica':
+                    const criterios = document.querySelectorAll('.criterio-input');
+                    indicadores.push({
+                        avanzado: criterios[0]?.value || '',
+                        intermedio: criterios[1]?.value || '',
+                        inicial: criterios[2]?.value || ''
+                    });
+                    break;
+                    
+                case 'rubrica_analitica':
+                    document.querySelectorAll('#rubrica-analitica-items .rubrica-analitica-grid').forEach(fila => {
+                        const inputs = fila.querySelectorAll('input');
+                        if (inputs.length >= 5 && inputs[0].value.trim()) {
+                            indicadores.push({
+                                indicador: inputs[0].value.trim(),
+                                avanzado: inputs[1].value.trim(),
+                                intermedio: inputs[2].value.trim(),
+                                inicial: inputs[3].value.trim(),
+                                insuficiente: inputs[4].value.trim()
+                            });
+                        }
+                    });
+                    break;
+                    
+                case 'lista_cotejo':
+                    document.querySelectorAll('#cotejo-items .cotejo-item').forEach(item => {
+                        const input = item.querySelector('.indicador-input');
+                        const checkbox = item.querySelector('input[type="checkbox"]');
+                        if (input && input.value.trim()) {
+                            indicadores.push({
+                                criterio: input.value.trim(),
+                                cumple: checkbox.checked
+                            });
+                        }
+                    });
+                    break;
+                    
+                case 'registro_anecdotico':
+                    indicadores.push({
+                        estudiante: document.getElementById('anecdoticoEstudiante')?.value || '',
+                        fecha: document.getElementById('anecdoticoFecha')?.value || '',
+                        hora: document.getElementById('anecdoticoHora')?.value || '',
+                        actividad: document.getElementById('anecdoticoActividad')?.value || '',
+                        descripcion: document.getElementById('anecdoticoDescripcion')?.value || '',
+                        interpretacion: document.getElementById('anecdoticoInterpretacion')?.value || ''
+                    });
+                    break;
             }
             
-            if (indicadores.length === 0) {
+            if (indicadores.length === 0 && tipo !== 'registro_anecdotico') {
                 Utils.mostrarToast('Debe agregar al menos un indicador', 'error');
                 return;
             }
@@ -2685,6 +3190,7 @@
                 id: instrumentoEnEdicion || Utils.generarId(),
                 tipo,
                 nombre,
+                aprendizaje,
                 asignatura,
                 nivel,
                 puntuacionTotal,
@@ -2707,71 +3213,52 @@
             DB.set('instrumentos', instrumentos);
             
             cerrarModal('instrumentoModal');
-            renderizarInstrumentos();
+            renderizarInstrumentosMEP();
         }
 
-        function renderizarInstrumentos() {
-            const tipoFiltro = document.getElementById('filtroInstrumentoTipo').value;
-            const asigFiltro = document.getElementById('filtroInstrumentoAsignatura').value;
-            const buscarFiltro = document.getElementById('filtroInstrumentoBuscar').value.toLowerCase();
-            
-            let instrumentosFiltrados = instrumentos;
-            
-            if (tipoFiltro) {
-                instrumentosFiltrados = instrumentosFiltrados.filter(i => i.tipo === tipoFiltro);
-            }
-            
-            if (asigFiltro) {
-                instrumentosFiltrados = instrumentosFiltrados.filter(i => i.asignatura === asigFiltro);
-            }
-            
-            if (buscarFiltro) {
-                instrumentosFiltrados = instrumentosFiltrados.filter(i => 
-                    i.nombre.toLowerCase().includes(buscarFiltro) || 
-                    (i.asignatura && i.asignatura.toLowerCase().includes(buscarFiltro))
-                );
-            }
-            
+        function renderizarInstrumentosMEP() {
             const container = document.getElementById('instrumentosLista');
             
-            if (!instrumentosFiltrados.length) {
-                container.innerHTML = '<p class="text-gray-500 col-span-full text-center py-8">No hay instrumentos que coincidan con los filtros</p>';
+            if (!instrumentos.length) {
+                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center py-8">No hay instrumentos creados. ¡Cree su primer instrumento siguiendo los formatos MEP!</p>';
                 return;
             }
             
-            container.innerHTML = instrumentosFiltrados.map(i => {
-                let tipoIcono = '';
+            container.innerHTML = instrumentos.map(i => {
                 let tipoTexto = '';
+                let tipoClase = '';
                 
-                if (i.tipo === 'rubrica') {
-                    tipoIcono = '📋';
-                    tipoTexto = 'Rúbrica';
-                } else if (i.tipo === 'cotejo') {
-                    tipoIcono = '✅';
-                    tipoTexto = 'Lista de Cotejo';
-                } else {
-                    tipoIcono = '📊';
-                    tipoTexto = 'Escala';
+                switch(i.tipo) {
+                    case 'rubrica_holistica': tipoTexto = 'Rúbrica Holística'; tipoClase = 'tipo-rubrica'; break;
+                    case 'rubrica_analitica': tipoTexto = 'Rúbrica Analítica'; tipoClase = 'tipo-rubrica'; break;
+                    case 'escala_numerica': tipoTexto = 'Escala Numérica'; tipoClase = 'tipo-escala'; break;
+                    case 'escala_descriptiva': tipoTexto = 'Escala Descriptiva'; tipoClase = 'tipo-escala'; break;
+                    case 'escala_desempeno': tipoTexto = 'Escala de Desempeño'; tipoClase = 'tipo-desempeno'; break;
+                    case 'lista_cotejo': tipoTexto = 'Lista de Cotejo'; tipoClase = 'tipo-cotejo'; break;
+                    case 'registro_desempeno': tipoTexto = 'Registro de Desempeño'; tipoClase = 'tipo-desempeno'; break;
+                    case 'registro_anecdotico': tipoTexto = 'Registro Anecdótico'; tipoClase = 'tipo-anecdotico'; break;
                 }
                 
                 return `
-                    <div class="instrumento-card" onclick="verInstrumento('${i.id}')">
-                        <div class="flex justify-between items-start">
-                            <h4 class="font-bold text-lg">${i.nombre}</h4>
-                            <span class="text-2xl">${tipoIcono}</span>
+                    <div class="instrumento-mep-card dark:bg-gray-800 dark:border-gray-700" onclick="verInstrumentoMEP('${i.id}')">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg dark:text-white">${i.nombre}</h4>
+                            <span class="instrumento-tipo-badge ${tipoClase}">${tipoTexto}</span>
                         </div>
-                        <p class="text-sm text-gray-600">${tipoTexto}</p>
-                        ${i.asignatura ? `<p class="text-xs text-gray-500 mt-1">Asignatura: ${i.asignatura}</p>` : ''}
-                        <p class="text-xs mt-2">Indicadores: ${i.indicadores?.length || 0}</p>
-                        <p class="text-xs text-gray-400">Creado: ${new Date(i.fecha).toLocaleDateString()}</p>
+                        ${i.asignatura ? `<p class="text-sm text-gray-600 dark:text-gray-400 mb-1">📚 ${i.asignatura}</p>` : ''}
+                        ${i.aprendizaje ? `<p class="text-xs text-gray-500 dark:text-gray-500 mb-3 line-clamp-2">${i.aprendizaje.substring(0, 100)}${i.aprendizaje.length > 100 ? '...' : ''}</p>` : ''}
+                        <div class="mt-auto pt-3 flex justify-between items-center text-xs text-gray-400 dark:text-gray-500">
+                            <span>📊 ${i.indicadores?.length || 0} indicadores</span>
+                            <span>📅 ${new Date(i.fecha).toLocaleDateString()}</span>
+                        </div>
                         <div class="mt-3 flex gap-2" onclick="event.stopPropagation()">
-                            <button onclick="abrirModalInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200">
+                            <button onclick="abrirModalInstrumentoMEP('${i.id}')" class="text-xs px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-800">
                                 <i class="fas fa-edit"></i> Editar
                             </button>
-                            <button onclick="duplicarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200">
+                            <button onclick="duplicarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded hover:bg-green-200 dark:hover:bg-green-800">
                                 <i class="fas fa-copy"></i> Duplicar
                             </button>
-                            <button onclick="eliminarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
+                            <button onclick="eliminarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 rounded hover:bg-red-200 dark:hover:bg-red-800">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -2781,78 +3268,173 @@
         }
 
         function filtrarInstrumentos() {
-            renderizarInstrumentos();
+            renderizarInstrumentosMEP();
         }
 
-        function verInstrumento(id) {
+        function verInstrumentoMEP(id) {
             const instrumento = instrumentos.find(i => i.id === id);
             if (!instrumento) return;
             
+            actualInstrumentoId = id;
             const container = document.getElementById('verInstrumentoContenido');
             document.getElementById('verInstrumentoTitulo').textContent = instrumento.nombre;
             
+            let tipoTexto = '';
+            switch(instrumento.tipo) {
+                case 'rubrica_holistica': tipoTexto = 'Rúbrica Holística'; break;
+                case 'rubrica_analitica': tipoTexto = 'Rúbrica Analítica'; break;
+                case 'escala_numerica': tipoTexto = 'Escala Numérica'; break;
+                case 'escala_descriptiva': tipoTexto = 'Escala Descriptiva'; break;
+                case 'escala_desempeno': tipoTexto = 'Escala de Desempeño'; break;
+                case 'lista_cotejo': tipoTexto = 'Lista de Cotejo'; break;
+                case 'registro_desempeno': tipoTexto = 'Registro de Desempeño'; break;
+                case 'registro_anecdotico': tipoTexto = 'Registro Anecdótico'; break;
+            }
+            
             let html = `
-                <div class="border-b pb-4">
-                    <p class="text-sm text-gray-600">Tipo: ${instrumento.tipo === 'rubrica' ? 'Rúbrica Analítica' : instrumento.tipo === 'cotejo' ? 'Lista de Cotejo' : 'Escala de Desempeño'}</p>
-                    ${instrumento.asignatura ? `<p class="text-sm text-gray-600">Asignatura: ${instrumento.asignatura}</p>` : ''}
-                    <p class="text-sm text-gray-600">Puntuación total: ${instrumento.puntuacionTotal}</p>
+                <div class="border-b dark:border-gray-700 pb-4">
+                    <div class="flex justify-between items-center">
+                        <span class="instrumento-tipo-badge ${instrumento.tipo.includes('rubrica') ? 'tipo-rubrica' : instrumento.tipo.includes('escala') ? 'tipo-escala' : instrumento.tipo.includes('cotejo') ? 'tipo-cotejo' : 'tipo-desempeno'}">${tipoTexto}</span>
+                    </div>
+                    ${instrumento.asignatura ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-2">📚 Asignatura: ${instrumento.asignatura}</p>` : ''}
+                    ${instrumento.aprendizaje ? `<p class="text-sm mt-2 dark:text-gray-300"><span class="font-medium">Aprendizaje:</span> ${instrumento.aprendizaje}</p>` : ''}
                 </div>
             `;
             
-            if (instrumento.tipo === 'rubrica') {
+            if (instrumento.tipo === 'rubrica_analitica' && instrumento.indicadores) {
                 html += `
-                    <table class="w-full text-sm border-collapse">
+                    <table class="tabla-indicadores-preview">
                         <thead>
-                            <tr class="bg-gray-100">
-                                <th class="p-2 border">Indicador</th>
-                                <th class="p-2 border">Excelente (4)</th>
-                                <th class="p-2 border">Bueno (3)</th>
-                                <th class="p-2 border">Suficiente (2)</th>
-                                <th class="p-2 border">Insuficiente (1)</th>
+                            <tr>
+                                <th class="dark:bg-gray-800 dark:text-white">Indicador</th>
+                                <th class="dark:bg-gray-800 dark:text-white">Avanzado (4)</th>
+                                <th class="dark:bg-gray-800 dark:text-white">Intermedio (3)</th>
+                                <th class="dark:bg-gray-800 dark:text-white">Inicial (2)</th>
+                                <th class="dark:bg-gray-800 dark:text-white">Insuficiente (1)</th>
                             </tr>
                         </thead>
                         <tbody>
+                            ${instrumento.indicadores.map(ind => `
+                                <tr>
+                                    <td class="dark:text-gray-300">${ind.indicador || ''}</td>
+                                    <td class="dark:text-gray-300">${ind.avanzado || ''}</td>
+                                    <td class="dark:text-gray-300">${ind.intermedio || ''}</td>
+                                    <td class="dark:text-gray-300">${ind.inicial || ''}</td>
+                                    <td class="dark:text-gray-300">${ind.insuficiente || ''}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
                 `;
-                
-                instrumento.indicadores.forEach(ind => {
-                    html += `
-                        <tr>
-                            <td class="p-2 border">${ind.text || ''}</td>
-                            <td class="p-2 border">${ind.excelente || ''}</td>
-                            <td class="p-2 border">${ind.bueno || ''}</td>
-                            <td class="p-2 border">${ind.suficiente || ''}</td>
-                            <td class="p-2 border">${ind.insuficiente || ''}</td>
-                        </tr>
-                    `;
-                });
-                
-                html += `</tbody></table>`;
-            } else if (instrumento.tipo === 'cotejo') {
-                html += `<ul class="list-disc pl-5">`;
-                instrumento.indicadores.forEach(ind => {
-                    html += `<li class="mb-2">${ind.text} ${ind.cumple ? '✅' : '⬜'}</li>`;
-                });
-                html += `</ul>`;
-            } else if (instrumento.tipo === 'escala') {
-                html += `<ul class="list-disc pl-5">`;
-                instrumento.indicadores.forEach(ind => {
-                    html += `<li class="mb-2">${ind.text} (Escala ${ind.escala || '1-3'})</li>`;
-                });
-                html += `</ul>`;
+            } else if (instrumento.tipo === 'lista_cotejo') {
+                html += `
+                    <table class="tabla-indicadores-preview">
+                        <thead>
+                            <tr>
+                                <th class="dark:bg-gray-800 dark:text-white">Criterio</th>
+                                <th class="text-center dark:bg-gray-800 dark:text-white">Cumple</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${instrumento.indicadores.map(ind => `
+                                <tr>
+                                    <td class="dark:text-gray-300">${ind.criterio || ''}</td>
+                                    <td class="text-center dark:text-gray-300">${ind.cumple ? '✅ Sí' : '⬜ No'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else if (instrumento.tipo === 'registro_anecdotico') {
+                const datos = instrumento.indicadores[0] || {};
+                html += `
+                    <div class="space-y-3">
+                        <p class="dark:text-gray-300"><span class="font-medium">Estudiante:</span> ${datos.estudiante || '______________'}</p>
+                        <p class="dark:text-gray-300"><span class="font-medium">Fecha:</span> ${datos.fecha || '______________'}</p>
+                        <p class="dark:text-gray-300"><span class="font-medium">Hora:</span> ${datos.hora || '______________'}</p>
+                        <p class="dark:text-gray-300"><span class="font-medium">Actividad:</span> ${datos.actividad || '______________'}</p>
+                        <div class="border-t dark:border-gray-700 pt-2">
+                            <p class="font-medium dark:text-white">Descripción:</p>
+                            <p class="text-sm mt-1 dark:text-gray-300">${datos.descripcion || '______________'}</p>
+                        </div>
+                        <div class="border-t dark:border-gray-700 pt-2">
+                            <p class="font-medium dark:text-white">Interpretación:</p>
+                            <p class="text-sm mt-1 dark:text-gray-300">${datos.interpretacion || '______________'}</p>
+                        </div>
+                    </div>
+                `;
             }
             
             container.innerHTML = html;
-            
             document.getElementById('verInstrumentoModal').classList.add('active');
+        }
+
+        function abrirModalInstrumentoMEP(id = null) {
+            cargarGruposSelect('instGrupo');
+            
+            if (id) {
+                const instrumento = instrumentos.find(i => i.id === id);
+                if (instrumento) {
+                    instrumentoEnEdicion = id;
+                    document.getElementById('instrumentoModalTitulo').textContent = 'Editar Instrumento - MEP';
+                    
+                    document.getElementById('instTipo').value = instrumento.tipo;
+                    document.getElementById('instNombre').value = instrumento.nombre;
+                    document.getElementById('instAprendizaje').value = instrumento.aprendizaje || '';
+                    document.getElementById('instAsignatura').value = instrumento.asignatura || '';
+                    document.getElementById('instNivel').value = instrumento.nivel || '';
+                    document.getElementById('instPuntuacionTotal').value = instrumento.puntuacionTotal || 100;
+                    document.getElementById('instEscala').value = instrumento.escala || '1-3';
+                    
+                    cambiarTipoInstrumentoMEP();
+                    
+                    setTimeout(() => {
+                        // Aquí se cargarían los indicadores guardados según el tipo
+                    }, 200);
+                }
+            } else {
+                instrumentoEnEdicion = null;
+                document.getElementById('instrumentoModalTitulo').textContent = 'Crear Instrumento de Evaluación - MEP';
+                document.getElementById('instTipo').value = 'rubrica_analitica';
+                document.getElementById('instNombre').value = '';
+                document.getElementById('instAprendizaje').value = '';
+                document.getElementById('instAsignatura').value = '';
+                document.getElementById('instNivel').value = '';
+                document.getElementById('instPuntuacionTotal').value = '100';
+                document.getElementById('instEscala').value = '1-3';
+                
+                cambiarTipoInstrumentoMEP();
+            }
+            
+            cambiarPestanaInstrumento('basicos');
+            document.getElementById('instrumentoModal').classList.add('active');
         }
 
         function editarInstrumentoDesdeVer() {
             cerrarModal('verInstrumentoModal');
-            const id = document.getElementById('verInstrumentoTitulo').textContent;
-            const instrumento = instrumentos.find(i => i.nombre === id);
-            if (instrumento) {
-                abrirModalInstrumento(instrumento.id);
+            if (actualInstrumentoId) {
+                abrirModalInstrumentoMEP(actualInstrumentoId);
             }
+        }
+
+        function duplicarInstrumento(id) {
+            const original = instrumentos.find(i => i.id === id);
+            if (!original) return;
+            
+            const copia = { ...original, id: Utils.generarId(), nombre: `${original.nombre} (copia)` };
+            instrumentos.push(copia);
+            DB.set('instrumentos', instrumentos);
+            renderizarInstrumentosMEP();
+            Utils.mostrarToast('Instrumento duplicado');
+        }
+
+        function eliminarInstrumento(id) {
+            if (!Utils.confirmar('¿Eliminar este instrumento?')) return;
+            
+            instrumentos = instrumentos.filter(i => i.id !== id);
+            DB.set('instrumentos', instrumentos);
+            renderizarInstrumentosMEP();
+            Utils.mostrarToast('Instrumento eliminado');
         }
 
         function exportarInstrumentoPDF() {
@@ -2865,35 +3447,28 @@
             
             doc.text(instrumento.nombre, 14, 15);
             doc.setFontSize(10);
-            doc.text(`Tipo: ${instrumento.tipo === 'rubrica' ? 'Rúbrica Analítica' : instrumento.tipo === 'cotejo' ? 'Lista de Cotejo' : 'Escala de Desempeño'}`, 14, 25);
+            doc.text(`Tipo: ${instrumento.tipo}`, 14, 25);
             if (instrumento.asignatura) doc.text(`Asignatura: ${instrumento.asignatura}`, 14, 32);
             
-            if (instrumento.tipo === 'rubrica') {
+            if (instrumento.tipo === 'rubrica_analitica') {
                 const data = instrumento.indicadores.map(ind => [
-                    ind.text || '',
-                    ind.excelente || '',
-                    ind.bueno || '',
-                    ind.suficiente || '',
+                    ind.indicador || '',
+                    ind.avanzado || '',
+                    ind.intermedio || '',
+                    ind.inicial || '',
                     ind.insuficiente || ''
                 ]);
                 
                 doc.autoTable({
-                    head: [['Indicador', 'Excelente (4)', 'Bueno (3)', 'Suficiente (2)', 'Insuficiente (1)']],
+                    head: [['Indicador', 'Avanzado (4)', 'Intermedio (3)', 'Inicial (2)', 'Insuficiente (1)']],
                     body: data,
                     startY: 40,
                     styles: { fontSize: 8 }
                 });
-            } else if (instrumento.tipo === 'cotejo') {
-                const data = instrumento.indicadores.map(ind => [ind.text || '', ind.cumple ? '✅' : '⬜']);
+            } else if (instrumento.tipo === 'lista_cotejo') {
+                const data = instrumento.indicadores.map(ind => [ind.criterio || '', ind.cumple ? 'Sí' : 'No']);
                 doc.autoTable({
-                    head: [['Indicador', 'Cumple']],
-                    body: data,
-                    startY: 40
-                });
-            } else {
-                const data = instrumento.indicadores.map(ind => [ind.text || '', ind.escala || '1-3']);
-                doc.autoTable({
-                    head: [['Indicador', 'Escala']],
+                    head: [['Criterio', 'Cumple']],
                     body: data,
                     startY: 40
                 });
@@ -2901,30 +3476,6 @@
             
             doc.save(`${instrumento.nombre}.pdf`);
             Utils.mostrarToast('Instrumento exportado a PDF');
-        }
-
-        function probarInstrumento() {
-            actualizarVistaPrevia();
-        }
-
-        function duplicarInstrumento(id) {
-            const original = instrumentos.find(i => i.id === id);
-            if (!original) return;
-            
-            const copia = { ...original, id: Utils.generarId(), nombre: `${original.nombre} (copia)` };
-            instrumentos.push(copia);
-            DB.set('instrumentos', instrumentos);
-            renderizarInstrumentos();
-            Utils.mostrarToast('Instrumento duplicado');
-        }
-
-        function eliminarInstrumento(id) {
-            if (!Utils.confirmar('¿Eliminar este instrumento?')) return;
-            
-            instrumentos = instrumentos.filter(i => i.id !== id);
-            DB.set('instrumentos', instrumentos);
-            renderizarInstrumentos();
-            Utils.mostrarToast('Instrumento eliminado');
         }
 
         // ==================== ASISTENCIA ====================
@@ -2960,9 +3511,9 @@
             const [year, month] = mes.split('-').map(Number);
             const daysInMonth = new Date(year, month, 0).getDate();
             
-            let header = '<tr><th class="px-2 py-2 border sticky left-0 bg-gray-50">Estudiante</th><th class="px-2 py-2 border text-center">% Asist.</th>';
+            let header = '<tr><th class="px-2 py-2 border sticky left-0 bg-gray-50 dark:bg-gray-800 dark:text-white">Estudiante</th><th class="px-2 py-2 border text-center dark:bg-gray-800 dark:text-white">% Asist.</th>';
             for (let d = 1; d <= daysInMonth; d++) {
-                header += `<th class="px-2 py-2 border text-center w-8">${d}</th>`;
+                header += `<th class="px-2 py-2 border text-center w-8 dark:bg-gray-800 dark:text-white">${d}</th>`;
             }
             header += '</tr>';
             document.getElementById('asistenciaHeader').innerHTML = header;
@@ -2979,7 +3530,7 @@
                     if (valor === 'P' || valor === 'J') presentes++;
                     total++;
                     diasRow += `<td class="px-2 py-2 border text-center">
-                        <select class="asist-select w-10 text-xs p-1 border rounded" data-est="${est.id}" data-dia="${diaKey}" onchange="actualizarAsistencia(this)">
+                        <select class="asist-select w-10 text-xs p-1 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" data-est="${est.id}" data-dia="${diaKey}" onchange="actualizarAsistencia(this)">
                             <option value="P" ${valor === 'P' ? 'selected' : ''}>P</option>
                             <option value="A" ${valor === 'A' ? 'selected' : ''}>A</option>
                             <option value="J" ${valor === 'J' ? 'selected' : ''}>J</option>
@@ -2988,8 +3539,8 @@
                     </td>`;
                 }
                 const porcentaje = total ? ((presentes / total) * 100).toFixed(1) : 0;
-                tbody += `<tr><td class="px-2 py-2 border sticky left-0 bg-white font-medium">${est.nombre}</td>
-                          <td class="px-2 py-2 border text-center font-bold">${porcentaje}%</td>${diasRow}</tr>`;
+                tbody += `<tr><td class="px-2 py-2 border sticky left-0 bg-white dark:bg-gray-800 font-medium dark:text-white">${est.nombre}</td>
+                          <td class="px-2 py-2 border text-center font-bold dark:text-white">${porcentaje}%</td>${diasRow}</tr>`;
             });
             
             document.getElementById('asistenciaBody').innerHTML = tbody;
@@ -3021,17 +3572,17 @@
             const tbody = document.getElementById('bitacoraTabla');
             
             if (!bitacora.length) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No hay registros</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-400">No hay registros</td></tr>';
                 return;
             }
             
             bitacora.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
             tbody.innerHTML = bitacora.map(e => `
                 <tr>
-                    <td>${Utils.formatearFecha(e.fecha)}</td>
-                    <td>${e.tema}</td>
-                    <td>${e.actividad}</td>
-                    <td>${e.ajustes || '-'}</td>
+                    <td class="dark:text-gray-300">${Utils.formatearFecha(e.fecha)}</td>
+                    <td class="dark:text-gray-300">${e.tema}</td>
+                    <td class="dark:text-gray-300">${e.actividad}</td>
+                    <td class="dark:text-gray-300">${e.ajustes || '-'}</td>
                     <td>
                         <button onclick="eliminarEntradaBitacora('${e.id}')" class="text-red-600 hover:text-red-800">
                             <i class="fas fa-trash"></i>
@@ -3183,31 +3734,31 @@
             
             document.getElementById('reporteHeader').innerHTML = `
                 <tr>
-                    <th>#</th>
-                    <th>Estudiante</th>
-                    <th class="text-center">TC</th>
-                    <th class="text-center">Tareas</th>
-                    <th class="text-center">Pruebas</th>
-                    <th class="text-center">Proyecto</th>
-                    <th class="text-center">Prom.</th>
-                    <th class="text-center">Condición</th>
+                    <th class="dark:text-white">#</th>
+                    <th class="dark:text-white">Estudiante</th>
+                    <th class="text-center dark:text-white">TC</th>
+                    <th class="text-center dark:text-white">Tareas</th>
+                    <th class="text-center dark:text-white">Pruebas</th>
+                    <th class="text-center dark:text-white">Proyecto</th>
+                    <th class="text-center dark:text-white">Prom.</th>
+                    <th class="text-center dark:text-white">Condición</th>
                 </tr>
             `;
             
             document.getElementById('reporteTabla').innerHTML = reportData.map((item, idx) => {
-                let badgeClass = 'bg-green-100 text-green-800';
-                if (item.condicion === 'En riesgo') badgeClass = 'bg-yellow-100 text-yellow-800';
-                else if (item.condicion === 'Reprobado') badgeClass = 'bg-red-100 text-red-800';
+                let badgeClass = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+                if (item.condicion === 'En riesgo') badgeClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
+                else if (item.condicion === 'Reprobado') badgeClass = 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
                 
                 return `
                     <tr>
-                        <td>${idx+1}</td>
-                        <td>${item.nombre}</td>
-                        <td class="text-center">${item.tc}</td>
-                        <td class="text-center">${item.tareas}</td>
-                        <td class="text-center">${item.pruebas}</td>
-                        <td class="text-center">${item.proyecto}</td>
-                        <td class="text-center font-bold">${item.promedio}</td>
+                        <td class="dark:text-gray-300">${idx+1}</td>
+                        <td class="dark:text-gray-300">${item.nombre}</td>
+                        <td class="text-center dark:text-gray-300">${item.tc}</td>
+                        <td class="text-center dark:text-gray-300">${item.tareas}</td>
+                        <td class="text-center dark:text-gray-300">${item.pruebas}</td>
+                        <td class="text-center dark:text-gray-300">${item.proyecto}</td>
+                        <td class="text-center font-bold dark:text-white">${item.promedio}</td>
                         <td class="text-center">
                             <span class="badge ${badgeClass}">${item.condicion}</span>
                         </td>
@@ -3336,19 +3887,19 @@
                 const notaFinal = ((parseFloat(promedioAnual) * 0.5) + (pne * 0.5)).toFixed(2);
                 const condicion = notaFinal >= 65 ? 'Aprobado' : notaFinal >= 50 ? 'Convocatoria' : 'Reprobado';
                 
-                let badgeClass = 'bg-green-100 text-green-800';
-                if (condicion === 'Convocatoria') badgeClass = 'bg-yellow-100 text-yellow-800';
-                else if (condicion === 'Reprobado') badgeClass = 'bg-red-100 text-red-800';
+                let badgeClass = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+                if (condicion === 'Convocatoria') badgeClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
+                else if (condicion === 'Reprobado') badgeClass = 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
                 
                 tbody += `
                     <tr>
-                        <td>${est.nombre}</td>
-                        <td class="text-center">${notasPeriodos.I}</td>
-                        <td class="text-center">${notasPeriodos.II}</td>
-                        <td class="text-center">${notasPeriodos.III}</td>
-                        <td class="text-center font-bold">${promedioAnual}</td>
-                        <td class="text-center">${pne}</td>
-                        <td class="text-center font-bold">${notaFinal}</td>
+                        <td class="dark:text-gray-300">${est.nombre}</td>
+                        <td class="text-center dark:text-gray-300">${notasPeriodos.I}</td>
+                        <td class="text-center dark:text-gray-300">${notasPeriodos.II}</td>
+                        <td class="text-center dark:text-gray-300">${notasPeriodos.III}</td>
+                        <td class="text-center font-bold dark:text-white">${promedioAnual}</td>
+                        <td class="text-center dark:text-gray-300">${pne}</td>
+                        <td class="text-center font-bold dark:text-white">${notaFinal}</td>
                         <td class="text-center">
                             <span class="badge ${badgeClass}">${condicion}</span>
                         </td>
@@ -3493,9 +4044,9 @@
             
             const lista = document.getElementById('alertasLista');
             if (!alertas.length) {
-                lista.innerHTML = '<p class="text-gray-500">No hay alertas</p>';
+                lista.innerHTML = '<p class="text-gray-500 dark:text-gray-400">No hay alertas</p>';
             } else {
-                lista.innerHTML = alertas.map(a => `<div class="p-2 bg-yellow-50 rounded">${a}</div>`).join('');
+                lista.innerHTML = alertas.map(a => `<div class="p-2 bg-yellow-50 dark:bg-yellow-900 dark:text-yellow-200 rounded">${a}</div>`).join('');
             }
             
             document.getElementById('alertasModal').classList.add('active');
@@ -3515,7 +4066,7 @@
             const darkModePreference = localStorage.getItem('mep_darkMode');
             if (darkModePreference === 'true') {
                 document.documentElement.classList.add('dark');
-                document.getElementById('darkModeIcon').className = 'fas fa-sun w-6';
+                document.getElementById('darkModeIcon').className = 'fas fa-sun w-6 text-gray-600 dark:text-gray-400';
                 document.getElementById('darkModeText').textContent = 'Modo Claro';
             }
             
