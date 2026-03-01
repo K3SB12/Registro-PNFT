@@ -898,9 +898,14 @@
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-bold text-gray-800 dark:text-white">Instrumentos de Evaluación - MEP</h3>
-                        <button onclick="abrirModalInstrumentoMEP()" class="btn-primary">
-                            <i class="fas fa-plus"></i> Nuevo Instrumento
-                        </button>
+                        <div class="flex gap-2">
+                            <button onclick="abrirModalGenerarInstrumentoComponentes()" class="btn-primary bg-green-600 hover:bg-green-700">
+                                <i class="fas fa-magic"></i> Generar desde Componentes
+                            </button>
+                            <button onclick="abrirModalInstrumentoMEP()" class="btn-primary">
+                                <i class="fas fa-plus"></i> Nuevo Instrumento Manual
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Filtros -->
@@ -917,6 +922,7 @@
                                 <option value="lista_cotejo">Lista de Cotejo</option>
                                 <option value="registro_desempeno">Registro de Desempeño</option>
                                 <option value="registro_anecdotico">Registro Anecdótico</option>
+                                <option value="autogenerado">Autogenerado (Componentes)</option>
                             </select>
                         </div>
                         <div>
@@ -1330,6 +1336,72 @@
             <div class="mt-6 flex justify-end gap-3">
                 <button onclick="cerrarModal('estudianteModal')" class="btn-secondary">Cancelar</button>
                 <button onclick="guardarEstudiante()" class="btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Generar Instrumento desde Componentes (NUEVO) -->
+    <div id="generarInstrumentoModal" class="modal">
+        <div class="modal-content max-w-4xl">
+            <h3 class="text-lg font-bold mb-4 dark:text-white">Generar Instrumentos desde Componentes de Evaluación</h3>
+            
+            <div class="grid md:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <label class="form-label dark:text-gray-300">Institución</label>
+                    <select id="genInstInstitucion" class="form-select" onchange="cargarGruposGenerarInstrumento()">
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label dark:text-gray-300">Grupo</label>
+                    <select id="genInstGrupo" class="form-select" onchange="cargarAsignaturasGenerarInstrumento()">
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label dark:text-gray-300">Asignatura</label>
+                    <select id="genInstAsignatura" class="form-select" onchange="cargarComponentesParaInstrumento()">
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="componentesInstrumentoPanel" class="hidden">
+                <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                    <h4 class="font-semibold mb-2 dark:text-white">Componentes detectados:</h4>
+                    <div id="componentesDetectadosLista" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label dark:text-gray-300">Tipo de instrumento a generar</label>
+                    <select id="genInstTipo" class="form-select">
+                        <option value="rubrica_analitica">Rúbrica Analítica (recomendado)</option>
+                        <option value="lista_cotejo">Lista de Cotejo</option>
+                        <option value="escala_desempeno">Escala de Desempeño</option>
+                        <option value="registro_desempeno">Registro de Desempeño</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label dark:text-gray-300">Aprendizaje a evaluar</label>
+                    <textarea id="genInstAprendizaje" class="form-input" rows="3" placeholder="Describa el aprendizaje esperado que se evaluará con estos instrumentos..."></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label dark:text-gray-300">Nombre base del instrumento</label>
+                    <input type="text" id="genInstNombreBase" class="form-input" placeholder="Ej: Evaluación de Unidad 1">
+                </div>
+
+                <div class="flex justify-end gap-3">
+                    <button onclick="cerrarModal('generarInstrumentoModal')" class="btn-secondary">Cancelar</button>
+                    <button onclick="generarInstrumentosDesdeComponentes()" class="btn-primary bg-green-600 hover:bg-green-700">
+                        <i class="fas fa-magic"></i> Generar Instrumentos
+                    </button>
+                </div>
+            </div>
+            
+            <div id="sinConfiguracionMsg" class="hidden p-4 bg-yellow-50 dark:bg-yellow-900 rounded-lg text-center">
+                <p class="text-yellow-800 dark:text-yellow-200">No hay configuración de evaluación para esta asignatura. Configure primero los componentes en "Config. Evaluación".</p>
             </div>
         </div>
     </div>
@@ -1815,6 +1887,16 @@
                 instrumentoEnEdicion = null;
                 document.querySelector('#instrumentoModal h3').textContent = 'Crear Instrumento de Evaluación - MEP';
             }
+            if (id === 'generarInstrumentoModal') {
+                // Limpiar campos
+                document.getElementById('genInstInstitucion').value = '';
+                document.getElementById('genInstGrupo').innerHTML = '<option value="">Seleccione...</option>';
+                document.getElementById('genInstAsignatura').innerHTML = '<option value="">Seleccione...</option>';
+                document.getElementById('genInstAprendizaje').value = '';
+                document.getElementById('genInstNombreBase').value = '';
+                document.getElementById('componentesInstrumentoPanel').classList.add('hidden');
+                document.getElementById('sinConfiguracionMsg').classList.add('hidden');
+            }
         }
 
         // ==================== INSTITUCIONES ====================
@@ -1934,7 +2016,7 @@
                 'filtroInstitucionGrupos', 'filtroInstitucionEstudiantes', 
                 'evalInstitucion', 'asistInstitucion', 'reportInstitucion', 
                 'actaInstitucion', 'grupoInstitucion', 'estInstitucion',
-                'configEvalInstitucion'
+                'configEvalInstitucion', 'genInstInstitucion'
             ];
             
             const options = instituciones.map(i => `<option value="${i.id}">${i.nombre}</option>`).join('');
@@ -2641,6 +2723,194 @@
             Utils.mostrarToast('Notas guardadas correctamente');
         }
 
+        // ==================== GENERAR INSTRUMENTOS DESDE COMPONENTES (NUEVO) ====================
+        function abrirModalGenerarInstrumentoComponentes() {
+            cargarInstitucionesSelect('genInstInstitucion');
+            document.getElementById('genInstGrupo').innerHTML = '<option value="">Seleccione...</option>';
+            document.getElementById('genInstAsignatura').innerHTML = '<option value="">Seleccione...</option>';
+            document.getElementById('componentesInstrumentoPanel').classList.add('hidden');
+            document.getElementById('sinConfiguracionMsg').classList.add('hidden');
+            document.getElementById('generarInstrumentoModal').classList.add('active');
+        }
+
+        function cargarGruposGenerarInstrumento() {
+            const institucionId = document.getElementById('genInstInstitucion').value;
+            const selectGrupo = document.getElementById('genInstGrupo');
+            
+            if (!institucionId) {
+                selectGrupo.innerHTML = '<option value="">Seleccione...</option>';
+                return;
+            }
+            
+            const gruposFiltrados = grupos.filter(g => g.institucion === institucionId);
+            selectGrupo.innerHTML = '<option value="">Seleccione...</option>' + 
+                gruposFiltrados.map(g => `<option value="${g.id}">${g.nombre}</option>`).join('');
+        }
+
+        function cargarAsignaturasGenerarInstrumento() {
+            const grupoId = document.getElementById('genInstGrupo').value;
+            const selectAsig = document.getElementById('genInstAsignatura');
+            
+            if (!grupoId) {
+                selectAsig.innerHTML = '<option value="">Seleccione...</option>';
+                return;
+            }
+            
+            const grupo = grupos.find(g => g.id === grupoId);
+            if (!grupo || !grupo.asignaturas) {
+                selectAsig.innerHTML = '<option value="">El grupo no tiene asignaturas definidas</option>';
+                return;
+            }
+            
+            const asignaturas = grupo.asignaturas.split(',').map(a => a.trim());
+            selectAsig.innerHTML = '<option value="">Seleccione...</option>' + 
+                asignaturas.map(a => `<option value="${a}">${a}</option>`).join('');
+        }
+
+        function cargarComponentesParaInstrumento() {
+            const grupoId = document.getElementById('genInstGrupo').value;
+            const asignatura = document.getElementById('genInstAsignatura').value;
+            
+            if (!grupoId || !asignatura) {
+                document.getElementById('componentesInstrumentoPanel').classList.add('hidden');
+                document.getElementById('sinConfiguracionMsg').classList.add('hidden');
+                return;
+            }
+            
+            const configKey = `${grupoId}_${asignatura}`;
+            const componentes = configuracionesEvaluacion[configKey];
+            
+            if (!componentes || componentes.length === 0) {
+                document.getElementById('componentesInstrumentoPanel').classList.add('hidden');
+                document.getElementById('sinConfiguracionMsg').classList.remove('hidden');
+                return;
+            }
+            
+            const lista = document.getElementById('componentesDetectadosLista');
+            lista.innerHTML = componentes.map(c => `
+                <span class="component-chip active">
+                    ${c.nombre} (${c.porcentaje}%)
+                </span>
+            `).join('');
+            
+            // Prellenar nombre base
+            const grupo = grupos.find(g => g.id === grupoId);
+            document.getElementById('genInstNombreBase').value = `${asignatura} - ${grupo ? grupo.nombre : ''}`;
+            
+            document.getElementById('sinConfiguracionMsg').classList.add('hidden');
+            document.getElementById('componentesInstrumentoPanel').classList.remove('hidden');
+        }
+
+        function generarInstrumentosDesdeComponentes() {
+            const grupoId = document.getElementById('genInstGrupo').value;
+            const asignatura = document.getElementById('genInstAsignatura').value;
+            const tipo = document.getElementById('genInstTipo').value;
+            const aprendizaje = document.getElementById('genInstAprendizaje').value.trim();
+            const nombreBase = document.getElementById('genInstNombreBase').value.trim();
+            
+            if (!grupoId || !asignatura) {
+                Utils.mostrarToast('Seleccione grupo y asignatura', 'error');
+                return;
+            }
+            
+            const configKey = `${grupoId}_${asignatura}`;
+            const componentes = configuracionesEvaluacion[configKey];
+            
+            if (!componentes || componentes.length === 0) {
+                Utils.mostrarToast('No hay configuración de componentes para esta asignatura', 'error');
+                return;
+            }
+            
+            // Generar un instrumento por cada componente activo
+            let instrumentosGenerados = 0;
+            
+            componentes.forEach((comp, index) => {
+                if (!comp.activo) return;
+                
+                const instrumento = {
+                    id: Utils.generarId(),
+                    tipo: tipo,
+                    nombre: `${nombreBase} - ${comp.nombre}`,
+                    aprendizaje: aprendizaje || `Evaluación de ${comp.nombre}`,
+                    asignatura: asignatura,
+                    nivel: '',
+                    puntuacionTotal: 100,
+                    escala: '1-4',
+                    componenteRelacionado: comp.nombre,
+                    porcentajeComponente: comp.porcentaje,
+                    esAutogenerado: true,
+                    indicadores: generarIndicadoresPorTipo(tipo, comp.nombre),
+                    fecha: new Date().toISOString()
+                };
+                
+                instrumentos.push(instrumento);
+                instrumentosGenerados++;
+            });
+            
+            DB.set('instrumentos', instrumentos);
+            
+            cerrarModal('generarInstrumentoModal');
+            renderizarInstrumentosMEP();
+            
+            Utils.mostrarToast(`Se generaron ${instrumentosGenerados} instrumentos para los componentes de evaluación`);
+        }
+
+        function generarIndicadoresPorTipo(tipo, componente) {
+            const indicadores = [];
+            
+            switch(tipo) {
+                case 'rubrica_analitica':
+                    indicadores.push(
+                        {
+                            indicador: `Dominio de ${componente}`,
+                            avanzado: 'Demuestra dominio excepcional',
+                            intermedio: 'Demuestra dominio adecuado',
+                            inicial: 'Demuestra dominio básico',
+                            insuficiente: 'Requiere apoyo adicional'
+                        },
+                        {
+                            indicator: `Participación en ${componente}`,
+                            avanzado: 'Participación activa y constante',
+                            intermedio: 'Participación regular',
+                            inicial: 'Participación ocasional',
+                            insuficiente: 'Participación mínima'
+                        }
+                    );
+                    break;
+                    
+                case 'lista_cotejo':
+                    indicadores.push(
+                        { criterio: `Completa las tareas de ${componente} a tiempo`, cumple: true },
+                        { criterio: `Demuestra comprensión en ${componente}`, cumple: true },
+                        { criterio: `Aplica conocimientos de ${componente}`, cumple: true },
+                        { criterio: `Presenta trabajo ordenado en ${componente}`, cumple: true }
+                    );
+                    break;
+                    
+                case 'escala_desempeno':
+                    indicadores.push(
+                        {
+                            indicador: `Nivel de desempeño en ${componente}`,
+                            nivel1: 'Inicial - Requiere mucho apoyo',
+                            nivel2: 'En desarrollo - Requiere algo de apoyo',
+                            nivel3: 'Satisfactorio - Cumple expectativas',
+                            nivel4: 'Avanzado - Supera expectativas'
+                        }
+                    );
+                    break;
+                    
+                case 'registro_desempeno':
+                    indicadores.push(
+                        { indicador: `Asistencia a ${componente}`, valor: 'si', observaciones: '' },
+                        { indicador: `Entrega de ${componente}`, valor: 'si', observaciones: '' },
+                        { indicador: `Calidad de ${componente}`, valor: 'si', observaciones: '' }
+                    );
+                    break;
+            }
+            
+            return indicadores;
+        }
+
         // ==================== INSTRUMENTOS - VERSIÓN MEP CORREGIDA ====================
         function cargarFiltrosInstrumentos() {
             const selectAsig = document.getElementById('filtroInstrumentoAsignatura');
@@ -3321,13 +3591,23 @@
                     case 'registro_anecdotico': tipoTexto = 'Registro Anecdótico'; tipoClase = 'tipo-anecdotico'; break;
                 }
                 
+                // Badge especial para autogenerados
+                const badgeAutogenerado = i.esAutogenerado ? 
+                    `<span class="ml-2 text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 px-2 py-1 rounded-full">Auto</span>` : '';
+                
+                // Mostrar componente relacionado si existe
+                const componenteInfo = i.componenteRelacionado ? 
+                    `<p class="text-xs text-blue-600 dark:text-blue-400 mb-1">🔗 ${i.componenteRelacionado} (${i.porcentajeComponente}%)</p>` : '';
+                
                 return `
                     <div class="instrumento-mep-card dark:bg-gray-800 dark:border-gray-700" onclick="verInstrumentoMEP('${i.id}')">
                         <div class="flex justify-between items-start mb-2">
                             <h4 class="font-bold text-lg dark:text-white">${i.nombre}</h4>
                             <span class="instrumento-tipo-badge ${tipoClase}">${tipoTexto}</span>
+                            ${badgeAutogenerado}
                         </div>
                         ${i.asignatura ? `<p class="text-sm text-gray-600 dark:text-gray-400 mb-1">📚 ${i.asignatura}</p>` : ''}
+                        ${componenteInfo}
                         ${i.aprendizaje ? `<p class="text-xs text-gray-500 dark:text-gray-500 mb-3 line-clamp-2">${i.aprendizaje.substring(0, 100)}${i.aprendizaje.length > 100 ? '...' : ''}</p>` : ''}
                         <div class="mt-auto pt-3 flex justify-between items-center text-xs text-gray-400 dark:text-gray-500">
                             <span>📊 ${i.indicadores?.length || 0} indicadores</span>
@@ -3375,6 +3655,15 @@
                 case 'registro_anecdotico': tipoTexto = 'Registro Anecdótico'; break;
             }
             
+            // Info de componente si es autogenerado
+            const infoComponente = instrumento.esAutogenerado && instrumento.componenteRelacionado ?
+                `<div class="mb-4 p-3 bg-green-50 dark:bg-green-900 rounded-lg">
+                    <p class="text-sm text-green-800 dark:text-green-200">
+                        <i class="fas fa-magic mr-2"></i>
+                        Instrumento autogenerado para el componente: <strong>${instrumento.componenteRelacionado}</strong> (${instrumento.porcentajeComponente}%)
+                    </p>
+                </div>` : '';
+            
             let html = `
                 <div class="border-b dark:border-gray-700 pb-4">
                     <div class="flex justify-between items-center">
@@ -3383,6 +3672,7 @@
                     ${instrumento.asignatura ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-2">📚 Asignatura: ${instrumento.asignatura}</p>` : ''}
                     ${instrumento.aprendizaje ? `<p class="text-sm mt-2 dark:text-gray-300"><span class="font-medium">Aprendizaje:</span> ${instrumento.aprendizaje}</p>` : ''}
                 </div>
+                ${infoComponente}
             `;
             
             if (instrumento.tipo === 'rubrica_analitica' && instrumento.indicadores) {
