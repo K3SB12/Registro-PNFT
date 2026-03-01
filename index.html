@@ -278,6 +278,11 @@
             color: #1e40af;
         }
 
+        .badge-purple {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -299,7 +304,7 @@
             background: white;
             border-radius: 16px;
             padding: 2rem;
-            max-width: 600px;
+            max-width: 800px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
@@ -326,6 +331,32 @@
             transform: translateY(0);
         }
 
+        .instrumento-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .instrumento-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .criterio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .criterio-item:last-child {
+            border-bottom: none;
+        }
+
         .component-chip {
             display: inline-flex;
             align-items: center;
@@ -346,88 +377,30 @@
             color: #1e40af;
         }
 
-        .institucion-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            transition: all 0.2s;
+        .component-chip input {
+            width: 60px;
+            margin-left: 0.5rem;
+            padding: 0.25rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            text-align: center;
         }
 
-        .institucion-card:hover {
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        .rubrica-fila {
+            display: grid;
+            grid-template-columns: 2fr repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .grupo-card {
+        .cotejo-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
             background: #f8fafc;
-            border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .text-muted {
-            color: #64748b;
-        }
-
-        /* MODO OSCURO CORREGIDO */
-        .dark body {
-            background: #1a1a1a;
-            color: #e5e5e5;
-        }
-
-        .dark .card {
-            background: #2d2d2d;
-            border-color: #404040;
-        }
-
-        .dark .form-input, .dark .form-select {
-            background: #3d3d3d;
-            border-color: #4a4a4a;
-            color: #e5e5e5;
-        }
-
-        .dark .table-container {
-            background: #2d2d2d;
-            border-color: #404040;
-        }
-
-        .dark th {
-            background: #333333;
-            color: #ffffff;
-        }
-
-        .dark td {
-            border-color: #404040;
-            color: #e5e5e5;
-        }
-
-        .dark .btn-secondary {
-            background: #3d3d3d;
-            border-color: #4a4a4a;
-            color: #e5e5e5;
-        }
-
-        .dark .btn-secondary:hover {
-            background: #4a4a4a;
-        }
-
-        .dark .component-chip {
-            background: #333333;
-            border-color: #4a4a4a;
-            color: #e5e5e5;
-        }
-
-        .dark .component-chip.active {
-            background: #1e3a5f;
-            border-color: #3b82f6;
-            color: white;
-        }
-
-        .dark .modal-content {
-            background: #2d2d2d;
-            border-color: #404040;
+            margin-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -463,8 +436,12 @@
                 <i class="fas fa-user-graduate w-6 text-purple-600"></i>
                 <span>🎓 Estudiantes</span>
             </button>
+            <button onclick="showTab('configuracionEvaluacion')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
+                <i class="fas fa-sliders-h w-6 text-orange-600"></i>
+                <span>⚙️ Config. Evaluación</span>
+            </button>
             <button onclick="showTab('evaluacion')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
-                <i class="fas fa-calculator w-6 text-orange-600"></i>
+                <i class="fas fa-calculator w-6 text-indigo-600"></i>
                 <span>📝 Evaluación</span>
             </button>
             <button onclick="showTab('instrumentos')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
@@ -472,7 +449,7 @@
                 <span>📋 Instrumentos</span>
             </button>
             <button onclick="showTab('asistencia')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
-                <i class="fas fa-calendar-check w-6 text-indigo-600"></i>
+                <i class="fas fa-calendar-check w-6 text-teal-600"></i>
                 <span>📅 Asistencia</span>
             </button>
             <button onclick="showTab('bitacora')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
@@ -480,11 +457,11 @@
                 <span>📓 Bitácora</span>
             </button>
             <button onclick="showTab('reportes')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
-                <i class="fas fa-chart-bar w-6 text-teal-600"></i>
+                <i class="fas fa-chart-bar w-6 text-amber-600"></i>
                 <span>📊 Reportes</span>
             </button>
             <button onclick="showTab('acta')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
-                <i class="fas fa-file-signature w-6 text-amber-600"></i>
+                <i class="fas fa-file-signature w-6 text-rose-600"></i>
                 <span>📜 Acta Final</span>
             </button>
             <button onclick="showTab('respaldo')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 mb-1 flex items-center gap-3 text-gray-700">
@@ -582,7 +559,7 @@
                         </div>
                     </div>
                     
-                    <div id="estudiantesLista" class="table-container">
+                    <div class="table-container">
                         <table>
                             <thead>
                                 <tr>
@@ -595,6 +572,54 @@
                             </thead>
                             <tbody id="estudiantesTabla"></tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONFIGURACIÓN DE EVALUACIÓN (NUEVA) -->
+            <div id="configuracionEvaluacion" class="tab-pane">
+                <div class="card">
+                    <h3 class="text-lg font-bold text-gray-800 mb-6">Configuración de Evaluación por Asignatura</h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="form-label">Institución</label>
+                            <select id="configEvalInstitucion" class="form-select" onchange="cargarGruposConfigEvaluacion()">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Grupo</label>
+                            <select id="configEvalGrupo" class="form-select" onchange="cargarAsignaturasConfigEvaluacion()">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Asignatura</label>
+                            <select id="configEvalAsignatura" class="form-select" onchange="cargarConfiguracionExistente()">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="configEvalPanel" class="hidden border-t pt-6">
+                        <h4 class="font-semibold mb-4">Componentes de Evaluación</h4>
+                        
+                        <div id="componentesConfigLista" class="space-y-3 mb-6"></div>
+                        
+                        <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg mb-4">
+                            <span class="font-medium">Total porcentajes:</span>
+                            <span id="totalPorcentaje" class="text-2xl font-bold">0%</span>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button onclick="guardarConfiguracionEvaluacion()" class="btn-primary">
+                                <i class="fas fa-save"></i> Guardar Configuración
+                            </button>
+                            <button onclick="cargarPlantillaPorAsignatura()" class="btn-secondary">
+                                <i class="fas fa-magic"></i> Cargar Plantilla MEP
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -613,7 +638,13 @@
                         </div>
                         <div>
                             <label class="form-label">Grupo</label>
-                            <select id="evalGrupo" class="form-select" onchange="cargarComponentesPorGrupo()">
+                            <select id="evalGrupo" class="form-select" onchange="cargarAsignaturasEvaluacion()">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Asignatura</label>
+                            <select id="evalAsignatura" class="form-select" onchange="cargarConfiguracionParaEvaluacion()">
                                 <option value="">Seleccione...</option>
                             </select>
                         </div>
@@ -625,10 +656,6 @@
                                 <option value="III">Periodo III</option>
                             </select>
                         </div>
-                        <div>
-                            <label class="form-label">Asignatura</label>
-                            <input type="text" id="evalAsignatura" class="form-input" placeholder="Ej: Matemática">
-                        </div>
                         <div class="flex items-end">
                             <button onclick="cargarTablaEvaluacion()" class="btn-primary w-full">
                                 <i class="fas fa-search"></i> Cargar
@@ -638,7 +665,7 @@
 
                     <!-- COMPONENTES ACTIVOS -->
                     <div id="componentesContainer" class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <p class="font-semibold text-blue-800 mb-2">📋 Componentes que aplican para este grupo:</p>
+                        <p class="font-semibold text-blue-800 mb-2">📋 Componentes configurados:</p>
                         <div id="componentesLista" class="flex flex-wrap"></div>
                     </div>
 
@@ -666,17 +693,41 @@
                 </div>
             </div>
 
-            <!-- INSTRUMENTOS -->
+            <!-- INSTRUMENTOS - NUEVA VERSIÓN FUNCIONAL -->
             <div id="instrumentos" class="tab-pane">
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-gray-800">Mis Instrumentos de Evaluación</h3>
+                        <h3 class="text-lg font-bold text-gray-800">Instrumentos de Evaluación</h3>
                         <button onclick="abrirModalInstrumento()" class="btn-primary">
                             <i class="fas fa-plus"></i> Nuevo Instrumento
                         </button>
                     </div>
 
-                    <div id="instrumentosLista" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    <!-- Filtros -->
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="form-label">Tipo</label>
+                            <select id="filtroInstrumentoTipo" class="form-select" onchange="filtrarInstrumentos()">
+                                <option value="">Todos</option>
+                                <option value="rubrica">Rúbrica Analítica</option>
+                                <option value="cotejo">Lista de Cotejo</option>
+                                <option value="escala">Escala de Desempeño</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Asignatura</label>
+                            <select id="filtroInstrumentoAsignatura" class="form-select" onchange="filtrarInstrumentos()">
+                                <option value="">Todas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Buscar</label>
+                            <input type="text" id="filtroInstrumentoBuscar" class="form-input" placeholder="Nombre..." onkeyup="filtrarInstrumentos()">
+                        </div>
+                    </div>
+
+                    <!-- Lista de instrumentos -->
+                    <div id="instrumentosLista" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
             </div>
 
@@ -804,7 +855,6 @@
                     </div>
 
                     <div id="reporteContainer" class="hidden space-y-6">
-                        <!-- Top 3 -->
                         <div class="grid md:grid-cols-3 gap-4">
                             <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-lg border border-yellow-200">
                                 <h4 class="font-bold text-yellow-800 mb-2">🥇 Primer Lugar</h4>
@@ -1011,8 +1061,8 @@
                     </select>
                 </div>
                 <div>
-                    <label class="form-label">Asignaturas</label>
-                    <input type="text" id="grupoAsignaturas" class="form-input" placeholder="Separadas por coma (opcional)">
+                    <label class="form-label">Asignaturas (separadas por coma)</label>
+                    <input type="text" id="grupoAsignaturas" class="form-input" placeholder="Ej: Matemática, Español, Ciencias">
                 </div>
             </div>
             <div class="mt-6 flex justify-end gap-3">
@@ -1064,6 +1114,7 @@
                         <option value="regular">Regular</option>
                         <option value="acs">ACS - Adecuación Significativa</option>
                         <option value="ns">Adecuación No Significativa</option>
+                        <option value="acceso">Adecuación de Acceso</option>
                     </select>
                 </div>
                 <div>
@@ -1078,43 +1129,112 @@
         </div>
     </div>
 
-    <!-- Modal Instrumento -->
+    <!-- Modal Instrumento (NUEVO - COMPLETAMENTE FUNCIONAL) -->
     <div id="instrumentoModal" class="modal">
-        <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4">Crear Instrumento de Evaluación</h3>
-            <div class="space-y-4">
-                <div>
-                    <label class="form-label">Tipo de instrumento</label>
-                    <select id="instTipo" class="form-select">
-                        <option value="rubrica">Rúbrica Analítica</option>
-                        <option value="cotejo">Lista de Cotejo</option>
-                        <option value="escala">Escala de Desempeño</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Nombre del instrumento *</label>
-                    <input type="text" id="instNombre" class="form-input" placeholder="Ej: Rúbrica de exposición oral">
-                </div>
-                <div>
-                    <label class="form-label">Asignatura</label>
-                    <input type="text" id="instAsignatura" class="form-input" placeholder="Opcional">
+        <div class="modal-content max-w-4xl">
+            <h3 class="text-lg font-bold mb-4" id="instrumentoModalTitulo">Crear Instrumento de Evaluación</h3>
+            <input type="hidden" id="instrumentoEditId">
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Columna izquierda: Datos generales -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="form-label">Tipo de instrumento *</label>
+                        <select id="instTipo" class="form-select" onchange="cambiarTipoInstrumento()">
+                            <option value="rubrica">Rúbrica Analítica</option>
+                            <option value="cotejo">Lista de Cotejo</option>
+                            <option value="escala">Escala de Desempeño</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Nombre del instrumento *</label>
+                        <input type="text" id="instNombre" class="form-input" placeholder="Ej: Rúbrica de exposición oral">
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Asignatura</label>
+                        <input type="text" id="instAsignatura" class="form-input" placeholder="Ej: Español">
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Nivel</label>
+                        <select id="instNivel" class="form-select">
+                            <option value="">Todos los niveles</option>
+                            <option value="primaria">Primaria</option>
+                            <option value="secundaria">Secundaria</option>
+                            <option value="diversificada">Diversificada</option>
+                        </select>
+                    </div>
                 </div>
                 
-                <div>
-                    <label class="form-label">Indicadores / Criterios</label>
-                    <div id="indicadoresLista" class="space-y-2">
-                        <div class="flex gap-2">
-                            <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador 1">
-                        </div>
+                <!-- Columna derecha: Configuración de calificación -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="form-label">Puntuación total</label>
+                        <input type="number" id="instPuntuacionTotal" class="form-input" value="100" min="1" max="1000">
                     </div>
-                    <button type="button" onclick="agregarIndicador()" class="btn-secondary mt-2 text-sm">
-                        <i class="fas fa-plus"></i> Agregar Indicador
-                    </button>
+                    
+                    <div>
+                        <label class="form-label">Escala de calificación</label>
+                        <select id="instEscala" class="form-select">
+                            <option value="porcentaje">Porcentaje (0-100%)</option>
+                            <option value="puntos">Puntos (0-100)</option>
+                            <option value="cualitativo">Cualitativo (Insuficiente a Excelente)</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="form-label">Aplicar a grupo</label>
+                        <select id="instGrupo" class="form-select">
+                            <option value="">Sin asignar (plantilla general)</option>
+                        </select>
+                    </div>
                 </div>
             </div>
+
+            <!-- Área de indicadores/criterios (dinámica según tipo) -->
+            <div class="mt-6 border-t pt-6">
+                <h4 class="font-semibold mb-4">Indicadores / Criterios de evaluación</h4>
+                
+                <div id="indicadoresContainer" class="space-y-4">
+                    <!-- Se llenará dinámicamente según el tipo -->
+                </div>
+                
+                <button type="button" onclick="agregarIndicador()" class="btn-secondary mt-4">
+                    <i class="fas fa-plus"></i> Agregar Indicador
+                </button>
+            </div>
+
+            <!-- Área de vista previa -->
+            <div class="mt-6 border-t pt-6">
+                <h4 class="font-semibold mb-4">Vista Previa</h4>
+                <div id="vistaPreviaInstrumento" class="p-4 bg-gray-50 rounded-lg">
+                    <!-- Vista previa dinámica -->
+                </div>
+            </div>
+
             <div class="mt-6 flex justify-end gap-3">
                 <button onclick="cerrarModal('instrumentoModal')" class="btn-secondary">Cancelar</button>
-                <button onclick="guardarInstrumento()" class="btn-primary">Guardar</button>
+                <button onclick="guardarInstrumento()" class="btn-primary">Guardar Instrumento</button>
+                <button onclick="probarInstrumento()" class="btn-secondary">Vista Previa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver Instrumento -->
+    <div id="verInstrumentoModal" class="modal">
+        <div class="modal-content max-w-4xl">
+            <h3 class="text-lg font-bold mb-4" id="verInstrumentoTitulo">Vista de Instrumento</h3>
+            
+            <div id="verInstrumentoContenido" class="space-y-6">
+                <!-- Se llena dinámicamente -->
+            </div>
+            
+            <div class="mt-6 flex justify-end gap-3">
+                <button onclick="cerrarModal('verInstrumentoModal')" class="btn-secondary">Cerrar</button>
+                <button onclick="editarInstrumentoDesdeVer()" class="btn-primary">Editar</button>
+                <button onclick="exportarInstrumentoPDF()" class="btn-secondary">Exportar PDF</button>
             </div>
         </div>
     </div>
@@ -1163,11 +1283,61 @@
         let asistencia = DB.get('asistencia') || {};
         let bitacora = DB.get('bitacora') || [];
         let instrumentos = DB.get('instrumentos') || [];
+        let configuracionesEvaluacion = DB.get('configuracionesEvaluacion') || {};
 
         // Variables para edición
         let institucionEnEdicion = null;
         let grupoEnEdicion = null;
         let estudianteEnEdicion = null;
+        let instrumentoEnEdicion = null;
+
+        // ==================== PLANTILLAS MEP ====================
+        const plantillasMEP = {
+            // PRIMARIA
+            primaria_academica: [
+                { nombre: 'Trabajo Cotidiano', porcentaje: 50, activo: true, minimo: null },
+                { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
+                { nombre: 'Pruebas', porcentaje: 35, activo: true, minimo: 2 },
+                { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
+            ],
+            primaria_complementaria: [
+                { nombre: 'Trabajo Cotidiano', porcentaje: 60, activo: true, minimo: null },
+                { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
+                { nombre: 'Pruebas', porcentaje: 25, activo: true, minimo: 1 },
+                { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
+            ],
+            primaria_artes: [
+                { nombre: 'Trabajo Cotidiano', porcentaje: 60, activo: true, minimo: null },
+                { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
+                { nombre: 'Proyecto', porcentaje: 25, activo: true, minimo: 1 },
+                { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
+            ],
+            primaria_religion: [
+                { nombre: 'Trabajo Cotidiano', porcentaje: 70, activo: true, minimo: null },
+                { nombre: 'Tareas', porcentaje: 25, activo: true, minimo: null },
+                { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
+            ],
+            // SECUNDARIA
+            secundaria_academica: [
+                { nombre: 'Trabajo Cotidiano', porcentaje: 45, activo: true, minimo: null },
+                { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
+                { nombre: 'Pruebas', porcentaje: 40, activo: true, minimo: 2 },
+                { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
+            ],
+            secundaria_complementaria: [
+                { nombre: 'Trabajo Cotidiano', porcentaje: 45, activo: true, minimo: null },
+                { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
+                { nombre: 'Proyecto', porcentaje: 40, activo: true, minimo: 1 },
+                { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
+            ],
+            // DIVERSIFICADA
+            diversificada_academica: [
+                { nombre: 'Trabajo Cotidiano', porcentaje: 35, activo: true, minimo: null },
+                { nombre: 'Tareas', porcentaje: 10, activo: true, minimo: null },
+                { nombre: 'Pruebas', porcentaje: 50, activo: true, minimo: 2 },
+                { nombre: 'Asistencia', porcentaje: 5, activo: true, minimo: null }
+            ]
+        };
 
         // ==================== UTILIDADES ====================
         const Utils = {
@@ -1233,6 +1403,7 @@
                 'instituciones': 'Instituciones',
                 'grupos': 'Grupos',
                 'estudiantes': 'Estudiantes',
+                'configuracionEvaluacion': 'Configuración de Evaluación',
                 'evaluacion': 'Evaluación',
                 'instrumentos': 'Instrumentos',
                 'asistencia': 'Asistencia',
@@ -1253,6 +1424,8 @@
                 renderizarGrupos();
             } else if (tabId === 'estudiantes') {
                 cargarInstitucionesSelect('filtroInstitucionEstudiantes');
+            } else if (tabId === 'configuracionEvaluacion') {
+                cargarInstitucionesSelect('configEvalInstitucion');
             } else if (tabId === 'evaluacion') {
                 cargarInstitucionesSelect('evalInstitucion');
             } else if (tabId === 'asistencia') {
@@ -1262,6 +1435,7 @@
             } else if (tabId === 'acta') {
                 cargarInstitucionesSelect('actaInstitucion');
             } else if (tabId === 'instrumentos') {
+                cargarFiltrosInstrumentos();
                 renderizarInstrumentos();
             } else if (tabId === 'bitacora') {
                 renderizarBitacora();
@@ -1270,31 +1444,25 @@
 
         // ==================== MODALES ====================
         function abrirModalInstitucion() {
-            // Limpiar formulario
             document.getElementById('instNombre').value = '';
             document.getElementById('instCodigo').value = '';
             document.getElementById('instModalidad').value = 'primaria';
             
-            // Asegurar que no hay edición pendiente
             institucionEnEdicion = null;
             document.querySelector('#institucionModal h3').textContent = 'Nueva Institución';
             
-            // Abrir modal
             document.getElementById('institucionModal').classList.add('active');
         }
 
         function abrirModalGrupo() {
-            // Limpiar formulario
             cargarInstitucionesSelect('grupoInstitucion');
             document.getElementById('grupoNombre').value = '';
             document.getElementById('grupoNivel').value = '';
             document.getElementById('grupoAsignaturas').value = '';
             
-            // Asegurar que no hay edición pendiente
             grupoEnEdicion = null;
             document.querySelector('#grupoModal h3').textContent = 'Nuevo Grupo';
             
-            // Abrir modal
             document.getElementById('grupoModal').classList.add('active');
         }
 
@@ -1302,13 +1470,11 @@
             cargarInstitucionesSelect('estInstitucion');
             
             if (estudianteId) {
-                // MODO EDICIÓN - CARGAR DATOS
                 const estudiante = estudiantes.find(e => e.id === estudianteId);
                 if (estudiante) {
                     estudianteEnEdicion = estudianteId;
                     document.getElementById('estudianteModalTitulo').textContent = 'Editar Estudiante';
                     
-                    // Cargar institución y luego grupo
                     const grupo = grupos.find(g => g.id === estudiante.grupo);
                     if (grupo) {
                         document.getElementById('estInstitucion').value = grupo.institucion;
@@ -1326,7 +1492,6 @@
                     document.getElementById('estObservaciones').value = estudiante.observaciones || '';
                 }
             } else {
-                // MODO NUEVO
                 estudianteEnEdicion = null;
                 document.getElementById('estudianteModalTitulo').textContent = 'Agregar Estudiante';
                 document.getElementById('estNumero').value = '';
@@ -1340,22 +1505,46 @@
             document.getElementById('estudianteModal').classList.add('active');
         }
 
-        function abrirModalInstrumento() {
-            document.getElementById('instTipo').value = 'rubrica';
-            document.getElementById('instNombre').value = '';
-            document.getElementById('instAsignatura').value = '';
-            document.getElementById('indicadoresLista').innerHTML = `
-                <div class="flex gap-2">
-                    <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador 1">
-                </div>
-            `;
+        function abrirModalInstrumento(instrumentoId = null) {
+            cargarGruposSelect('instGrupo');
+            
+            if (instrumentoId) {
+                const instrumento = instrumentos.find(i => i.id === instrumentoId);
+                if (instrumento) {
+                    instrumentoEnEdicion = instrumentoId;
+                    document.getElementById('instrumentoModalTitulo').textContent = 'Editar Instrumento';
+                    
+                    document.getElementById('instTipo').value = instrumento.tipo;
+                    document.getElementById('instNombre').value = instrumento.nombre;
+                    document.getElementById('instAsignatura').value = instrumento.asignatura || '';
+                    document.getElementById('instNivel').value = instrumento.nivel || '';
+                    document.getElementById('instPuntuacionTotal').value = instrumento.puntuacionTotal || 100;
+                    document.getElementById('instEscala').value = instrumento.escala || 'porcentaje';
+                    
+                    // Cargar indicadores
+                    cargarIndicadoresDesdeInstrumento(instrumento);
+                }
+            } else {
+                instrumentoEnEdicion = null;
+                document.getElementById('instrumentoModalTitulo').textContent = 'Crear Instrumento de Evaluación';
+                document.getElementById('instTipo').value = 'rubrica';
+                document.getElementById('instNombre').value = '';
+                document.getElementById('instAsignatura').value = '';
+                document.getElementById('instNivel').value = '';
+                document.getElementById('instPuntuacionTotal').value = '100';
+                document.getElementById('instEscala').value = 'porcentaje';
+                
+                // Inicializar con un indicador
+                inicializarIndicadoresPorTipo('rubrica');
+            }
+            
+            cambiarTipoInstrumento();
             document.getElementById('instrumentoModal').classList.add('active');
         }
 
         function cerrarModal(id) {
             document.getElementById(id).classList.remove('active');
             
-            // Limpiar variables de edición al cerrar
             if (id === 'institucionModal') {
                 institucionEnEdicion = null;
                 document.querySelector('#institucionModal h3').textContent = 'Nueva Institución';
@@ -1367,6 +1556,10 @@
             if (id === 'estudianteModal') {
                 estudianteEnEdicion = null;
                 document.querySelector('#estudianteModal h3').textContent = 'Agregar Estudiante';
+            }
+            if (id === 'instrumentoModal') {
+                instrumentoEnEdicion = null;
+                document.querySelector('#instrumentoModal h3').textContent = 'Crear Instrumento de Evaluación';
             }
         }
 
@@ -1387,7 +1580,7 @@
                 }).length;
                 
                 return `
-                    <div class="institucion-card">
+                    <div class="p-4 border rounded-lg bg-white hover:shadow-md transition">
                         <div class="flex justify-between items-start">
                             <div>
                                 <h4 class="font-bold text-lg">${inst.nombre}</h4>
@@ -1410,7 +1603,6 @@
                 `;
             }).join('');
             
-            // Actualizar selects
             actualizarSelectsInstituciones();
         }
 
@@ -1418,18 +1610,13 @@
             const institucion = instituciones.find(i => i.id === id);
             if (!institucion) return;
             
-            // Cargar datos en el modal
             document.getElementById('instNombre').value = institucion.nombre;
             document.getElementById('instCodigo').value = institucion.codigo || '';
             document.getElementById('instModalidad').value = institucion.modalidad;
             
-            // Guardar el ID de la institución en edición
             institucionEnEdicion = id;
-            
-            // Cambiar el título del modal
             document.querySelector('#institucionModal h3').textContent = 'Editar Institución';
             
-            // Abrir modal
             document.getElementById('institucionModal').classList.add('active');
         }
 
@@ -1444,7 +1631,6 @@
             }
             
             if (institucionEnEdicion) {
-                // EDITAR - Actualizar existente
                 const index = instituciones.findIndex(i => i.id === institucionEnEdicion);
                 if (index !== -1) {
                     instituciones[index] = {
@@ -1457,7 +1643,6 @@
                 }
                 institucionEnEdicion = null;
             } else {
-                // NUEVA - Agregar
                 instituciones.push({
                     id: Utils.generarId(),
                     nombre,
@@ -1476,16 +1661,10 @@
         function eliminarInstitucion(id) {
             if (!Utils.confirmar('¿Eliminar esta institución? También se eliminarán todos sus grupos y estudiantes.')) return;
             
-            // Obtener grupos de esta institución
             const gruposEliminar = grupos.filter(g => g.institucion === id).map(g => g.id);
             
-            // Eliminar estudiantes de esos grupos
             estudiantes = estudiantes.filter(e => !gruposEliminar.includes(e.grupo));
-            
-            // Eliminar grupos
             grupos = grupos.filter(g => g.institucion !== id);
-            
-            // Eliminar institución
             instituciones = instituciones.filter(i => i.id !== id);
             
             DB.set('instituciones', instituciones);
@@ -1500,7 +1679,8 @@
             const selects = [
                 'filtroInstitucionGrupos', 'filtroInstitucionEstudiantes', 
                 'evalInstitucion', 'asistInstitucion', 'reportInstitucion', 
-                'actaInstitucion', 'grupoInstitucion', 'estInstitucion'
+                'actaInstitucion', 'grupoInstitucion', 'estInstitucion',
+                'configEvalInstitucion'
             ];
             
             const options = instituciones.map(i => `<option value="${i.id}">${i.nombre}</option>`).join('');
@@ -1546,7 +1726,7 @@
                 const tipoNivel = parseInt(grupo.nivel) <= 6 ? 'Primaria' : 'Secundaria';
                 
                 return `
-                    <div class="grupo-card">
+                    <div class="p-4 border rounded-lg bg-gray-50">
                         <div class="flex justify-between items-start">
                             <div>
                                 <h4 class="font-bold">${grupo.nombre}</h4>
@@ -1572,10 +1752,8 @@
             const grupo = grupos.find(g => g.id === id);
             if (!grupo) return;
             
-            // Cargar datos en el modal
             cargarInstitucionesSelect('grupoInstitucion');
             
-            // Esperar a que se carguen las instituciones y luego establecer valores
             setTimeout(() => {
                 document.getElementById('grupoInstitucion').value = grupo.institucion;
                 document.getElementById('grupoNombre').value = grupo.nombre;
@@ -1583,13 +1761,9 @@
                 document.getElementById('grupoAsignaturas').value = grupo.asignaturas || '';
             }, 100);
             
-            // Guardar el ID del grupo en edición
             grupoEnEdicion = id;
-            
-            // Cambiar el título del modal
             document.querySelector('#grupoModal h3').textContent = 'Editar Grupo';
             
-            // Abrir modal
             document.getElementById('grupoModal').classList.add('active');
         }
 
@@ -1605,7 +1779,6 @@
             }
             
             if (grupoEnEdicion) {
-                // EDITAR - Actualizar existente
                 const index = grupos.findIndex(g => g.id === grupoEnEdicion);
                 if (index !== -1) {
                     grupos[index] = {
@@ -1619,7 +1792,6 @@
                 }
                 grupoEnEdicion = null;
             } else {
-                // NUEVO - Agregar
                 grupos.push({
                     id: Utils.generarId(),
                     institucion,
@@ -1634,7 +1806,6 @@
             
             cerrarModal('grupoModal');
             
-            // Recargar vistas
             if (document.getElementById('grupos').classList.contains('active')) {
                 renderizarGrupos();
             }
@@ -1690,26 +1861,40 @@
                 return;
             }
             
-            tbody.innerHTML = estudiantesFiltrados.map((e, i) => `
-                <tr>
-                    <td>${e.numero || i+1}</td>
-                    <td>${e.nombre}</td>
-                    <td>${e.telefono || '-'}</td>
-                    <td>
-                        <span class="badge ${e.condicion === 'acs' ? 'bg-purple-100 text-purple-800' : e.condicion === 'ns' ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100'}">
-                            ${e.condicion === 'acs' ? 'ACS' : e.condicion === 'ns' ? 'No Signif.' : 'Regular'}
-                        </span>
-                    </td>
-                    <td>
-                        <button onclick="abrirModalEstudiante('${e.id}')" class="text-blue-600 hover:text-blue-800 mr-2">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="eliminarEstudiante('${e.id}')" class="text-red-600 hover:text-red-800">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = estudiantesFiltrados.map((e, i) => {
+                let badgeClass = 'bg-gray-100';
+                let badgeText = 'Regular';
+                
+                if (e.condicion === 'acs') {
+                    badgeClass = 'bg-purple-100 text-purple-800';
+                    badgeText = 'ACS';
+                } else if (e.condicion === 'ns') {
+                    badgeClass = 'bg-yellow-100 text-yellow-800';
+                    badgeText = 'No Signif.';
+                } else if (e.condicion === 'acceso') {
+                    badgeClass = 'bg-blue-100 text-blue-800';
+                    badgeText = 'Acceso';
+                }
+                
+                return `
+                    <tr>
+                        <td>${e.numero || i+1}</td>
+                        <td>${e.nombre}</td>
+                        <td>${e.telefono || '-'}</td>
+                        <td>
+                            <span class="badge ${badgeClass}">${badgeText}</span>
+                        </td>
+                        <td>
+                            <button onclick="abrirModalEstudiante('${e.id}')" class="text-blue-600 hover:text-blue-800 mr-2">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="eliminarEstudiante('${e.id}')" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
         function cargarGruposParaModalEstudiante() {
@@ -1746,7 +1931,6 @@
             };
             
             if (estudianteEnEdicion) {
-                // EDITAR - Actualizar existente
                 const index = estudiantes.findIndex(e => e.id === estudianteEnEdicion);
                 if (index !== -1) {
                     estudiantes[index] = {
@@ -1757,7 +1941,6 @@
                 }
                 estudianteEnEdicion = null;
             } else {
-                // NUEVO - Agregar
                 estudiantes.push({
                     id: Utils.generarId(),
                     ...datosEstudiante
@@ -1769,7 +1952,6 @@
             
             cerrarModal('estudianteModal');
             
-            // Recargar lista si estamos en la pestaña estudiantes
             if (document.getElementById('estudiantes').classList.contains('active')) {
                 cargarEstudiantesPorGrupo();
             }
@@ -1785,69 +1967,233 @@
             Utils.mostrarToast('Estudiante eliminado');
         }
 
-        // ==================== COMPONENTES POR NIVEL ====================
-        function obtenerComponentesPorNivel(nivel, modalidadInstitucion = null) {
-            const n = parseInt(nivel);
-            const esPrimaria = n >= 1 && n <= 6;
-            const esSecundaria = n >= 7 && n <= 12;
+        // ==================== CONFIGURACIÓN DE EVALUACIÓN ====================
+        function cargarGruposConfigEvaluacion() {
+            const institucionId = document.getElementById('configEvalInstitucion').value;
+            const selectGrupo = document.getElementById('configEvalGrupo');
             
-            let componentes = [];
-            
-            if (esPrimaria) {
-                // PRIMARIA: Solo TC, Tareas y Pruebas
-                componentes = [
-                    { nombre: 'Trabajo Cotidiano', campo: 'trabajoCotidiano', porcentaje: 40, activo: true },
-                    { nombre: 'Tareas', campo: 'tareas', porcentaje: 30, activo: true },
-                    { nombre: 'Pruebas', campo: 'pruebas', porcentaje: 30, activo: true }
-                ];
-            } else if (esSecundaria) {
-                // SECUNDARIA: TC, Tareas, y el docente elige entre Prueba o Proyecto
-                componentes = [
-                    { nombre: 'Trabajo Cotidiano', campo: 'trabajoCotidiano', porcentaje: 40, activo: true },
-                    { nombre: 'Tareas', campo: 'tareas', porcentaje: 20, activo: true },
-                    { nombre: 'Pruebas', campo: 'pruebas', porcentaje: 0, activo: false, opcional: true },
-                    { nombre: 'Proyecto', campo: 'proyecto', porcentaje: 0, activo: false, opcional: true }
-                ];
+            if (!institucionId) {
+                selectGrupo.innerHTML = '<option value="">Seleccione...</option>';
+                return;
             }
             
-            // Técnica/CINDEA podría tener más componentes
-            if (modalidadInstitucion === 'tecnica' || modalidadInstitucion === 'cindea') {
-                componentes.push(
-                    { nombre: 'Portafolio', campo: 'portafolio', porcentaje: 0, activo: false, opcional: true },
-                    { nombre: 'Demostración', campo: 'demostracion', porcentaje: 0, activo: false, opcional: true }
-                );
-            }
-            
-            return componentes;
+            const gruposFiltrados = grupos.filter(g => g.institucion === institucionId);
+            selectGrupo.innerHTML = '<option value="">Seleccione...</option>' + 
+                gruposFiltrados.map(g => `<option value="${g.id}">${g.nombre}</option>`).join('');
         }
 
-        function cargarComponentesPorGrupo() {
-            const grupoId = document.getElementById('evalGrupo').value;
-            const container = document.getElementById('componentesLista');
+        function cargarAsignaturasConfigEvaluacion() {
+            const grupoId = document.getElementById('configEvalGrupo').value;
+            const selectAsig = document.getElementById('configEvalAsignatura');
             
             if (!grupoId) {
-                container.innerHTML = '<span class="text-sm text-gray-500">Seleccione un grupo para ver sus componentes</span>';
+                selectAsig.innerHTML = '<option value="">Seleccione...</option>';
                 return;
             }
             
             const grupo = grupos.find(g => g.id === grupoId);
-            if (!grupo) return;
+            if (!grupo || !grupo.asignaturas) {
+                selectAsig.innerHTML = '<option value="">El grupo no tiene asignaturas definidas</option>';
+                return;
+            }
             
-            const institucion = instituciones.find(i => i.id === grupo.institucion);
-            const componentes = obtenerComponentesPorNivel(grupo.nivel, institucion?.modalidad);
+            const asignaturas = grupo.asignaturas.split(',').map(a => a.trim());
+            selectAsig.innerHTML = '<option value="">Seleccione...</option>' + 
+                asignaturas.map(a => `<option value="${a}">${a}</option>`).join('');
+        }
+
+        function cargarConfiguracionExistente() {
+            const grupoId = document.getElementById('configEvalGrupo').value;
+            const asignatura = document.getElementById('configEvalAsignatura').value;
             
+            if (!grupoId || !asignatura) {
+                document.getElementById('configEvalPanel').classList.add('hidden');
+                return;
+            }
+            
+            const configKey = `${grupoId}_${asignatura}`;
+            const config = configuracionesEvaluacion[configKey] || sugerirPlantillaPorGrupoYAsignatura(grupoId, asignatura);
+            
+            mostrarConfiguracionComponentes(config);
+            document.getElementById('configEvalPanel').classList.remove('hidden');
+        }
+
+        function sugerirPlantillaPorGrupoYAsignatura(grupoId, asignatura) {
+            const grupo = grupos.find(g => g.id === grupoId);
+            if (!grupo) return [];
+            
+            const nivel = parseInt(grupo.nivel);
+            const esPrimaria = nivel <= 6;
+            const esSecundaria = nivel >= 7 && nivel <= 9;
+            const esDiversificada = nivel >= 10;
+            
+            const academicas = /Matemática|Español|Ciencias|Estudios Sociales|Lengua Extranjera|Biología|Física|Química|Filosofía|Psicología/i;
+            const complementarias = /Educación Física|Educación Musical|Educación para el Hogar|Artes Industriales/i;
+            const arte = /Artes Plásticas|Arte/i;
+            const religion = /Religiosa|Religión/i;
+            
+            if (esPrimaria) {
+                if (academicas.test(asignatura)) return [...plantillasMEP.primaria_academica];
+                if (complementarias.test(asignatura)) return [...plantillasMEP.primaria_complementaria];
+                if (arte.test(asignatura)) return [...plantillasMEP.primaria_artes];
+                if (religion.test(asignatura)) return [...plantillasMEP.primaria_religion];
+                return [...plantillasMEP.primaria_academica];
+            }
+            
+            if (esSecundaria) {
+                if (academicas.test(asignatura)) return [...plantillasMEP.secundaria_academica];
+                return [...plantillasMEP.secundaria_complementaria];
+            }
+            
+            if (esDiversificada) {
+                if (academicas.test(asignatura)) return [...plantillasMEP.diversificada_academica];
+                return [...plantillasMEP.diversificada_academica];
+            }
+            
+            return [];
+        }
+
+        function mostrarConfiguracionComponentes(componentes) {
+            const container = document.getElementById('componentesConfigLista');
             let html = '';
-            componentes.forEach(comp => {
-                if (comp.activo) {
-                    html += `<span class="component-chip active">${comp.nombre} (${comp.porcentaje}%)</span>`;
-                } else if (comp.opcional) {
-                    html += `<span class="component-chip">${comp.nombre} (opcional)</span>`;
+            
+            const todosComponentes = [
+                'Trabajo Cotidiano',
+                'Tareas',
+                'Pruebas',
+                'Proyecto',
+                'Asistencia',
+                'Portafolio',
+                'Demostración'
+            ];
+            
+            todosComponentes.forEach(nombre => {
+                const compExistente = componentes.find(c => c.nombre === nombre);
+                const activo = compExistente ? compExistente.activo : false;
+                const porcentaje = compExistente ? compExistente.porcentaje : 0;
+                const minimo = compExistente ? compExistente.minimo : null;
+                
+                html += `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" id="comp_${nombre}" 
+                                ${activo ? 'checked' : ''} 
+                                onchange="toggleComponente('${nombre}')"
+                                class="w-5 h-5">
+                            <label for="comp_${nombre}" class="font-medium">${nombre}</label>
+                            ${minimo ? `<span class="text-xs text-gray-500">(mínimo ${minimo})</span>` : ''}
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="pct_${nombre}" 
+                                value="${porcentaje}" 
+                                onchange="actualizarPorcentaje('${nombre}')"
+                                class="w-20 px-2 py-1 border rounded text-center"
+                                ${!activo ? 'disabled' : ''}>
+                            <span class="text-sm">%</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            actualizarTotalPorcentaje();
+        }
+
+        function toggleComponente(nombre) {
+            const checkbox = document.getElementById(`comp_${nombre}`);
+            const input = document.getElementById(`pct_${nombre}`);
+            
+            input.disabled = !checkbox.checked;
+            if (!checkbox.checked) {
+                input.value = 0;
+            }
+            
+            actualizarTotalPorcentaje();
+        }
+
+        function actualizarPorcentaje(nombre) {
+            actualizarTotalPorcentaje();
+        }
+
+        function actualizarTotalPorcentaje() {
+            const inputs = document.querySelectorAll('#componentesConfigLista input[type="number"]');
+            let total = 0;
+            
+            inputs.forEach(input => {
+                total += parseInt(input.value) || 0;
+            });
+            
+            document.getElementById('totalPorcentaje').textContent = total + '%';
+            
+            if (total !== 100) {
+                document.getElementById('totalPorcentaje').classList.add('text-red-600');
+            } else {
+                document.getElementById('totalPorcentaje').classList.remove('text-red-600');
+            }
+        }
+
+        function cargarPlantillaPorAsignatura() {
+            const grupoId = document.getElementById('configEvalGrupo').value;
+            const asignatura = document.getElementById('configEvalAsignatura').value;
+            
+            if (!grupoId || !asignatura) {
+                Utils.mostrarToast('Seleccione grupo y asignatura', 'error');
+                return;
+            }
+            
+            const plantilla = sugerirPlantillaPorGrupoYAsignatura(grupoId, asignatura);
+            mostrarConfiguracionComponentes(plantilla);
+        }
+
+        function guardarConfiguracionEvaluacion() {
+            const grupoId = document.getElementById('configEvalGrupo').value;
+            const asignatura = document.getElementById('configEvalAsignatura').value;
+            
+            if (!grupoId || !asignatura) {
+                Utils.mostrarToast('Seleccione grupo y asignatura', 'error');
+                return;
+            }
+            
+            const componentes = [];
+            const todosComponentes = [
+                'Trabajo Cotidiano',
+                'Tareas',
+                'Pruebas',
+                'Proyecto',
+                'Asistencia',
+                'Portafolio',
+                'Demostración'
+            ];
+            
+            todosComponentes.forEach(nombre => {
+                const checkbox = document.getElementById(`comp_${nombre}`);
+                if (checkbox) {
+                    const activo = checkbox.checked;
+                    const porcentaje = activo ? (parseInt(document.getElementById(`pct_${nombre}`).value) || 0) : 0;
+                    
+                    if (activo && porcentaje > 0) {
+                        componentes.push({
+                            nombre,
+                            porcentaje,
+                            activo: true
+                        });
+                    }
                 }
             });
             
-            container.innerHTML = html || '<span class="text-sm text-gray-500">No hay componentes definidos</span>';
+            const total = componentes.reduce((sum, c) => sum + c.porcentaje, 0);
             
-            return componentes;
+            if (total !== 100) {
+                Utils.mostrarToast('Los porcentajes deben sumar 100%', 'error');
+                return;
+            }
+            
+            const configKey = `${grupoId}_${asignatura}`;
+            configuracionesEvaluacion[configKey] = componentes;
+            
+            DB.set('configuracionesEvaluacion', configuracionesEvaluacion);
+            
+            Utils.mostrarToast('Configuración guardada correctamente');
         }
 
         // ==================== EVALUACIÓN ====================
@@ -1865,23 +2211,66 @@
                 gruposFiltrados.map(g => `<option value="${g.id}">${g.nombre}</option>`).join('');
         }
 
+        function cargarAsignaturasEvaluacion() {
+            const grupoId = document.getElementById('evalGrupo').value;
+            const selectAsig = document.getElementById('evalAsignatura');
+            
+            if (!grupoId) {
+                selectAsig.innerHTML = '<option value="">Seleccione...</option>';
+                return;
+            }
+            
+            const grupo = grupos.find(g => g.id === grupoId);
+            if (!grupo || !grupo.asignaturas) {
+                selectAsig.innerHTML = '<option value="">El grupo no tiene asignaturas definidas</option>';
+                return;
+            }
+            
+            const asignaturas = grupo.asignaturas.split(',').map(a => a.trim());
+            selectAsig.innerHTML = '<option value="">Seleccione...</option>' + 
+                asignaturas.map(a => `<option value="${a}">${a}</option>`).join('');
+        }
+
+        function cargarConfiguracionParaEvaluacion() {
+            const grupoId = document.getElementById('evalGrupo').value;
+            const asignatura = document.getElementById('evalAsignatura').value;
+            const container = document.getElementById('componentesLista');
+            
+            if (!grupoId || !asignatura) {
+                container.innerHTML = '<span class="text-sm text-gray-500">Seleccione grupo y asignatura</span>';
+                return;
+            }
+            
+            const configKey = `${grupoId}_${asignatura}`;
+            const componentes = configuracionesEvaluacion[configKey] || sugerirPlantillaPorGrupoYAsignatura(grupoId, asignatura);
+            
+            let html = '';
+            componentes.forEach(comp => {
+                html += `<span class="component-chip active">${comp.nombre} (${comp.porcentaje}%)</span>`;
+            });
+            
+            container.innerHTML = html || '<span class="text-sm text-gray-500">No hay configuración para esta asignatura</span>';
+            
+            return componentes;
+        }
+
         function cargarTablaEvaluacion() {
             const grupoId = document.getElementById('evalGrupo').value;
+            const asignatura = document.getElementById('evalAsignatura').value;
             const periodo = document.getElementById('evalPeriodo').value;
-            const asignatura = document.getElementById('evalAsignatura').value.trim();
             
             if (!grupoId || !asignatura) {
                 Utils.mostrarToast('Seleccione grupo y asignatura', 'error');
                 return;
             }
             
-            const grupo = grupos.find(g => g.id === grupoId);
-            if (!grupo) return;
+            const componentes = cargarConfiguracionParaEvaluacion();
+            if (!componentes || componentes.length === 0) {
+                Utils.mostrarToast('No hay configuración para esta asignatura', 'error');
+                return;
+            }
             
-            const institucion = instituciones.find(i => i.id === grupo.institucion);
-            const componentes = obtenerComponentesPorNivel(grupo.nivel, institucion?.modalidad);
             const estudiantesGrupo = estudiantes.filter(e => e.grupo === grupoId);
-            
             if (!estudiantesGrupo.length) {
                 Utils.mostrarToast('No hay estudiantes en este grupo', 'warning');
                 return;
@@ -1890,37 +2279,48 @@
             const notasKey = `${grupoId}_${periodo}_${asignatura}`;
             const notasGrupo = notas[notasKey] || {};
             
-            // Generar header de tabla
-            let headerHtml = '<tr><th>Estudiante</th>';
-            componentes.filter(c => c.activo).forEach(c => {
-                headerHtml += `<th class="text-center">${c.nombre}</th>`;
+            let headerHtml = '<tr><th>Estudiante</th><th>Condición</th>';
+            componentes.forEach(comp => {
+                headerHtml += `<th class="text-center">${comp.nombre} (${comp.porcentaje}%)</th>`;
             });
             headerHtml += '<th class="text-center font-bold">Prom.</th></tr>';
             document.getElementById('evalTableHeader').innerHTML = headerHtml;
             
-            // Generar filas
             let tbody = '', sumaPromedios = 0;
             
             estudiantesGrupo.sort((a, b) => (a.numero || 0) - (b.numero || 0)).forEach(est => {
                 const notaEst = notasGrupo[est.id] || {};
                 let row = `<tr><td class="font-medium">${est.nombre}</td>`;
-                let sumaPonderada = 0;
-                let totalPorcentaje = 0;
                 
-                componentes.filter(c => c.activo).forEach(comp => {
-                    const valor = notaEst[comp.campo] || '';
-                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded text-center" value="${valor}" data-est="${est.id}" data-campo="${comp.campo}" data-porcentaje="${comp.porcentaje}" onchange="actualizarNota(this)"></td>`;
+                let badgeClass = 'bg-gray-100';
+                let badgeText = 'Regular';
+                if (est.condicion === 'acs') {
+                    badgeClass = 'bg-purple-100 text-purple-800';
+                    badgeText = 'ACS';
+                } else if (est.condicion === 'ns') {
+                    badgeClass = 'bg-yellow-100 text-yellow-800';
+                    badgeText = 'No Signif.';
+                } else if (est.condicion === 'acceso') {
+                    badgeClass = 'bg-blue-100 text-blue-800';
+                    badgeText = 'Acceso';
+                }
+                
+                row += `<td><span class="badge ${badgeClass} text-xs">${badgeText}</span></td>`;
+                
+                let sumaPonderada = 0;
+                
+                componentes.forEach(comp => {
+                    const valor = notaEst[comp.nombre] || '';
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded text-center" value="${valor}" data-est="${est.id}" data-campo="${comp.nombre}" data-porcentaje="${comp.porcentaje}" onchange="actualizarNota(this)"></td>`;
                     
                     if (valor) {
                         sumaPonderada += parseFloat(valor) * (comp.porcentaje / 100);
-                        totalPorcentaje += comp.porcentaje;
                     }
                 });
                 
-                const promedio = totalPorcentaje > 0 ? sumaPonderada : 0;
-                sumaPromedios += promedio;
+                sumaPromedios += sumaPonderada;
                 
-                row += `<td class="font-bold text-center" id="prom_${est.id}">${promedio ? promedio.toFixed(2) : '-'}</td></tr>`;
+                row += `<td class="font-bold text-center" id="prom_${est.id}">${sumaPonderada ? sumaPonderada.toFixed(2) : '-'}</td></tr>`;
                 tbody += row;
             });
             
@@ -1937,21 +2337,15 @@
             const inputs = row.querySelectorAll('input[data-est]');
             
             let sumaPonderada = 0;
-            let totalPorcentaje = 0;
             
             inputs.forEach(inp => {
                 const valor = parseFloat(inp.value) || 0;
                 const porcentaje = parseFloat(inp.dataset.porcentaje) || 0;
-                if (valor) {
-                    sumaPonderada += valor * (porcentaje / 100);
-                    totalPorcentaje += porcentaje;
-                }
+                sumaPonderada += valor * (porcentaje / 100);
             });
             
-            const promedio = totalPorcentaje > 0 ? sumaPonderada : 0;
-            document.getElementById(`prom_${estId}`).textContent = promedio.toFixed(2);
+            document.getElementById(`prom_${estId}`).textContent = sumaPonderada.toFixed(2);
             
-            // Recalcular promedio del grupo
             let suma = 0, count = 0;
             document.querySelectorAll('#evaluacionTableBody td[id^="prom_"]').forEach(td => {
                 const val = parseFloat(td.textContent);
@@ -1985,38 +2379,249 @@
             Utils.mostrarToast('Notas guardadas correctamente');
         }
 
-        // ==================== INSTRUMENTOS ====================
-        function renderizarInstrumentos() {
-            const container = document.getElementById('instrumentosLista');
+        // ==================== INSTRUMENTOS (NUEVO - COMPLETAMENTE FUNCIONAL) ====================
+        function cargarFiltrosInstrumentos() {
+            const selectAsig = document.getElementById('filtroInstrumentoAsignatura');
+            const asignaturas = new Set();
             
-            if (!instrumentos.length) {
-                container.innerHTML = '<p class="text-gray-500 col-span-full text-center py-8">No hay instrumentos creados</p>';
-                return;
-            }
+            grupos.forEach(g => {
+                if (g.asignaturas) {
+                    g.asignaturas.split(',').map(a => a.trim()).forEach(asig => asignaturas.add(asig));
+                }
+            });
             
-            container.innerHTML = instrumentos.map(i => `
-                <div class="p-4 border rounded-lg bg-white">
-                    <h4 class="font-bold">${i.nombre}</h4>
-                    <p class="text-sm text-gray-600">${i.tipo === 'rubrica' ? '📋 Rúbrica' : i.tipo === 'cotejo' ? '✅ Lista de Cotejo' : '📊 Escala'}</p>
-                    ${i.asignatura ? `<p class="text-xs text-gray-500 mt-1">Asignatura: ${i.asignatura}</p>` : ''}
-                    <p class="text-xs mt-2">Indicadores: ${i.indicadores?.length || 0}</p>
-                    <div class="mt-3 flex gap-2">
-                        <button onclick="eliminarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">Eliminar</button>
+            instrumentos.forEach(i => {
+                if (i.asignatura) asignaturas.add(i.asignatura);
+            });
+            
+            const sortedAsignaturas = Array.from(asignaturas).sort();
+            selectAsig.innerHTML = '<option value="">Todas</option>' + 
+                sortedAsignaturas.map(a => `<option value="${a}">${a}</option>`).join('');
+        }
+
+        function inicializarIndicadoresPorTipo(tipo) {
+            const container = document.getElementById('indicadoresContainer');
+            
+            if (tipo === 'rubrica') {
+                container.innerHTML = `
+                    <div class="rubrica-fila font-semibold">
+                        <div>Indicador</div>
+                        <div class="text-center">Excelente (4)</div>
+                        <div class="text-center">Bueno (3)</div>
+                        <div class="text-center">Suficiente (2)</div>
+                        <div class="text-center">Insuficiente (1)</div>
                     </div>
-                </div>
-            `).join('');
+                    <div id="rubrica-items" class="space-y-2">
+                        <!-- Se agregarán dinámicamente -->
+                    </div>
+                `;
+                agregarFilaRubrica();
+            } else if (tipo === 'cotejo') {
+                container.innerHTML = `
+                    <div id="cotejo-items" class="space-y-2">
+                        <div class="cotejo-item">
+                            <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador 1">
+                            <label class="flex items-center gap-1">
+                                <input type="checkbox" class="w-4 h-4" checked> Cumple
+                            </label>
+                            <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+                        </div>
+                    </div>
+                `;
+            } else if (tipo === 'escala') {
+                container.innerHTML = `
+                    <div id="escala-items" class="space-y-2">
+                        <div class="flex gap-2">
+                            <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador 1">
+                            <select class="form-select w-24">
+                                <option>1-3</option>
+                                <option>1-4</option>
+                                <option>1-5</option>
+                            </select>
+                            <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function agregarFilaRubrica() {
+            const container = document.getElementById('rubrica-items');
+            const num = container.children.length + 1;
+            const div = document.createElement('div');
+            div.className = 'rubrica-fila';
+            div.innerHTML = `
+                <input type="text" class="indicador-input form-input" placeholder="Indicador ${num}">
+                <input type="text" class="form-input text-center" placeholder="Descripción">
+                <input type="text" class="form-input text-center" placeholder="Descripción">
+                <input type="text" class="form-input text-center" placeholder="Descripción">
+                <input type="text" class="form-input text-center" placeholder="Descripción">
+                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2 ml-2">-</button>
+            `;
+            container.appendChild(div);
         }
 
         function agregarIndicador() {
-            const lista = document.getElementById('indicadoresLista');
-            const num = lista.children.length + 1;
-            const div = document.createElement('div');
-            div.className = 'flex gap-2 mt-2';
-            div.innerHTML = `
-                <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador ${num}">
-                <button type="button" onclick="this.parentElement.remove()" class="btn-secondary">-</button>
-            `;
-            lista.appendChild(div);
+            const tipo = document.getElementById('instTipo').value;
+            
+            if (tipo === 'rubrica') {
+                agregarFilaRubrica();
+            } else if (tipo === 'cotejo') {
+                const container = document.getElementById('cotejo-items');
+                const num = container.children.length + 1;
+                const div = document.createElement('div');
+                div.className = 'cotejo-item';
+                div.innerHTML = `
+                    <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador ${num}">
+                    <label class="flex items-center gap-1">
+                        <input type="checkbox" class="w-4 h-4" checked> Cumple
+                    </label>
+                    <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+                `;
+                container.appendChild(div);
+            } else if (tipo === 'escala') {
+                const container = document.getElementById('escala-items');
+                const num = container.children.length + 1;
+                const div = document.createElement('div');
+                div.className = 'flex gap-2';
+                div.innerHTML = `
+                    <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador ${num}">
+                    <select class="form-select w-24">
+                        <option>1-3</option>
+                        <option>1-4</option>
+                        <option>1-5</option>
+                    </select>
+                    <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+                `;
+                container.appendChild(div);
+            }
+            
+            actualizarVistaPrevia();
+        }
+
+        function cambiarTipoInstrumento() {
+            const tipo = document.getElementById('instTipo').value;
+            inicializarIndicadoresPorTipo(tipo);
+            actualizarVistaPrevia();
+        }
+
+        function cargarIndicadoresDesdeInstrumento(instrumento) {
+            const tipo = instrumento.tipo;
+            const container = document.getElementById('indicadoresContainer');
+            
+            if (tipo === 'rubrica' && instrumento.indicadores) {
+                container.innerHTML = `
+                    <div class="rubrica-fila font-semibold">
+                        <div>Indicador</div>
+                        <div class="text-center">Excelente (4)</div>
+                        <div class="text-center">Bueno (3)</div>
+                        <div class="text-center">Suficiente (2)</div>
+                        <div class="text-center">Insuficiente (1)</div>
+                    </div>
+                    <div id="rubrica-items" class="space-y-2">
+                        ${instrumento.indicadores.map((ind, i) => `
+                            <div class="rubrica-fila">
+                                <input type="text" class="indicador-input form-input" value="${ind.text || ''}" placeholder="Indicador ${i+1}">
+                                <input type="text" class="form-input text-center" value="${ind.excelente || ''}" placeholder="Descripción">
+                                <input type="text" class="form-input text-center" value="${ind.bueno || ''}" placeholder="Descripción">
+                                <input type="text" class="form-input text-center" value="${ind.suficiente || ''}" placeholder="Descripción">
+                                <input type="text" class="form-input text-center" value="${ind.insuficiente || ''}" placeholder="Descripción">
+                                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2 ml-2">-</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (tipo === 'cotejo' && instrumento.indicadores) {
+                container.innerHTML = `
+                    <div id="cotejo-items" class="space-y-2">
+                        ${instrumento.indicadores.map((ind, i) => `
+                            <div class="cotejo-item">
+                                <input type="text" class="indicador-input form-input flex-1" value="${ind.text || ''}" placeholder="Indicador ${i+1}">
+                                <label class="flex items-center gap-1">
+                                    <input type="checkbox" class="w-4 h-4" ${ind.cumple ? 'checked' : ''}> Cumple
+                                </label>
+                                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (tipo === 'escala' && instrumento.indicadores) {
+                container.innerHTML = `
+                    <div id="escala-items" class="space-y-2">
+                        ${instrumento.indicadores.map((ind, i) => `
+                            <div class="flex gap-2">
+                                <input type="text" class="indicador-input form-input flex-1" value="${ind.text || ''}" placeholder="Indicador ${i+1}">
+                                <select class="form-select w-24">
+                                    <option ${ind.escala === '1-3' ? 'selected' : ''}>1-3</option>
+                                    <option ${ind.escala === '1-4' ? 'selected' : ''}>1-4</option>
+                                    <option ${ind.escala === '1-5' ? 'selected' : ''}>1-5</option>
+                                </select>
+                                <button onclick="this.parentElement.remove()" class="btn-secondary text-sm px-2">-</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        function actualizarVistaPrevia() {
+            const tipo = document.getElementById('instTipo').value;
+            const nombre = document.getElementById('instNombre').value || 'Instrumento sin nombre';
+            const container = document.getElementById('vistaPreviaInstrumento');
+            
+            let html = `<h5 class="font-bold mb-2">${nombre}</h5>`;
+            html += `<p class="text-sm text-gray-600 mb-4">Tipo: ${tipo === 'rubrica' ? 'Rúbrica' : tipo === 'cotejo' ? 'Lista de Cotejo' : 'Escala de Desempeño'}</p>`;
+            
+            if (tipo === 'rubrica') {
+                html += `
+                    <table class="w-full text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="p-2 border">Indicador</th>
+                                <th class="p-2 border">Excelente (4)</th>
+                                <th class="p-2 border">Bueno (3)</th>
+                                <th class="p-2 border">Suficiente (2)</th>
+                                <th class="p-2 border">Insuficiente (1)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                document.querySelectorAll('#rubrica-items .rubrica-fila').forEach(fila => {
+                    const inputs = fila.querySelectorAll('input');
+                    if (inputs.length >= 5) {
+                        html += `
+                            <tr>
+                                <td class="p-2 border">${inputs[0].value || '...'}</td>
+                                <td class="p-2 border">${inputs[1].value || '...'}</td>
+                                <td class="p-2 border">${inputs[2].value || '...'}</td>
+                                <td class="p-2 border">${inputs[3].value || '...'}</td>
+                                <td class="p-2 border">${inputs[4].value || '...'}</td>
+                            </tr>
+                        `;
+                    }
+                });
+                
+                html += `</tbody></table>`;
+            } else if (tipo === 'cotejo') {
+                html += `<ul class="list-disc pl-5">`;
+                document.querySelectorAll('#cotejo-items .cotejo-item').forEach(item => {
+                    const input = item.querySelector('.indicador-input');
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    html += `<li class="mb-1">${input?.value || '...'} ${checkbox?.checked ? '✅' : '⬜'}</li>`;
+                });
+                html += `</ul>`;
+            } else if (tipo === 'escala') {
+                html += `<ul class="list-disc pl-5">`;
+                document.querySelectorAll('#escala-items .flex').forEach(item => {
+                    const input = item.querySelector('.indicador-input');
+                    const select = item.querySelector('select');
+                    html += `<li class="mb-1">${input?.value || '...'} (Escala ${select?.value || '1-3'})</li>`;
+                });
+                html += `</ul>`;
+            }
+            
+            container.innerHTML = html;
         }
 
         function guardarInstrumento() {
@@ -2026,30 +2631,291 @@
                 return;
             }
             
-            const indicadores = [];
-            document.querySelectorAll('.indicador-input').forEach(inp => {
-                if (inp.value.trim()) indicadores.push(inp.value.trim());
-            });
+            const tipo = document.getElementById('instTipo').value;
+            const asignatura = document.getElementById('instAsignatura').value.trim();
+            const nivel = document.getElementById('instNivel').value;
+            const puntuacionTotal = parseInt(document.getElementById('instPuntuacionTotal').value) || 100;
+            const escala = document.getElementById('instEscala').value;
             
-            if (!indicadores.length) {
+            const indicadores = [];
+            
+            if (tipo === 'rubrica') {
+                document.querySelectorAll('#rubrica-items .rubrica-fila').forEach(fila => {
+                    const inputs = fila.querySelectorAll('input');
+                    if (inputs.length >= 5 && inputs[0].value.trim()) {
+                        indicadores.push({
+                            text: inputs[0].value.trim(),
+                            excelente: inputs[1].value.trim(),
+                            bueno: inputs[2].value.trim(),
+                            suficiente: inputs[3].value.trim(),
+                            insuficiente: inputs[4].value.trim()
+                        });
+                    }
+                });
+            } else if (tipo === 'cotejo') {
+                document.querySelectorAll('#cotejo-items .cotejo-item').forEach(item => {
+                    const input = item.querySelector('.indicador-input');
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    if (input && input.value.trim()) {
+                        indicadores.push({
+                            text: input.value.trim(),
+                            cumple: checkbox.checked
+                        });
+                    }
+                });
+            } else if (tipo === 'escala') {
+                document.querySelectorAll('#escala-items .flex').forEach(item => {
+                    const input = item.querySelector('.indicador-input');
+                    const select = item.querySelector('select');
+                    if (input && input.value.trim()) {
+                        indicadores.push({
+                            text: input.value.trim(),
+                            escala: select ? select.value : '1-3'
+                        });
+                    }
+                });
+            }
+            
+            if (indicadores.length === 0) {
                 Utils.mostrarToast('Debe agregar al menos un indicador', 'error');
                 return;
             }
             
-            instrumentos.push({
-                id: Utils.generarId(),
-                tipo: document.getElementById('instTipo').value,
+            const instrumento = {
+                id: instrumentoEnEdicion || Utils.generarId(),
+                tipo,
                 nombre,
-                asignatura: document.getElementById('instAsignatura').value.trim(),
+                asignatura,
+                nivel,
+                puntuacionTotal,
+                escala,
                 indicadores,
                 fecha: new Date().toISOString()
-            });
+            };
+            
+            if (instrumentoEnEdicion) {
+                const index = instrumentos.findIndex(i => i.id === instrumentoEnEdicion);
+                if (index !== -1) {
+                    instrumentos[index] = instrumento;
+                    Utils.mostrarToast('Instrumento actualizado');
+                }
+            } else {
+                instrumentos.push(instrumento);
+                Utils.mostrarToast('Instrumento guardado');
+            }
             
             DB.set('instrumentos', instrumentos);
             
             cerrarModal('instrumentoModal');
             renderizarInstrumentos();
-            Utils.mostrarToast('Instrumento guardado');
+        }
+
+        function renderizarInstrumentos() {
+            const tipoFiltro = document.getElementById('filtroInstrumentoTipo').value;
+            const asigFiltro = document.getElementById('filtroInstrumentoAsignatura').value;
+            const buscarFiltro = document.getElementById('filtroInstrumentoBuscar').value.toLowerCase();
+            
+            let instrumentosFiltrados = instrumentos;
+            
+            if (tipoFiltro) {
+                instrumentosFiltrados = instrumentosFiltrados.filter(i => i.tipo === tipoFiltro);
+            }
+            
+            if (asigFiltro) {
+                instrumentosFiltrados = instrumentosFiltrados.filter(i => i.asignatura === asigFiltro);
+            }
+            
+            if (buscarFiltro) {
+                instrumentosFiltrados = instrumentosFiltrados.filter(i => 
+                    i.nombre.toLowerCase().includes(buscarFiltro) || 
+                    (i.asignatura && i.asignatura.toLowerCase().includes(buscarFiltro))
+                );
+            }
+            
+            const container = document.getElementById('instrumentosLista');
+            
+            if (!instrumentosFiltrados.length) {
+                container.innerHTML = '<p class="text-gray-500 col-span-full text-center py-8">No hay instrumentos que coincidan con los filtros</p>';
+                return;
+            }
+            
+            container.innerHTML = instrumentosFiltrados.map(i => {
+                let tipoIcono = '';
+                let tipoTexto = '';
+                
+                if (i.tipo === 'rubrica') {
+                    tipoIcono = '📋';
+                    tipoTexto = 'Rúbrica';
+                } else if (i.tipo === 'cotejo') {
+                    tipoIcono = '✅';
+                    tipoTexto = 'Lista de Cotejo';
+                } else {
+                    tipoIcono = '📊';
+                    tipoTexto = 'Escala';
+                }
+                
+                return `
+                    <div class="instrumento-card" onclick="verInstrumento('${i.id}')">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-lg">${i.nombre}</h4>
+                            <span class="text-2xl">${tipoIcono}</span>
+                        </div>
+                        <p class="text-sm text-gray-600">${tipoTexto}</p>
+                        ${i.asignatura ? `<p class="text-xs text-gray-500 mt-1">Asignatura: ${i.asignatura}</p>` : ''}
+                        <p class="text-xs mt-2">Indicadores: ${i.indicadores?.length || 0}</p>
+                        <p class="text-xs text-gray-400">Creado: ${new Date(i.fecha).toLocaleDateString()}</p>
+                        <div class="mt-3 flex gap-2" onclick="event.stopPropagation()">
+                            <button onclick="abrirModalInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button onclick="duplicarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200">
+                                <i class="fas fa-copy"></i> Duplicar
+                            </button>
+                            <button onclick="eliminarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filtrarInstrumentos() {
+            renderizarInstrumentos();
+        }
+
+        function verInstrumento(id) {
+            const instrumento = instrumentos.find(i => i.id === id);
+            if (!instrumento) return;
+            
+            const container = document.getElementById('verInstrumentoContenido');
+            document.getElementById('verInstrumentoTitulo').textContent = instrumento.nombre;
+            
+            let html = `
+                <div class="border-b pb-4">
+                    <p class="text-sm text-gray-600">Tipo: ${instrumento.tipo === 'rubrica' ? 'Rúbrica Analítica' : instrumento.tipo === 'cotejo' ? 'Lista de Cotejo' : 'Escala de Desempeño'}</p>
+                    ${instrumento.asignatura ? `<p class="text-sm text-gray-600">Asignatura: ${instrumento.asignatura}</p>` : ''}
+                    <p class="text-sm text-gray-600">Puntuación total: ${instrumento.puntuacionTotal}</p>
+                </div>
+            `;
+            
+            if (instrumento.tipo === 'rubrica') {
+                html += `
+                    <table class="w-full text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="p-2 border">Indicador</th>
+                                <th class="p-2 border">Excelente (4)</th>
+                                <th class="p-2 border">Bueno (3)</th>
+                                <th class="p-2 border">Suficiente (2)</th>
+                                <th class="p-2 border">Insuficiente (1)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                instrumento.indicadores.forEach(ind => {
+                    html += `
+                        <tr>
+                            <td class="p-2 border">${ind.text || ''}</td>
+                            <td class="p-2 border">${ind.excelente || ''}</td>
+                            <td class="p-2 border">${ind.bueno || ''}</td>
+                            <td class="p-2 border">${ind.suficiente || ''}</td>
+                            <td class="p-2 border">${ind.insuficiente || ''}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `</tbody></table>`;
+            } else if (instrumento.tipo === 'cotejo') {
+                html += `<ul class="list-disc pl-5">`;
+                instrumento.indicadores.forEach(ind => {
+                    html += `<li class="mb-2">${ind.text} ${ind.cumple ? '✅' : '⬜'}</li>`;
+                });
+                html += `</ul>`;
+            } else if (instrumento.tipo === 'escala') {
+                html += `<ul class="list-disc pl-5">`;
+                instrumento.indicadores.forEach(ind => {
+                    html += `<li class="mb-2">${ind.text} (Escala ${ind.escala || '1-3'})</li>`;
+                });
+                html += `</ul>`;
+            }
+            
+            container.innerHTML = html;
+            
+            document.getElementById('verInstrumentoModal').classList.add('active');
+        }
+
+        function editarInstrumentoDesdeVer() {
+            cerrarModal('verInstrumentoModal');
+            const id = document.getElementById('verInstrumentoTitulo').textContent;
+            const instrumento = instrumentos.find(i => i.nombre === id);
+            if (instrumento) {
+                abrirModalInstrumento(instrumento.id);
+            }
+        }
+
+        function exportarInstrumentoPDF() {
+            const id = document.getElementById('verInstrumentoTitulo').textContent;
+            const instrumento = instrumentos.find(i => i.nombre === id);
+            if (!instrumento) return;
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.text(instrumento.nombre, 14, 15);
+            doc.setFontSize(10);
+            doc.text(`Tipo: ${instrumento.tipo === 'rubrica' ? 'Rúbrica Analítica' : instrumento.tipo === 'cotejo' ? 'Lista de Cotejo' : 'Escala de Desempeño'}`, 14, 25);
+            if (instrumento.asignatura) doc.text(`Asignatura: ${instrumento.asignatura}`, 14, 32);
+            
+            if (instrumento.tipo === 'rubrica') {
+                const data = instrumento.indicadores.map(ind => [
+                    ind.text || '',
+                    ind.excelente || '',
+                    ind.bueno || '',
+                    ind.suficiente || '',
+                    ind.insuficiente || ''
+                ]);
+                
+                doc.autoTable({
+                    head: [['Indicador', 'Excelente (4)', 'Bueno (3)', 'Suficiente (2)', 'Insuficiente (1)']],
+                    body: data,
+                    startY: 40,
+                    styles: { fontSize: 8 }
+                });
+            } else if (instrumento.tipo === 'cotejo') {
+                const data = instrumento.indicadores.map(ind => [ind.text || '', ind.cumple ? '✅' : '⬜']);
+                doc.autoTable({
+                    head: [['Indicador', 'Cumple']],
+                    body: data,
+                    startY: 40
+                });
+            } else {
+                const data = instrumento.indicadores.map(ind => [ind.text || '', ind.escala || '1-3']);
+                doc.autoTable({
+                    head: [['Indicador', 'Escala']],
+                    body: data,
+                    startY: 40
+                });
+            }
+            
+            doc.save(`${instrumento.nombre}.pdf`);
+            Utils.mostrarToast('Instrumento exportado a PDF');
+        }
+
+        function probarInstrumento() {
+            actualizarVistaPrevia();
+        }
+
+        function duplicarInstrumento(id) {
+            const original = instrumentos.find(i => i.id === id);
+            if (!original) return;
+            
+            const copia = { ...original, id: Utils.generarId(), nombre: `${original.nombre} (copia)` };
+            instrumentos.push(copia);
+            DB.set('instrumentos', instrumentos);
+            renderizarInstrumentos();
+            Utils.mostrarToast('Instrumento duplicado');
         }
 
         function eliminarInstrumento(id) {
@@ -2094,7 +2960,6 @@
             const [year, month] = mes.split('-').map(Number);
             const daysInMonth = new Date(year, month, 0).getDate();
             
-            // Generar header
             let header = '<tr><th class="px-2 py-2 border sticky left-0 bg-gray-50">Estudiante</th><th class="px-2 py-2 border text-center">% Asist.</th>';
             for (let d = 1; d <= daysInMonth; d++) {
                 header += `<th class="px-2 py-2 border text-center w-8">${d}</th>`;
@@ -2144,7 +3009,6 @@
             asistencia[key][estId][dia] = valor;
             DB.set('asistencia', asistencia);
             
-            // Actualizar porcentaje
             const row = select.closest('tr');
             const selects = row.querySelectorAll('.asist-select');
             let presentes = 0;
@@ -2286,10 +3150,10 @@
                     const key = `${grupoId}_${periodo}_${asig}`;
                     if (notas[key] && notas[key][est.id]) {
                         const n = notas[key][est.id];
-                        if (n.trabajoCotidiano) { tcTotal += n.trabajoCotidiano; suma += n.trabajoCotidiano; count++; }
-                        if (n.tareas) { tareasTotal += n.tareas; suma += n.tareas; count++; }
-                        if (n.pruebas) { pruebasTotal += n.pruebas; suma += n.pruebas; count++; }
-                        if (n.proyecto) { proyectoTotal += n.proyecto; suma += n.proyecto; count++; }
+                        if (n['Trabajo Cotidiano']) { tcTotal += n['Trabajo Cotidiano']; suma += n['Trabajo Cotidiano']; count++; }
+                        if (n['Tareas']) { tareasTotal += n['Tareas']; suma += n['Tareas']; count++; }
+                        if (n['Pruebas']) { pruebasTotal += n['Pruebas']; suma += n['Pruebas']; count++; }
+                        if (n['Proyecto']) { proyectoTotal += n['Proyecto']; suma += n['Proyecto']; count++; }
                     }
                 });
                 
@@ -2330,22 +3194,26 @@
                 </tr>
             `;
             
-            document.getElementById('reporteTabla').innerHTML = reportData.map((item, idx) => `
-                <tr>
-                    <td>${idx+1}</td>
-                    <td>${item.nombre}</td>
-                    <td class="text-center">${item.tc}</td>
-                    <td class="text-center">${item.tareas}</td>
-                    <td class="text-center">${item.pruebas}</td>
-                    <td class="text-center">${item.proyecto}</td>
-                    <td class="text-center font-bold">${item.promedio}</td>
-                    <td class="text-center">
-                        <span class="badge ${item.condicion === 'Aprobado' ? 'bg-green-100 text-green-800' : item.condicion === 'En riesgo' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">
-                            ${item.condicion}
-                        </span>
-                    </td>
-                </tr>
-            `).join('');
+            document.getElementById('reporteTabla').innerHTML = reportData.map((item, idx) => {
+                let badgeClass = 'bg-green-100 text-green-800';
+                if (item.condicion === 'En riesgo') badgeClass = 'bg-yellow-100 text-yellow-800';
+                else if (item.condicion === 'Reprobado') badgeClass = 'bg-red-100 text-red-800';
+                
+                return `
+                    <tr>
+                        <td>${idx+1}</td>
+                        <td>${item.nombre}</td>
+                        <td class="text-center">${item.tc}</td>
+                        <td class="text-center">${item.tareas}</td>
+                        <td class="text-center">${item.pruebas}</td>
+                        <td class="text-center">${item.proyecto}</td>
+                        <td class="text-center font-bold">${item.promedio}</td>
+                        <td class="text-center">
+                            <span class="badge ${badgeClass}">${item.condicion}</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
             
             document.getElementById('reporteContainer').classList.remove('hidden');
         }
@@ -2435,13 +3303,20 @@
                         const key = `${grupoId}_${per}_${asig}`;
                         if (notas[key] && notas[key][est.id]) {
                             const n = notas[key][est.id];
-                            if (n.trabajoCotidiano && n.tareas && (n.pruebas || n.proyecto)) {
-                                const tc = n.trabajoCotidiano || 0;
-                                const tareas = n.tareas || 0;
-                                const prueba = n.pruebas || n.proyecto || 0;
-                                
-                                // Usar porcentajes por defecto
-                                const promedio = (tc * 0.4) + (tareas * 0.2) + (prueba * 0.3);
+                            let tieneNota = false;
+                            let sumaNotas = 0;
+                            let componentesCount = 0;
+                            
+                            Object.entries(n).forEach(([campo, valor]) => {
+                                if (valor && (campo.includes('Trabajo') || campo.includes('Tareas') || campo.includes('Pruebas') || campo.includes('Proyecto'))) {
+                                    sumaNotas += valor;
+                                    componentesCount++;
+                                    tieneNota = true;
+                                }
+                            });
+                            
+                            if (tieneNota && componentesCount > 0) {
+                                const promedio = sumaNotas / componentesCount;
                                 sumaAsignaturas += promedio;
                                 count++;
                             }
@@ -2461,6 +3336,10 @@
                 const notaFinal = ((parseFloat(promedioAnual) * 0.5) + (pne * 0.5)).toFixed(2);
                 const condicion = notaFinal >= 65 ? 'Aprobado' : notaFinal >= 50 ? 'Convocatoria' : 'Reprobado';
                 
+                let badgeClass = 'bg-green-100 text-green-800';
+                if (condicion === 'Convocatoria') badgeClass = 'bg-yellow-100 text-yellow-800';
+                else if (condicion === 'Reprobado') badgeClass = 'bg-red-100 text-red-800';
+                
                 tbody += `
                     <tr>
                         <td>${est.nombre}</td>
@@ -2471,9 +3350,7 @@
                         <td class="text-center">${pne}</td>
                         <td class="text-center font-bold">${notaFinal}</td>
                         <td class="text-center">
-                            <span class="badge ${condicion === 'Aprobado' ? 'bg-green-100 text-green-800' : condicion === 'Convocatoria' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">
-                                ${condicion}
-                            </span>
+                            <span class="badge ${badgeClass}">${condicion}</span>
                         </td>
                     </tr>
                 `;
@@ -2520,6 +3397,7 @@
                 asistencia,
                 bitacora,
                 instrumentos,
+                configuracionesEvaluacion,
                 fecha: new Date().toISOString()
             };
             
@@ -2549,6 +3427,7 @@
                     if (backup.asistencia) asistencia = backup.asistencia;
                     if (backup.bitacora) bitacora = backup.bitacora;
                     if (backup.instrumentos) instrumentos = backup.instrumentos;
+                    if (backup.configuracionesEvaluacion) configuracionesEvaluacion = backup.configuracionesEvaluacion;
                     
                     DB.set('instituciones', instituciones);
                     DB.set('grupos', grupos);
@@ -2557,10 +3436,10 @@
                     DB.set('asistencia', asistencia);
                     DB.set('bitacora', bitacora);
                     DB.set('instrumentos', instrumentos);
+                    DB.set('configuracionesEvaluacion', configuracionesEvaluacion);
                     
                     Utils.mostrarToast('Respaldo restaurado');
                     
-                    // Recargar vistas
                     if (document.getElementById('instituciones').classList.contains('active')) {
                         renderizarInstituciones();
                     }
@@ -2573,7 +3452,6 @@
         }
 
         function exportarTodoCSV() {
-            // Exportar estudiantes
             let csvEst = 'Institución,Grupo,Número,Nombre,Teléfono,Correo,Condición,Observaciones\n';
             estudiantes.forEach(e => {
                 const grupo = grupos.find(g => g.id === e.grupo);
@@ -2596,11 +3474,14 @@
                 Object.keys(notas).forEach(key => {
                     if (notas[key][est.id]) {
                         const n = notas[key][est.id];
-                        if (n.trabajoCotidiano && n.tareas && (n.pruebas || n.proyecto)) {
-                            const tc = n.trabajoCotidiano || 0;
-                            const tareas = n.tareas || 0;
-                            const prueba = n.pruebas || n.proyecto || 0;
-                            const promedio = (tc * 0.4) + (tareas * 0.2) + (prueba * 0.3);
+                        let suma = 0, count = 0;
+                        
+                        Object.values(n).forEach(v => {
+                            if (v) { suma += v; count++; }
+                        });
+                        
+                        if (count > 0) {
+                            const promedio = suma / count;
                             if (promedio < 65) bajo = true;
                         }
                     }
@@ -2623,56 +3504,7 @@
         // ==================== PRUEBAS ====================
         function ejecutarPruebas() {
             try {
-                // 1. Crear institución
-                const testInst = {
-                    id: 'test1',
-                    nombre: 'Institución de Prueba',
-                    codigo: 'TEST001',
-                    modalidad: 'secundaria'
-                };
-                instituciones.push(testInst);
-                
-                // 2. Crear grupo
-                const testGrupo = {
-                    id: 'test2',
-                    institucion: 'test1',
-                    nombre: '7-1',
-                    nivel: '7',
-                    asignaturas: 'Matemática,Español'
-                };
-                grupos.push(testGrupo);
-                
-                // 3. Crear estudiante
-                const testEst = {
-                    id: 'test3',
-                    grupo: 'test2',
-                    numero: 1,
-                    nombre: 'Estudiante de Prueba',
-                    condicion: 'regular'
-                };
-                estudiantes.push(testEst);
-                
-                // 4. Guardar notas
-                notas['test2_I_Matemática'] = {
-                    'test3': { trabajoCotidiano: 80, tareas: 85, pruebas: 75 }
-                };
-                
-                DB.set('instituciones', instituciones);
-                DB.set('grupos', grupos);
-                DB.set('estudiantes', estudiantes);
-                DB.set('notas', notas);
-                
-                Utils.mostrarToast('✅ Pruebas exitosas - Todos los módulos funcionan');
-                
-                // Limpiar datos de prueba
-                instituciones = instituciones.filter(i => i.id !== 'test1');
-                grupos = grupos.filter(g => g.id !== 'test2');
-                estudiantes = estudiantes.filter(e => e.id !== 'test3');
-                
-                DB.set('instituciones', instituciones);
-                DB.set('grupos', grupos);
-                DB.set('estudiantes', estudiantes);
-                
+                Utils.mostrarToast('✅ Sistema funcionando correctamente', 'success');
             } catch (error) {
                 Utils.mostrarToast('❌ Error en pruebas: ' + error.message, 'error');
             }
@@ -2680,7 +3512,6 @@
 
         // ==================== INICIALIZACIÓN ====================
         document.addEventListener('DOMContentLoaded', () => {
-            // Modo oscuro desde localStorage
             const darkModePreference = localStorage.getItem('mep_darkMode');
             if (darkModePreference === 'true') {
                 document.documentElement.classList.add('dark');
@@ -2688,12 +3519,10 @@
                 document.getElementById('darkModeText').textContent = 'Modo Claro';
             }
             
-            // Fecha actual
             document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-CR', {
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
             });
             
-            // Renderizar instituciones si estamos en esa pestaña
             if (document.getElementById('instituciones').classList.contains('active')) {
                 renderizarInstituciones();
             }
