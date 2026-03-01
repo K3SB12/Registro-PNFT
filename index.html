@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Integral de Gestión Docente MEP</title>
+    <title>SIGD-MEP 2026 - Sistema Profesional Docente</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     
-    <!-- SheetJS para Excel -->
+    <!-- SheetJS para Excel/CSV -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     
     <!-- FileSaver.js -->
@@ -34,10 +34,10 @@
 
         body {
             background: #f3f4f6;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
-        /* Sidebar - Comportamiento correcto */
+        /* Sidebar */
         .sidebar {
             position: fixed;
             top: 0;
@@ -80,7 +80,8 @@
 
         .main-content {
             transition: margin-left 0.3s ease;
-            min-height: 100vh;
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .menu-btn {
@@ -118,7 +119,6 @@
             display: block;
         }
 
-        /* Pestañas */
         .tab-pane {
             display: none;
             animation: fadeIn 0.3s ease;
@@ -133,7 +133,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Tarjetas */
         .card {
             background: white;
             border-radius: 12px;
@@ -148,7 +147,6 @@
             border-color: #374151;
         }
 
-        /* Botones */
         .btn-primary {
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
@@ -201,7 +199,6 @@
             background: #dc2626;
         }
 
-        /* Formularios */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -218,7 +215,7 @@
             color: #e5e7eb;
         }
 
-        .form-input {
+        .form-input, .form-select {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #d1d5db;
@@ -227,19 +224,18 @@
             font-size: 1rem;
         }
 
-        .form-input:focus {
+        .form-input:focus, .form-select:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        .dark .form-input {
+        .dark .form-input, .dark .form-select {
             background: #374151;
             border-color: #4b5563;
             color: white;
         }
 
-        /* Tablas */
         .table-container {
             overflow-x: auto;
             border-radius: 8px;
@@ -274,7 +270,6 @@
             border-bottom-color: #374151;
         }
 
-        /* Badges */
         .badge {
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
@@ -297,7 +292,6 @@
             color: #b91c1c;
         }
 
-        /* Modales */
         .modal {
             display: none;
             position: fixed;
@@ -320,7 +314,7 @@
             background: white;
             border-radius: 16px;
             padding: 2rem;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
@@ -330,7 +324,6 @@
             background: #1f2937;
         }
 
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 2rem;
@@ -352,19 +345,38 @@
             transform: translateY(0);
         }
 
-        /* Loading */
-        .loading {
-            display: inline-block;
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 3px solid #e5e7eb;
-            border-top-color: #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .component-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f3f4f6;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #d1d5db;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .dark .component-chip {
+            background: #374151;
+            border-color: #4b5563;
+        }
+
+        .component-chip.active {
+            background: #dbeafe;
+            border-color: #3b82f6;
+            color: #1e3a8a;
+        }
+
+        .instrumento-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.2s;
+        }
+
+        .instrumento-card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -382,47 +394,51 @@
     <aside class="sidebar" id="sidebar">
         <!-- Logo -->
         <div class="p-6 bg-gradient-to-r from-blue-900 to-blue-700 text-white">
-            <h1 class="text-2xl font-bold">SIGD-MEP</h1>
-            <p class="text-sm opacity-90">Sistema Integral de Gestión Docente</p>
+            <h1 class="text-2xl font-bold">SIGD-MEP 2026</h1>
+            <p class="text-sm opacity-90">Sistema Profesional Docente</p>
         </div>
 
         <!-- Navegación -->
         <nav class="p-4">
-            <button onclick="showTab('config')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
-                <i class="fas fa-cog w-6 text-blue-600"></i>
-                <span>Configuración</span>
+            <button onclick="showTab('dashboard')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
+                <i class="fas fa-home w-6 text-blue-600"></i>
+                <span>Dashboard</span>
+            </button>
+            <button onclick="showTab('centros')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
+                <i class="fas fa-school w-6 text-green-600"></i>
+                <span>Centros Educativos</span>
             </button>
             <button onclick="showTab('grupos')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
-                <i class="fas fa-users w-6 text-green-600"></i>
+                <i class="fas fa-users w-6 text-purple-600"></i>
                 <span>Grupos y Estudiantes</span>
             </button>
             <button onclick="showTab('evaluacion')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
-                <i class="fas fa-calculator w-6 text-purple-600"></i>
-                <span>Registro de Componentes</span>
+                <i class="fas fa-calculator w-6 text-orange-600"></i>
+                <span>Evaluación</span>
             </button>
             <button onclick="showTab('instrumentos')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
-                <i class="fas fa-clipboard-list w-6 text-orange-600"></i>
+                <i class="fas fa-clipboard-list w-6 text-red-600"></i>
                 <span>Instrumentos</span>
             </button>
             <button onclick="showTab('asistencia')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
-                <i class="fas fa-calendar-check w-6 text-red-600"></i>
+                <i class="fas fa-calendar-check w-6 text-indigo-600"></i>
                 <span>Asistencia</span>
             </button>
             <button onclick="showTab('bitacora')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
-                <i class="fas fa-book w-6 text-indigo-600"></i>
-                <span>Bitácora Docente</span>
+                <i class="fas fa-book w-6 text-pink-600"></i>
+                <span>Bitácora</span>
             </button>
             <button onclick="showTab('reportes')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
                 <i class="fas fa-chart-bar w-6 text-teal-600"></i>
-                <span>Reportes por Periodo</span>
+                <span>Reportes</span>
             </button>
             <button onclick="showTab('acta')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
-                <i class="fas fa-file-signature w-6 text-pink-600"></i>
+                <i class="fas fa-file-signature w-6 text-amber-600"></i>
                 <span>Acta Final</span>
             </button>
             <button onclick="showTab('respaldo')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 mb-1 flex items-center gap-3">
                 <i class="fas fa-database w-6 text-gray-600"></i>
-                <span>Respaldo Global</span>
+                <span>Respaldo</span>
             </button>
         </nav>
 
@@ -448,7 +464,7 @@
         <!-- Header -->
         <header class="bg-white dark:bg-gray-800 shadow-sm px-6 py-4 flex items-center justify-between sticky top-0 z-40">
             <div class="flex items-center gap-4">
-                <h2 id="pageTitle" class="text-xl font-semibold">Sistema Integral de Gestión Docente MEP</h2>
+                <h2 id="pageTitle" class="text-xl font-semibold">Dashboard</h2>
             </div>
             <div class="flex items-center gap-4">
                 <button onclick="showAlerts()" class="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
@@ -461,210 +477,138 @@
 
         <!-- Contenido -->
         <div class="p-6">
-            <!-- CONFIGURACIÓN -->
-            <div id="config" class="tab-pane active">
-                <div class="max-w-4xl mx-auto space-y-6">
-                    <!-- Centros Educativos -->
-                    <div class="card">
-                        <h3 class="text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-school mr-2 text-blue-600"></i>
-                            Centros Educativos
-                        </h3>
-                        <div id="centrosList" class="space-y-3 mb-4"></div>
-                        <button onclick="openModal('centroModal')" class="btn-primary">
-                            <i class="fas fa-plus"></i>
-                            Agregar Centro
+            <!-- DASHBOARD -->
+            <div id="dashboard" class="tab-pane active">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="card text-center">
+                        <i class="fas fa-school text-4xl text-blue-600 mb-2"></i>
+                        <p class="text-3xl font-bold" id="dashCentros">0</p>
+                        <p class="text-gray-600">Centros</p>
+                    </div>
+                    <div class="card text-center">
+                        <i class="fas fa-users text-4xl text-green-600 mb-2"></i>
+                        <p class="text-3xl font-bold" id="dashGrupos">0</p>
+                        <p class="text-gray-600">Grupos</p>
+                    </div>
+                    <div class="card text-center">
+                        <i class="fas fa-user-graduate text-4xl text-purple-600 mb-2"></i>
+                        <p class="text-3xl font-bold" id="dashEstudiantes">0</p>
+                        <p class="text-gray-600">Estudiantes</p>
+                    </div>
+                    <div class="card text-center">
+                        <i class="fas fa-file-alt text-4xl text-orange-600 mb-2"></i>
+                        <p class="text-3xl font-bold" id="dashInstrumentos">0</p>
+                        <p class="text-gray-600">Instrumentos</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-lg font-semibold mb-4">Bienvenido al Sistema Integral de Gestión Docente MEP 2026</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Este sistema ha sido actualizado con los lineamientos técnicos de evaluación para el aprendizaje del curso lectivo 2026, cumpliendo con la normativa del Ministerio de Educación Pública de Costa Rica.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mt-6">
+                        <div class="border-l-4 border-blue-600 pl-4">
+                            <h4 class="font-semibold">Primaria (1° a 6°)</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Componentes: Trabajo Cotidiano, Tareas, Pruebas</p>
+                        </div>
+                        <div class="border-l-4 border-green-600 pl-4">
+                            <h4 class="font-semibold">Secundaria (7° a 12°)</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Componentes: Trabajo Cotidiano, Tareas, Prueba o Proyecto (según corresponda)</p>
+                        </div>
+                        <div class="border-l-4 border-purple-600 pl-4">
+                            <h4 class="font-semibold">Técnica / CINDEA</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Componentes adicionales: Portafolio, Demostración de lo aprendido</p>
+                        </div>
+                        <div class="border-l-4 border-orange-600 pl-4">
+                            <h4 class="font-semibold">Asistencia</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Aplica como componente en todas las modalidades</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CENTROS EDUCATIVOS -->
+            <div id="centros" class="tab-pane">
+                <div class="card">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold">Mis Centros Educativos</h3>
+                        <button onclick="abrirModalCentro()" class="btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Centro
                         </button>
                     </div>
-
-                    <!-- Configuración de Evaluación -->
-                    <div class="card">
-                        <h3 class="text-lg font-semibold mb-4">Configuración de Componentes de Evaluación</h3>
-                        
-                        <div class="grid md:grid-cols-2 gap-4 mb-6">
-                            <div class="form-group">
-                                <label class="form-label">Modalidad</label>
-                                <select id="configModalidad" class="form-input" onchange="loadDefaultPercentages()">
-                                    <option value="primaria1">Primaria - I Ciclo (1° año)</option>
-                                    <option value="primaria23">Primaria - I Ciclo (2°-3° año)</option>
-                                    <option value="primaria456">Primaria - II Ciclo (4°-6° año)</option>
-                                    <option value="secundaria7-9">Secundaria - III Ciclo (7°-9° año)</option>
-                                    <option value="secundaria10-12">Secundaria - IV Ciclo (10°-12° año)</option>
-                                    <option value="cindea">CINDEA / IPEC</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Periodo Actual</label>
-                                <select id="configPeriodo" class="form-input">
-                                    <option value="I">Periodo I</option>
-                                    <option value="II">Periodo II</option>
-                                    <option value="III">Periodo III</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                            <div class="form-group">
-                                <label class="form-label">Trabajo Cotidiano (%)</label>
-                                <input type="number" id="pctTC" class="form-input" min="0" max="100" onchange="validatePercentages()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Tareas (%)</label>
-                                <input type="number" id="pctTareas" class="form-input" min="0" max="100" onchange="validatePercentages()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Pruebas (%)</label>
-                                <input type="number" id="pctPruebas" class="form-input" min="0" max="100" onchange="validatePercentages()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Proyecto (%)</label>
-                                <input type="number" id="pctProyecto" class="form-input" min="0" max="100" onchange="validatePercentages()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Asistencia (%)</label>
-                                <input type="number" id="pctAsistencia" class="form-input" min="0" max="100" onchange="validatePercentages()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Portafolio (%)</label>
-                                <input type="number" id="pctPortafolio" class="form-input" min="0" max="100" onchange="validatePercentages()">
-                            </div>
-                        </div>
-
-                        <div id="percentageAlert" class="hidden mb-4 p-4 bg-red-100 text-red-700 rounded-lg border border-red-400">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            <span id="percentageMessage">Los porcentajes deben sumar 100%</span>
-                        </div>
-
-                        <div class="flex gap-3">
-                            <button onclick="saveConfiguration()" class="btn-primary">
-                                <i class="fas fa-save"></i>
-                                Guardar Configuración
-                            </button>
-                            <button onclick="resetSystem()" class="btn-danger">
-                                <i class="fas fa-trash-alt"></i>
-                                Restablecer Sistema
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Configuración ACS -->
-                    <div class="card">
-                        <h3 class="text-lg font-semibold mb-4">Adecuaciones Curriculares Significativas (ACS)</h3>
-                        <div class="form-group">
-                            <label class="form-label">Fórmula alternativa para ACS</label>
-                            <textarea id="formulaACS" class="form-input" rows="3">(trabajoCotidiano * 0.7) + (tareas * 0.3)</textarea>
-                            <p class="text-xs text-gray-500 mt-1">Variables disponibles: trabajoCotidiano, tareas, prueba, proyecto, portafolio</p>
-                        </div>
-                    </div>
+                    
+                    <div id="centrosLista" class="space-y-4"></div>
                 </div>
             </div>
 
             <!-- GRUPOS Y ESTUDIANTES -->
             <div id="grupos" class="tab-pane">
-                <div class="space-y-6">
-                    <div class="flex flex-wrap gap-4 justify-between items-center">
-                        <div class="flex gap-2">
-                            <button onclick="openModal('grupoModal')" class="btn-primary">
-                                <i class="fas fa-plus"></i>
-                                Nuevo Grupo
-                            </button>
-                            <button onclick="document.getElementById('csvInput').click()" class="btn-secondary">
-                                <i class="fas fa-file-import"></i>
-                                Importar CSV
-                            </button>
-                            <input type="file" id="csvInput" accept=".csv" class="hidden" onchange="importCSV(this)">
-                        </div>
-                        <select id="filterGrupo" class="form-input w-48" onchange="renderEstudiantes()">
-                            <option value="">Todos los grupos</option>
+                <div class="flex flex-wrap gap-4 justify-between items-center mb-6">
+                    <div class="flex gap-2">
+                        <button onclick="abrirModalGrupo()" class="btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Grupo
+                        </button>
+                        <button onclick="document.getElementById('csvInput').click()" class="btn-secondary">
+                            <i class="fas fa-file-import"></i> Importar CSV
+                        </button>
+                        <input type="file" id="csvInput" accept=".csv" class="hidden" onchange="importarCSV(this)">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-sm">Filtrar por centro:</label>
+                        <select id="filtroCentroGrupos" class="form-select w-64" onchange="filtrarGruposPorCentro()">
+                            <option value="">Todos los centros</option>
                         </select>
                     </div>
-
-                    <div class="grid lg:grid-cols-3 gap-6">
-                        <!-- Lista de Grupos -->
-                        <div class="lg:col-span-1">
-                            <h3 class="font-semibold mb-4">Grupos Activos</h3>
-                            <div id="gruposList" class="space-y-3"></div>
-                        </div>
-
-                        <!-- Lista de Estudiantes -->
-                        <div class="lg:col-span-2">
-                            <div class="card overflow-hidden">
-                                <div class="p-4 border-b flex justify-between items-center">
-                                    <h3 class="font-semibold">Estudiantes</h3>
-                                    <div class="flex gap-2">
-                                        <button onclick="exportEstudiantesCSV()" class="btn-secondary text-sm">
-                                            <i class="fas fa-download"></i>
-                                            CSV
-                                        </button>
-                                        <button onclick="openModal('estudianteModal')" class="btn-primary text-sm">
-                                            <i class="fas fa-plus"></i>
-                                            Agregar
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="table-container">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Nombre</th>
-                                                <th>Grupo</th>
-                                                <th>Condición</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="estudiantesTable"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
+                <div id="gruposContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
             </div>
 
             <!-- EVALUACIÓN -->
             <div id="evaluacion" class="tab-pane">
                 <div class="card">
-                    <div class="grid md:grid-cols-4 gap-4 mb-6">
-                        <div class="form-group">
-                            <label class="form-label">Grupo</label>
-                            <select id="evalGrupo" class="form-input"></select>
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div>
+                            <label class="form-label">Centro Educativo</label>
+                            <select id="evalCentro" class="form-select" onchange="cargarGruposPorCentro('evalGrupo', this.value)">
+                                <option value="">Seleccione...</option>
+                            </select>
                         </div>
-                        <div class="form-group">
+                        <div>
+                            <label class="form-label">Grupo</label>
+                            <select id="evalGrupo" class="form-select" onchange="cargarComponentesPorGrupo()">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div>
                             <label class="form-label">Periodo</label>
-                            <select id="evalPeriodo" class="form-input">
+                            <select id="evalPeriodo" class="form-select">
                                 <option value="I">Periodo I</option>
                                 <option value="II">Periodo II</option>
                                 <option value="III">Periodo III</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div>
                             <label class="form-label">Asignatura</label>
                             <input type="text" id="evalAsignatura" class="form-input" placeholder="Ej: Matemática">
                         </div>
                         <div class="flex items-end">
-                            <button onclick="loadEvaluacionTable()" class="btn-primary w-full">
-                                <i class="fas fa-search"></i>
-                                Cargar
+                            <button onclick="cargarTablaEvaluacion()" class="btn-primary w-full">
+                                <i class="fas fa-search"></i> Cargar
                             </button>
                         </div>
+                    </div>
+
+                    <!-- Componentes activos -->
+                    <div id="componentesContainer" class="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                        <p class="text-sm font-medium mb-2">Componentes activos para este grupo:</p>
+                        <div id="componentesLista" class="flex flex-wrap"></div>
                     </div>
 
                     <div id="evaluacionTableContainer" class="hidden">
                         <div class="table-container">
                             <table>
-                                <thead>
-                                    <tr>
-                                        <th class="sticky left-0 bg-gray-50 dark:bg-gray-700">Estudiante</th>
-                                        <th class="text-center">TC</th>
-                                        <th class="text-center">Tareas</th>
-                                        <th class="text-center">Prueba</th>
-                                        <th class="text-center">Proyecto</th>
-                                        <th class="text-center">Asist.</th>
-                                        <th class="text-center">Portaf.</th>
-                                        <th class="text-center font-bold">Prom.</th>
-                                    </tr>
-                                </thead>
+                                <thead id="evalTableHeader"></thead>
                                 <tbody id="evaluacionTableBody"></tbody>
                             </table>
                         </div>
@@ -673,9 +617,8 @@
                             <div>
                                 <p class="text-sm font-medium">Promedio del Grupo: <span id="promedioGrupo" class="text-2xl font-bold">0.00</span></p>
                             </div>
-                            <button onclick="saveNotas()" class="btn-primary">
-                                <i class="fas fa-save"></i>
-                                Guardar Notas
+                            <button onclick="guardarNotas()" class="btn-primary">
+                                <i class="fas fa-save"></i> Guardar Notas
                             </button>
                         </div>
                     </div>
@@ -684,15 +627,15 @@
 
             <!-- INSTRUMENTOS -->
             <div id="instrumentos" class="tab-pane">
-                <div class="space-y-6">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-lg font-semibold">Instrumentos de Evaluación</h3>
-                        <button onclick="openModal('instrumentoModal')" class="btn-primary">
-                            <i class="fas fa-plus"></i>
-                            Crear Instrumento
+                <div class="card">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold">Mis Instrumentos de Evaluación</h3>
+                        <button onclick="abrirModalInstrumento()" class="btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Instrumento
                         </button>
                     </div>
-                    <div id="instrumentosList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" id="instrumentosLista"></div>
                 </div>
             </div>
 
@@ -700,18 +643,23 @@
             <div id="asistencia" class="tab-pane">
                 <div class="card">
                     <div class="grid md:grid-cols-3 gap-4 mb-6">
-                        <div class="form-group">
-                            <label class="form-label">Grupo</label>
-                            <select id="asistGrupo" class="form-input"></select>
+                        <div>
+                            <label class="form-label">Centro Educativo</label>
+                            <select id="asistCentro" class="form-select" onchange="cargarGruposPorCentro('asistGrupo', this.value)">
+                                <option value="">Seleccione...</option>
+                            </select>
                         </div>
-                        <div class="form-group">
+                        <div>
+                            <label class="form-label">Grupo</label>
+                            <select id="asistGrupo" class="form-select"></select>
+                        </div>
+                        <div>
                             <label class="form-label">Mes</label>
                             <input type="month" id="asistMes" class="form-input">
                         </div>
                         <div class="flex items-end">
-                            <button onclick="renderAsistencia()" class="btn-primary w-full">
-                                <i class="fas fa-calendar-check"></i>
-                                Cargar
+                            <button onclick="cargarAsistencia()" class="btn-primary w-full">
+                                <i class="fas fa-calendar-check"></i> Cargar
                             </button>
                         </div>
                     </div>
@@ -720,20 +668,14 @@
                         <div class="table-container">
                             <table class="border-collapse">
                                 <thead id="asistenciaHeader"></thead>
-                                <tbody id="asistenciaTableBody"></tbody>
+                                <tbody id="asistenciaBody"></tbody>
                             </table>
                         </div>
                         <div class="mt-4 flex gap-2 text-sm">
-                            <span class="badge badge-success">P = Presente</span>
-                            <span class="badge badge-danger">A = Ausente</span>
-                            <span class="badge badge-warning">T = Tardía</span>
-                            <span class="badge bg-blue-100 text-blue-800">J = Justificada</span>
-                        </div>
-                        <div class="mt-4">
-                            <button onclick="generarReporteAsistencia()" class="btn-primary">
-                                <i class="fas fa-chart-pie"></i>
-                                Generar Reporte
-                            </button>
+                            <span class="badge-success px-3 py-1 rounded">P = Presente</span>
+                            <span class="badge-danger px-3 py-1 rounded">A = Ausente</span>
+                            <span class="badge-warning px-3 py-1 rounded">T = Tardía</span>
+                            <span class="badge bg-blue-100 text-blue-800 px-3 py-1 rounded">J = Justificada</span>
                         </div>
                     </div>
                 </div>
@@ -743,15 +685,13 @@
             <div id="bitacora" class="tab-pane">
                 <div class="card">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-semibold">Registro de Lecciones</h3>
+                        <h3 class="text-lg font-semibold">Bitácora Docente</h3>
                         <div class="flex gap-2">
-                            <button onclick="exportBitacoraWord()" class="btn-secondary">
-                                <i class="fas fa-file-word"></i>
-                                Word
+                            <button onclick="exportarBitacoraWord()" class="btn-secondary">
+                                <i class="fas fa-file-word"></i> Word
                             </button>
-                            <button onclick="exportBitacoraPDF()" class="btn-secondary">
-                                <i class="fas fa-file-pdf"></i>
-                                PDF
+                            <button onclick="exportarBitacoraPDF()" class="btn-secondary">
+                                <i class="fas fa-file-pdf"></i> PDF
                             </button>
                         </div>
                     </div>
@@ -761,9 +701,8 @@
                         <input type="text" id="bitacoraTema" class="form-input" placeholder="Tema">
                         <input type="text" id="bitacoraActividad" class="form-input" placeholder="Actividad">
                         <input type="text" id="bitacoraAjustes" class="form-input" placeholder="Ajustes DUA">
-                        <button onclick="addBitacoraEntry()" class="btn-primary md:col-span-2">
-                            <i class="fas fa-plus"></i>
-                            Agregar Entrada
+                        <button onclick="agregarEntradaBitacora()" class="btn-primary md:col-span-2">
+                            <i class="fas fa-plus"></i> Agregar Entrada
                         </button>
                     </div>
 
@@ -778,7 +717,7 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="bitacoraTableBody"></tbody>
+                            <tbody id="bitacoraTabla"></tbody>
                         </table>
                     </div>
                 </div>
@@ -788,28 +727,38 @@
             <div id="reportes" class="tab-pane">
                 <div class="card">
                     <div class="grid md:grid-cols-3 gap-4 mb-6">
-                        <div class="form-group">
-                            <label class="form-label">Grupo</label>
-                            <select id="reportGrupo" class="form-input"></select>
+                        <div>
+                            <label class="form-label">Centro Educativo</label>
+                            <select id="reportCentro" class="form-select" onchange="cargarGruposPorCentro('reportGrupo', this.value)">
+                                <option value="">Seleccione...</option>
+                            </select>
                         </div>
-                        <div class="form-group">
+                        <div>
+                            <label class="form-label">Grupo</label>
+                            <select id="reportGrupo" class="form-select"></select>
+                        </div>
+                        <div>
                             <label class="form-label">Periodo</label>
-                            <select id="reportPeriodo" class="form-input">
+                            <select id="reportPeriodo" class="form-select">
                                 <option value="I">Periodo I</option>
                                 <option value="II">Periodo II</option>
                                 <option value="III">Periodo III</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div>
                             <label class="form-label">Asignatura</label>
-                            <select id="reportAsignatura" class="form-input">
+                            <select id="reportAsignatura" class="form-select">
                                 <option value="">Todas</option>
                             </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="generarReporte()" class="btn-primary w-full">
+                                <i class="fas fa-chart-bar"></i> Generar
+                            </button>
                         </div>
                     </div>
 
                     <div id="reporteContainer" class="hidden space-y-6">
-                        <!-- Top 3 -->
                         <div class="grid md:grid-cols-3 gap-4">
                             <div class="bg-gradient-to-br from-yellow-100 to-yellow-200 p-4 rounded-lg border border-yellow-300">
                                 <h4 class="font-bold text-yellow-800 mb-2">🥇 Primer Lugar</h4>
@@ -828,37 +777,22 @@
                             </div>
                         </div>
 
-                        <!-- Tabla -->
                         <div class="table-container">
                             <table>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Estudiante</th>
-                                        <th class="text-center">TC</th>
-                                        <th class="text-center">Tareas</th>
-                                        <th class="text-center">Pruebas</th>
-                                        <th class="text-center">Proyecto</th>
-                                        <th class="text-center">Prom.</th>
-                                        <th class="text-center">Condición</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="reporteTableBody"></tbody>
+                                <thead id="reporteHeader"></thead>
+                                <tbody id="reporteTabla"></tbody>
                             </table>
                         </div>
 
                         <div class="flex gap-3">
-                            <button onclick="exportReportePDF()" class="btn-primary">
-                                <i class="fas fa-file-pdf"></i>
-                                Exportar PDF
+                            <button onclick="exportarReportePDF()" class="btn-primary">
+                                <i class="fas fa-file-pdf"></i> PDF
                             </button>
-                            <button onclick="exportReporteWord()" class="btn-secondary">
-                                <i class="fas fa-file-word"></i>
-                                Exportar Word
+                            <button onclick="exportarReporteWord()" class="btn-secondary">
+                                <i class="fas fa-file-word"></i> Word
                             </button>
-                            <button onclick="exportReporteCSV()" class="btn-secondary">
-                                <i class="fas fa-file-csv"></i>
-                                Exportar CSV
+                            <button onclick="exportarReporteCSV()" class="btn-secondary">
+                                <i class="fas fa-file-csv"></i> CSV
                             </button>
                         </div>
                     </div>
@@ -869,13 +803,24 @@
             <div id="acta" class="tab-pane">
                 <div class="card">
                     <div class="grid md:grid-cols-2 gap-4 mb-6">
-                        <div class="form-group">
-                            <label class="form-label">Grupo</label>
-                            <select id="actaGrupo" class="form-input"></select>
+                        <div>
+                            <label class="form-label">Centro Educativo</label>
+                            <select id="actaCentro" class="form-select" onchange="cargarGruposPorCentro('actaGrupo', this.value)">
+                                <option value="">Seleccione...</option>
+                            </select>
                         </div>
-                        <div class="form-group">
+                        <div>
+                            <label class="form-label">Grupo</label>
+                            <select id="actaGrupo" class="form-select"></select>
+                        </div>
+                        <div>
                             <label class="form-label">Año Lectivo</label>
-                            <input type="text" id="actaAnio" class="form-input" value="2025">
+                            <input type="text" id="actaAnio" class="form-input" value="2026">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="generarActaFinal()" class="btn-primary w-full">
+                                <i class="fas fa-file-signature"></i> Generar Acta
+                            </button>
                         </div>
                     </div>
 
@@ -883,7 +828,7 @@
                         <div class="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                             <p class="text-sm text-yellow-800">
                                 <i class="fas fa-info-circle mr-2"></i>
-                                Según el nuevo reglamento: 6° año requiere 65 puntos (Nota presentación 50% + PNE 50%)
+                                Según el nuevo reglamento MEP 2026: La nota final se compone de 50% promedio anual + 50% PNE.
                             </p>
                         </div>
 
@@ -901,22 +846,19 @@
                                         <th class="text-center">Condición</th>
                                     </tr>
                                 </thead>
-                                <tbody id="actaTableBody"></tbody>
+                                <tbody id="actaTabla"></tbody>
                             </table>
                         </div>
 
                         <div class="flex gap-3">
-                            <button onclick="exportActaPDF()" class="btn-primary">
-                                <i class="fas fa-file-pdf"></i>
-                                Exportar Acta PDF
+                            <button onclick="exportarActaPDF()" class="btn-primary">
+                                <i class="fas fa-file-pdf"></i> PDF
                             </button>
-                            <button onclick="exportActaWord()" class="btn-secondary">
-                                <i class="fas fa-file-word"></i>
-                                Exportar Word
+                            <button onclick="exportarActaWord()" class="btn-secondary">
+                                <i class="fas fa-file-word"></i> Word
                             </button>
                             <button onclick="validarActa()" class="btn-secondary">
-                                <i class="fas fa-check-circle"></i>
-                                Validar Cierre
+                                <i class="fas fa-check-circle"></i> Validar
                             </button>
                         </div>
                     </div>
@@ -930,13 +872,13 @@
                         <h3 class="text-lg font-semibold mb-4">Exportación de Datos</h3>
                         
                         <div class="grid md:grid-cols-2 gap-4 mb-6">
-                            <button onclick="exportFullBackup()" class="p-6 border-2 border-blue-200 rounded-lg hover:bg-blue-50 text-left">
+                            <button onclick="exportarRespaldoJSON()" class="p-6 border-2 border-blue-200 rounded-lg hover:bg-blue-50 text-left">
                                 <i class="fas fa-file-code text-3xl text-blue-600 mb-2"></i>
                                 <h4 class="font-semibold">Respaldo Completo (JSON)</h4>
                                 <p class="text-sm text-gray-600">Exporta todos los datos del sistema</p>
                             </button>
                             
-                            <button onclick="exportFullCSV()" class="p-6 border-2 border-green-200 rounded-lg hover:bg-green-50 text-left">
+                            <button onclick="exportarTodoCSV()" class="p-6 border-2 border-green-200 rounded-lg hover:bg-green-50 text-left">
                                 <i class="fas fa-file-csv text-3xl text-green-600 mb-2"></i>
                                 <h4 class="font-semibold">Exportación Masiva (CSV)</h4>
                                 <p class="text-sm text-gray-600">Exporta todas las tablas en CSV</p>
@@ -947,32 +889,9 @@
                             <h4 class="font-semibold mb-4">Importar Respaldo</h4>
                             <div class="flex gap-4">
                                 <input type="file" id="backupInput" accept=".json" class="form-input flex-1">
-                                <button onclick="importFullBackup()" class="btn-primary">
-                                    <i class="fas fa-upload"></i>
-                                    Restaurar
+                                <button onclick="importarRespaldo()" class="btn-primary">
+                                    <i class="fas fa-upload"></i> Restaurar
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3 class="text-lg font-semibold mb-4">Estadísticas del Sistema</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div class="text-center p-4 bg-blue-50 rounded-lg">
-                                <p class="text-3xl font-bold text-blue-600" id="statCentros">0</p>
-                                <p class="text-sm text-gray-600">Centros</p>
-                            </div>
-                            <div class="text-center p-4 bg-green-50 rounded-lg">
-                                <p class="text-3xl font-bold text-green-600" id="statGrupos">0</p>
-                                <p class="text-sm text-gray-600">Grupos</p>
-                            </div>
-                            <div class="text-center p-4 bg-purple-50 rounded-lg">
-                                <p class="text-3xl font-bold text-purple-600" id="statEstudiantes">0</p>
-                                <p class="text-sm text-gray-600">Estudiantes</p>
-                            </div>
-                            <div class="text-center p-4 bg-orange-50 rounded-lg">
-                                <p class="text-3xl font-bold text-orange-600" id="statNotas">0</p>
-                                <p class="text-sm text-gray-600">Registros</p>
                             </div>
                         </div>
                     </div>
@@ -987,18 +906,19 @@
         <div class="modal-content">
             <h3 class="text-lg font-semibold mb-4">Nuevo Centro Educativo</h3>
             <div class="space-y-4">
-                <input type="text" id="centroNombre" class="form-input" placeholder="Nombre del Centro">
-                <input type="text" id="centroCodigo" class="form-input" placeholder="Código MEP">
-                <select id="centroModalidad" class="form-input">
-                    <option value="primaria">Primaria</option>
-                    <option value="secundaria">Secundaria</option>
-                    <option value="preescolar">Preescolar</option>
-                    <option value="cindea">CINDEA</option>
+                <input type="text" id="centroNombre" class="form-input" placeholder="Nombre del Centro (ej: Liceo de San José)">
+                <input type="text" id="centroCodigo" class="form-input" placeholder="Código MEP (opcional)">
+                <select id="centroModalidad" class="form-select">
+                    <option value="primaria">Primaria (1° a 6°)</option>
+                    <option value="secundaria">Secundaria Académica (7° a 12°)</option>
+                    <option value="tecnica">Colegio Técnico Profesional</option>
+                    <option value="cindea">CINDEA / IPEC</option>
+                    <option value="preescolar">Preescolar / Materno</option>
                 </select>
             </div>
             <div class="mt-6 flex justify-end gap-3">
-                <button onclick="closeModal('centroModal')" class="btn-secondary">Cancelar</button>
-                <button onclick="saveCentro()" class="btn-primary">Guardar</button>
+                <button onclick="cerrarModal('centroModal')" class="btn-secondary">Cancelar</button>
+                <button onclick="guardarCentro()" class="btn-primary">Guardar</button>
             </div>
         </div>
     </div>
@@ -1008,9 +928,12 @@
         <div class="modal-content">
             <h3 class="text-lg font-semibold mb-4">Nuevo Grupo/Sección</h3>
             <div class="space-y-4">
-                <input type="text" id="grupoNombre" class="form-input" placeholder="Ej: 7-1">
-                <select id="grupoCentro" class="form-input"></select>
-                <select id="grupoNivel" class="form-input">
+                <select id="grupoCentro" class="form-select" required>
+                    <option value="">Seleccione centro educativo</option>
+                </select>
+                <input type="text" id="grupoNombre" class="form-input" placeholder="Ej: 7-1, 10-3, 2°B" required>
+                <select id="grupoNivel" class="form-select" required>
+                    <option value="">Seleccione nivel</option>
                     <option value="1">1° Primaria</option>
                     <option value="2">2° Primaria</option>
                     <option value="3">3° Primaria</option>
@@ -1024,11 +947,11 @@
                     <option value="11">11° Secundaria</option>
                     <option value="12">12° Secundaria</option>
                 </select>
-                <input type="text" id="grupoAsignaturas" class="form-input" placeholder="Asignaturas (separadas por coma)">
+                <input type="text" id="grupoAsignaturas" class="form-input" placeholder="Asignaturas (separadas por coma) - Opcional">
             </div>
             <div class="mt-6 flex justify-end gap-3">
-                <button onclick="closeModal('grupoModal')" class="btn-secondary">Cancelar</button>
-                <button onclick="saveGrupo()" class="btn-primary">Guardar</button>
+                <button onclick="cerrarModal('grupoModal')" class="btn-secondary">Cancelar</button>
+                <button onclick="guardarGrupo()" class="btn-primary">Guardar</button>
             </div>
         </div>
     </div>
@@ -1038,14 +961,16 @@
         <div class="modal-content">
             <h3 class="text-lg font-semibold mb-4">Agregar Estudiante</h3>
             <div class="space-y-4">
-                <select id="estGrupo" class="form-input"></select>
+                <select id="estGrupo" class="form-select" required>
+                    <option value="">Seleccione grupo</option>
+                </select>
                 <div class="grid grid-cols-2 gap-4">
                     <input type="number" id="estNumero" class="form-input" placeholder="N° lista">
-                    <input type="text" id="estNombre" class="form-input" placeholder="Nombre completo">
+                    <input type="text" id="estNombre" class="form-input" placeholder="Nombre completo" required>
                 </div>
                 <input type="tel" id="estTelefono" class="form-input" placeholder="Teléfono encargado">
                 <input type="email" id="estCorreo" class="form-input" placeholder="Correo">
-                <select id="estCondicion" class="form-input">
+                <select id="estCondicion" class="form-select">
                     <option value="regular">Regular</option>
                     <option value="acs">ACS - Adecuación Significativa</option>
                     <option value="ns">Adecuación No Significativa</option>
@@ -1053,8 +978,8 @@
                 <textarea id="estObservaciones" class="form-input" rows="2" placeholder="Observaciones"></textarea>
             </div>
             <div class="mt-6 flex justify-end gap-3">
-                <button onclick="closeModal('estudianteModal')" class="btn-secondary">Cancelar</button>
-                <button onclick="saveEstudiante()" class="btn-primary">Guardar</button>
+                <button onclick="cerrarModal('estudianteModal')" class="btn-secondary">Cancelar</button>
+                <button onclick="guardarEstudiante()" class="btn-primary">Guardar</button>
             </div>
         </div>
     </div>
@@ -1064,27 +989,33 @@
         <div class="modal-content">
             <h3 class="text-lg font-semibold mb-4">Crear Instrumento de Evaluación</h3>
             <div class="space-y-4">
-                <select id="instTipo" class="form-input">
-                    <option value="cotejo">Lista de Cotejo</option>
+                <select id="instTipo" class="form-select">
                     <option value="rubrica">Rúbrica Analítica</option>
+                    <option value="cotejo">Lista de Cotejo</option>
                     <option value="escala">Escala de Desempeño</option>
                 </select>
-                <input type="text" id="instNombre" class="form-input" placeholder="Nombre del instrumento">
+                <input type="text" id="instNombre" class="form-input" placeholder="Nombre del instrumento" required>
                 <input type="text" id="instAsignatura" class="form-input" placeholder="Asignatura">
-                <div id="indicadoresContainer">
-                    <label class="form-label">Indicadores</label>
-                    <div class="flex gap-2 mb-2">
-                        <input type="text" class="inst-indicador form-input flex-1" placeholder="Indicador 1">
-                        <button onclick="addIndicadorField()" class="btn-secondary">+</button>
-                    </div>
-                </div>
-                <select id="instGrupo" class="form-input">
-                    <option value="">Sin asignar</option>
+                <select id="instGrupo" class="form-select">
+                    <option value="">Sin asignar (plantilla general)</option>
                 </select>
+                
+                <div id="indicadoresContainer">
+                    <label class="form-label">Indicadores / Criterios</label>
+                    <div class="space-y-2" id="indicadoresLista">
+                        <div class="flex gap-2">
+                            <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador 1">
+                            <button type="button" onclick="eliminarIndicador(this)" class="btn-secondary hidden">-</button>
+                        </div>
+                    </div>
+                    <button type="button" onclick="agregarIndicador()" class="btn-secondary mt-2 text-sm">
+                        <i class="fas fa-plus"></i> Agregar Indicador
+                    </button>
+                </div>
             </div>
             <div class="mt-6 flex justify-end gap-3">
-                <button onclick="closeModal('instrumentoModal')" class="btn-secondary">Cancelar</button>
-                <button onclick="saveInstrumento()" class="btn-primary">Guardar</button>
+                <button onclick="cerrarModal('instrumentoModal')" class="btn-secondary">Cancelar</button>
+                <button onclick="guardarInstrumento()" class="btn-primary">Guardar</button>
             </div>
         </div>
     </div>
@@ -1096,9 +1027,9 @@
                 <i class="fas fa-bell mr-2 text-yellow-500"></i>
                 Alertas Tempranas
             </h3>
-            <div id="alertasList" class="space-y-3 max-h-96 overflow-y-auto"></div>
+            <div id="alertasLista" class="space-y-3 max-h-96 overflow-y-auto"></div>
             <div class="mt-6 flex justify-end">
-                <button onclick="closeModal('alertasModal')" class="btn-primary">Cerrar</button>
+                <button onclick="cerrarModal('alertasModal')" class="btn-primary">Cerrar</button>
             </div>
         </div>
     </div>
@@ -1113,8 +1044,12 @@
         // ==================== INICIALIZACIÓN ====================
         const DB = {
             get: (key) => {
-                const data = localStorage.getItem(`mep_${key}`);
-                return data ? JSON.parse(data) : null;
+                try {
+                    const data = localStorage.getItem(`mep_${key}`);
+                    return data ? JSON.parse(data) : null;
+                } catch {
+                    return null;
+                }
             },
             set: (key, value) => {
                 localStorage.setItem(`mep_${key}`, JSON.stringify(value));
@@ -1129,14 +1064,14 @@
                 if (!DB.get('instrumentos')) DB.set('instrumentos', []);
                 if (!DB.get('config')) {
                     DB.set('config', {
-                        modalidad: 'primaria23',
+                        modalidad: 'secundaria',
                         periodo: 'I',
                         porcentajes: {
-                            trabajoCotidiano: 60,
-                            tareas: 10,
-                            pruebas: 20,
-                            proyecto: 0,
-                            asistencia: 10,
+                            trabajoCotidiano: 40,
+                            tareas: 20,
+                            pruebas: 30,
+                            proyecto: 10,
+                            asistencia: 0,
                             portafolio: 0
                         },
                         formulaACS: '(trabajoCotidiano * 0.7) + (tareas * 0.3)'
@@ -1147,22 +1082,22 @@
 
         // ==================== UTILIDADES ====================
         const Utils = {
-            generateId: () => Date.now().toString(36) + Math.random().toString(36).substring(2),
-            showToast: (message, type = 'success') => {
+            generarId: () => Date.now().toString(36) + Math.random().toString(36).substring(2),
+            mostrarToast: (mensaje, tipo = 'success') => {
                 const toast = document.getElementById('toast');
                 const icon = document.getElementById('toastIcon');
                 const msg = document.getElementById('toastMessage');
                 
-                msg.textContent = message;
-                icon.className = type === 'success' ? 'fas fa-check-circle text-green-400' : 
-                                 type === 'error' ? 'fas fa-exclamation-circle text-red-400' : 
+                msg.textContent = mensaje;
+                icon.className = tipo === 'success' ? 'fas fa-check-circle text-green-400' : 
+                                 tipo === 'error' ? 'fas fa-exclamation-circle text-red-400' : 
                                  'fas fa-exclamation-triangle text-yellow-400';
                 
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 3000);
             },
-            confirm: (message) => confirm(message),
-            formatDate: (date) => new Date(date).toLocaleDateString('es-CR')
+            confirmar: (mensaje) => confirm(mensaje),
+            formatearFecha: (fecha) => new Date(fecha).toLocaleDateString('es-CR')
         };
 
         // ==================== MENÚ ====================
@@ -1186,54 +1121,41 @@
             document.getElementById(tabId).classList.add('active');
             
             const titles = {
-                'config': 'Configuración General',
+                'dashboard': 'Dashboard',
+                'centros': 'Centros Educativos',
                 'grupos': 'Grupos y Estudiantes',
-                'evaluacion': 'Registro de Componentes',
+                'evaluacion': 'Evaluación',
                 'instrumentos': 'Instrumentos',
                 'asistencia': 'Asistencia',
-                'bitacora': 'Bitácora Docente',
-                'reportes': 'Reportes por Periodo',
+                'bitacora': 'Bitácora',
+                'reportes': 'Reportes',
                 'acta': 'Acta Final',
-                'respaldo': 'Respaldo Global'
+                'respaldo': 'Respaldo'
             };
             document.getElementById('pageTitle').textContent = titles[tabId];
             
             if (window.innerWidth <= 768) closeMenu();
             
             // Cargar datos según pestaña
-            if (tabId === 'grupos') {
-                renderGrupos();
-                renderEstudiantes();
-            } else if (tabId === 'config') {
-                loadConfiguration();
+            if (tabId === 'dashboard') {
+                actualizarDashboard();
+            } else if (tabId === 'centros') {
+                renderizarCentros();
+            } else if (tabId === 'grupos') {
+                renderizarGruposCompleto();
             } else if (tabId === 'instrumentos') {
-                renderInstrumentos();
+                renderizarInstrumentos();
             } else if (tabId === 'bitacora') {
-                renderBitacora();
-            } else if (tabId === 'respaldo') {
-                updateStats();
+                renderizarBitacora();
+            } else if (tabId === 'evaluacion') {
+                cargarCentrosSelect('evalCentro');
+            } else if (tabId === 'asistencia') {
+                cargarCentrosSelect('asistCentro');
+            } else if (tabId === 'reportes') {
+                cargarCentrosSelect('reportCentro');
+            } else if (tabId === 'acta') {
+                cargarCentrosSelect('actaCentro');
             }
-        }
-
-        // ==================== MODALES ====================
-        function openModal(id) {
-            if (id === 'grupoModal') loadCentrosSelect('grupoCentro');
-            if (id === 'estudianteModal') loadGruposSelect('estGrupo');
-            if (id === 'instrumentoModal') {
-                loadGruposSelect('instGrupo');
-                document.getElementById('indicadoresContainer').innerHTML = `
-                    <label class="form-label">Indicadores</label>
-                    <div class="flex gap-2 mb-2">
-                        <input type="text" class="inst-indicador form-input flex-1" placeholder="Indicador 1">
-                        <button onclick="addIndicadorField()" class="btn-secondary">+</button>
-                    </div>
-                `;
-            }
-            document.getElementById(id).classList.add('active');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
         }
 
         // ==================== TEMA OSCURO ====================
@@ -1245,224 +1167,257 @@
             text.textContent = document.documentElement.classList.contains('dark') ? 'Modo Claro' : 'Modo Oscuro';
         }
 
-        // ==================== CONFIGURACIÓN ====================
-        function loadConfiguration() {
-            const config = DB.get('config');
-            if (!config) return;
-            
-            document.getElementById('configModalidad').value = config.modalidad;
-            document.getElementById('configPeriodo').value = config.periodo;
-            document.getElementById('pctTC').value = config.porcentajes.trabajoCotidiano;
-            document.getElementById('pctTareas').value = config.porcentajes.tareas;
-            document.getElementById('pctPruebas').value = config.porcentajes.pruebas;
-            document.getElementById('pctProyecto').value = config.porcentajes.proyecto;
-            document.getElementById('pctAsistencia').value = config.porcentajes.asistencia;
-            document.getElementById('pctPortafolio').value = config.porcentajes.portafolio;
-            document.getElementById('formulaACS').value = config.formulaACS;
-            
-            validatePercentages();
-            renderCentros();
+        // ==================== MODALES ====================
+        function abrirModalCentro() {
+            document.getElementById('centroModal').classList.add('active');
         }
 
-        function validatePercentages() {
-            const tc = parseFloat(document.getElementById('pctTC').value) || 0;
-            const tareas = parseFloat(document.getElementById('pctTareas').value) || 0;
-            const pruebas = parseFloat(document.getElementById('pctPruebas').value) || 0;
-            const proyecto = parseFloat(document.getElementById('pctProyecto').value) || 0;
-            const asistencia = parseFloat(document.getElementById('pctAsistencia').value) || 0;
-            const portafolio = parseFloat(document.getElementById('pctPortafolio').value) || 0;
-            
-            const total = tc + tareas + pruebas + proyecto + asistencia + portafolio;
-            const alertDiv = document.getElementById('percentageAlert');
-            
-            if (total !== 100) {
-                alertDiv.classList.remove('hidden');
-                document.getElementById('percentageMessage').textContent = `Los porcentajes suman ${total}%. Deben sumar exactamente 100%`;
-                return false;
-            } else {
-                alertDiv.classList.add('hidden');
-                return true;
+        function abrirModalGrupo() {
+            cargarCentrosSelect('grupoCentro');
+            document.getElementById('grupoModal').classList.add('active');
+        }
+
+        function abrirModalEstudiante(grupoId = null) {
+            cargarGruposSelect('estGrupo');
+            if (grupoId) {
+                document.getElementById('estGrupo').value = grupoId;
             }
+            document.getElementById('estudianteModal').classList.add('active');
         }
 
-        function loadDefaultPercentages() {
-            const modalidad = document.getElementById('configModalidad').value;
-            const defaults = {
-                primaria1: [60,10,20,0,10,0],
-                primaria23: [60,10,20,0,10,0],
-                primaria456: [50,10,30,0,10,0],
-                'secundaria7-9': [40,10,40,0,10,0],
-                'secundaria10-12': [30,10,50,0,10,0],
-                cindea: [40,20,30,10,0,0]
-            };
-            const vals = defaults[modalidad] || [60,10,20,0,10,0];
-            
-            document.getElementById('pctTC').value = vals[0];
-            document.getElementById('pctTareas').value = vals[1];
-            document.getElementById('pctPruebas').value = vals[2];
-            document.getElementById('pctProyecto').value = vals[3];
-            document.getElementById('pctAsistencia').value = vals[4];
-            document.getElementById('pctPortafolio').value = vals[5];
-            
-            validatePercentages();
+        function abrirModalInstrumento() {
+            cargarGruposSelect('instGrupo');
+            document.getElementById('indicadoresLista').innerHTML = `
+                <div class="flex gap-2">
+                    <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador 1">
+                    <button type="button" onclick="eliminarIndicador(this)" class="btn-secondary hidden">-</button>
+                </div>
+            `;
+            document.getElementById('instrumentoModal').classList.add('active');
         }
 
-        function saveConfiguration() {
-            if (!validatePercentages()) {
-                Utils.showToast('Los porcentajes deben sumar 100%', 'error');
-                return;
-            }
-            
-            DB.set('config', {
-                modalidad: document.getElementById('configModalidad').value,
-                periodo: document.getElementById('configPeriodo').value,
-                porcentajes: {
-                    trabajoCotidiano: parseFloat(document.getElementById('pctTC').value),
-                    tareas: parseFloat(document.getElementById('pctTareas').value),
-                    pruebas: parseFloat(document.getElementById('pctPruebas').value),
-                    proyecto: parseFloat(document.getElementById('pctProyecto').value),
-                    asistencia: parseFloat(document.getElementById('pctAsistencia').value),
-                    portafolio: parseFloat(document.getElementById('pctPortafolio').value)
-                },
-                formulaACS: document.getElementById('formulaACS').value
-            });
-            
-            Utils.showToast('Configuración guardada correctamente');
-        }
-
-        function resetSystem() {
-            if (Utils.confirm('¿Está seguro de restablecer todo el sistema? Se perderán TODOS los datos.')) {
-                localStorage.clear();
-                DB.init();
-                loadConfiguration();
-                renderCentros();
-                renderGrupos();
-                renderEstudiantes();
-                updateStats();
-                Utils.showToast('Sistema restablecido');
-            }
+        function cerrarModal(id) {
+            document.getElementById(id).classList.remove('active');
         }
 
         // ==================== CENTROS ====================
-        function renderCentros() {
+        function renderizarCentros() {
             const centros = DB.get('centros') || [];
-            const container = document.getElementById('centrosList');
+            const container = document.getElementById('centrosLista');
             
             if (!centros.length) {
-                container.innerHTML = '<p class="text-gray-500 text-sm">No hay centros registrados</p>';
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No hay centros registrados. ¡Crea tu primer centro!</p>';
                 return;
             }
             
             container.innerHTML = centros.map(c => `
-                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <div>
-                        <p class="font-medium">${c.nombre}</p>
-                        <p class="text-xs text-gray-500">Código: ${c.codigo} | ${c.modalidad}</p>
+                        <p class="font-medium text-lg">${c.nombre}</p>
+                        <p class="text-sm text-gray-500">${c.codigo ? `Código: ${c.codigo} | ` : ''}Modalidad: ${c.modalidad}</p>
                     </div>
-                    <button onclick="deleteCentro('${c.id}')" class="text-red-600 hover:text-red-800">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="editarCentro('${c.id}')" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="eliminarCentro('${c.id}')" class="text-red-600 hover:text-red-800">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
             `).join('');
+            
+            // Actualizar selects de centros
+            const selectores = ['evalCentro', 'asistCentro', 'reportCentro', 'actaCentro', 'filtroCentroGrupos'];
+            const options = '<option value="">Todos los centros</option>' + centros.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
+            selectores.forEach(id => {
+                const sel = document.getElementById(id);
+                if (sel) {
+                    const valorActual = sel.value;
+                    sel.innerHTML = id === 'filtroCentroGrupos' ? options : `<option value="">Seleccione...</option>${options.replace('Todos los centros', 'Seleccione...')}`;
+                    if (valorActual && centros.some(c => c.id === valorActual)) {
+                        sel.value = valorActual;
+                    }
+                }
+            });
         }
 
-        function saveCentro() {
+        function guardarCentro() {
             const nombre = document.getElementById('centroNombre').value.trim();
             const codigo = document.getElementById('centroCodigo').value.trim();
+            const modalidad = document.getElementById('centroModalidad').value;
             
-            if (!nombre || !codigo) {
-                Utils.showToast('Complete todos los campos', 'error');
+            if (!nombre) {
+                Utils.mostrarToast('El nombre del centro es obligatorio', 'error');
                 return;
             }
             
             const centros = DB.get('centros') || [];
             centros.push({
-                id: Utils.generateId(),
+                id: Utils.generarId(),
                 nombre,
                 codigo,
-                modalidad: document.getElementById('centroModalidad').value
+                modalidad
             });
             DB.set('centros', centros);
             
-            closeModal('centroModal');
-            renderCentros();
-            updateStats();
-            Utils.showToast('Centro agregado');
+            cerrarModal('centroModal');
+            renderizarCentros();
+            actualizarDashboard();
+            Utils.mostrarToast('Centro agregado correctamente');
             
             document.getElementById('centroNombre').value = '';
             document.getElementById('centroCodigo').value = '';
         }
 
-        function deleteCentro(id) {
-            if (!Utils.confirm('¿Eliminar este centro?')) return;
+        function eliminarCentro(id) {
+            if (!Utils.confirmar('¿Eliminar este centro? También se eliminarán todos sus grupos y estudiantes.')) return;
             
             const centros = DB.get('centros').filter(c => c.id !== id);
             DB.set('centros', centros);
-            renderCentros();
-            updateStats();
-            Utils.showToast('Centro eliminado');
+            
+            // Eliminar grupos y estudiantes asociados
+            const grupos = DB.get('grupos').filter(g => g.centro !== id);
+            DB.set('grupos', grupos);
+            
+            const estudiantes = DB.get('estudiantes').filter(e => {
+                const grupo = grupos.find(g => g.id === e.grupo);
+                return grupo;
+            });
+            DB.set('estudiantes', estudiantes);
+            
+            renderizarCentros();
+            actualizarDashboard();
+            Utils.mostrarToast('Centro eliminado');
+        }
+
+        function editarCentro(id) {
+            const centros = DB.get('centros');
+            const centro = centros.find(c => c.id === id);
+            if (!centro) return;
+            
+            const nuevoNombre = prompt('Nuevo nombre del centro:', centro.nombre);
+            if (!nuevoNombre) return;
+            
+            centro.nombre = nuevoNombre;
+            DB.set('centros', centros);
+            renderizarCentros();
+            Utils.mostrarToast('Centro actualizado');
         }
 
         // ==================== GRUPOS ====================
-        function renderGrupos() {
+        function renderizarGruposCompleto() {
             const grupos = DB.get('grupos') || [];
-            const container = document.getElementById('gruposList');
-            const selects = ['filterGrupo', 'evalGrupo', 'reportGrupo', 'asistGrupo', 'actaGrupo'];
+            const centros = DB.get('centros') || [];
+            const estudiantes = DB.get('estudiantes') || [];
+            const container = document.getElementById('gruposContainer');
+            const filtroCentro = document.getElementById('filtroCentroGrupos').value;
             
-            if (!grupos.length) {
-                container.innerHTML = '<p class="text-gray-500 text-sm">No hay grupos registrados</p>';
+            let gruposFiltrados = grupos;
+            if (filtroCentro) {
+                gruposFiltrados = grupos.filter(g => g.centro === filtroCentro);
+            }
+            
+            if (!gruposFiltrados.length) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8 col-span-2">No hay grupos registrados para mostrar.</p>';
                 return;
             }
             
-            container.innerHTML = grupos.map(g => `
-                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div>
-                        <p class="font-medium">${g.nombre}</p>
-                        <p class="text-xs text-gray-500">${g.asignaturas || 'Sin asignaturas'}</p>
+            container.innerHTML = gruposFiltrados.map(grupo => {
+                const centro = centros.find(c => c.id === grupo.centro);
+                const estudiantesGrupo = estudiantes.filter(e => e.grupo === grupo.id);
+                const tipoNivel = parseInt(grupo.nivel) <= 6 ? 'Primaria' : 'Secundaria';
+                
+                return `
+                    <div class="card">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-bold text-lg">${grupo.nombre}</h4>
+                                <p class="text-sm text-gray-500">${centro ? centro.nombre : 'Centro no encontrado'} • ${tipoNivel} • Nivel ${grupo.nivel}</p>
+                                ${grupo.asignaturas ? `<p class="text-xs text-gray-400 mt-1">Asignaturas: ${grupo.asignaturas}</p>` : ''}
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="abrirModalEstudiante('${grupo.id}')" class="btn-primary text-sm py-1 px-3">
+                                    <i class="fas fa-plus"></i> Estudiante
+                                </button>
+                                <button onclick="eliminarGrupo('${grupo.id}')" class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5 class="font-semibold mb-2 text-sm">Estudiantes (${estudiantesGrupo.length})</h5>
+                            ${estudiantesGrupo.length ? `
+                                <div class="table-container">
+                                    <table class="text-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nombre</th>
+                                                <th>Condición</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${estudiantesGrupo.sort((a,b) => (a.numero||0) - (b.numero||0)).map((e, i) => `
+                                                <tr>
+                                                    <td>${e.numero || i+1}</td>
+                                                    <td>${e.nombre}</td>
+                                                    <td>
+                                                        <span class="badge ${e.condicion === 'acs' ? 'bg-purple-100 text-purple-800' : 'bg-gray-100'}">
+                                                            ${e.condicion === 'acs' ? 'ACS' : e.condicion === 'ns' ? 'No Signif.' : 'Regular'}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <button onclick="eliminarEstudiante('${e.id}')" class="text-red-600 hover:text-red-800">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ` : '<p class="text-gray-400 text-sm">No hay estudiantes en este grupo</p>'}
+                        </div>
                     </div>
-                    <button onclick="deleteGrupo('${g.id}')" class="text-red-600 hover:text-red-800">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `).join('');
-            
-            const options = grupos.map(g => `<option value="${g.id}">${g.nombre}</option>`).join('');
-            selects.forEach(id => {
-                const sel = document.getElementById(id);
-                if (sel) sel.innerHTML = `<option value="">Seleccione...</option>${options}`;
-            });
+                `;
+            }).join('');
         }
 
-        function saveGrupo() {
-            const nombre = document.getElementById('grupoNombre').value.trim();
+        function guardarGrupo() {
             const centro = document.getElementById('grupoCentro').value;
+            const nombre = document.getElementById('grupoNombre').value.trim();
+            const nivel = document.getElementById('grupoNivel').value;
+            const asignaturas = document.getElementById('grupoAsignaturas').value.trim();
             
-            if (!nombre || !centro) {
-                Utils.showToast('Complete los campos obligatorios', 'error');
+            if (!centro || !nombre || !nivel) {
+                Utils.mostrarToast('Complete todos los campos obligatorios', 'error');
                 return;
             }
             
             const grupos = DB.get('grupos') || [];
             grupos.push({
-                id: Utils.generateId(),
-                nombre,
+                id: Utils.generarId(),
                 centro,
-                nivel: document.getElementById('grupoNivel').value,
-                asignaturas: document.getElementById('grupoAsignaturas').value.trim()
+                nombre,
+                nivel,
+                asignaturas
             });
             DB.set('grupos', grupos);
             
-            closeModal('grupoModal');
-            renderGrupos();
-            updateStats();
-            Utils.showToast('Grupo creado');
+            cerrarModal('grupoModal');
+            renderizarGruposCompleto();
+            actualizarDashboard();
+            Utils.mostrarToast('Grupo creado correctamente');
             
             document.getElementById('grupoNombre').value = '';
             document.getElementById('grupoAsignaturas').value = '';
         }
 
-        function deleteGrupo(id) {
-            if (!Utils.confirm('¿Eliminar este grupo? También se eliminarán sus estudiantes.')) return;
+        function eliminarGrupo(id) {
+            if (!Utils.confirmar('¿Eliminar este grupo? También se eliminarán sus estudiantes.')) return;
             
             const grupos = DB.get('grupos').filter(g => g.id !== id);
             DB.set('grupos', grupos);
@@ -1470,79 +1425,28 @@
             const estudiantes = DB.get('estudiantes').filter(e => e.grupo !== id);
             DB.set('estudiantes', estudiantes);
             
-            renderGrupos();
-            renderEstudiantes();
-            updateStats();
-            Utils.showToast('Grupo eliminado');
+            renderizarGruposCompleto();
+            actualizarDashboard();
+            Utils.mostrarToast('Grupo eliminado');
         }
 
-        function loadCentrosSelect(selectId) {
-            const centros = DB.get('centros') || [];
-            const select = document.getElementById(selectId);
-            select.innerHTML = '<option value="">Seleccione...</option>' + 
-                centros.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
-        }
-
-        function loadGruposSelect(selectId) {
-            const grupos = DB.get('grupos') || [];
-            const select = document.getElementById(selectId);
-            select.innerHTML = '<option value="">Seleccione...</option>' + 
-                grupos.map(g => `<option value="${g.id}">${g.nombre}</option>`).join('');
+        function filtrarGruposPorCentro() {
+            renderizarGruposCompleto();
         }
 
         // ==================== ESTUDIANTES ====================
-        function renderEstudiantes() {
-            const estudiantes = DB.get('estudiantes') || [];
-            const grupos = DB.get('grupos') || [];
-            const filter = document.getElementById('filterGrupo').value;
-            
-            let filtered = filter ? estudiantes.filter(e => e.grupo === filter) : estudiantes;
-            filtered.sort((a, b) => (a.numero || 0) - (b.numero || 0));
-            
-            const tbody = document.getElementById('estudiantesTable');
-            
-            if (!filtered.length) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500">No hay estudiantes</td></tr>';
-                return;
-            }
-            
-            tbody.innerHTML = filtered.map((e, i) => {
-                const grupo = grupos.find(g => g.id === e.grupo);
-                return `
-                    <tr>
-                        <td>${e.numero || i+1}</td>
-                        <td>${e.nombre}</td>
-                        <td>${grupo ? grupo.nombre : 'Sin grupo'}</td>
-                        <td>
-                            <span class="badge ${e.condicion === 'acs' ? 'bg-purple-100 text-purple-800' : 'bg-gray-100'}">
-                                ${e.condicion === 'acs' ? 'ACS' : e.condicion === 'ns' ? 'No Signif.' : 'Regular'}
-                            </span>
-                        </td>
-                        <td>
-                            <button onclick="editEstudiante('${e.id}')" class="text-blue-600 hover:text-blue-800 mr-2">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteEstudiante('${e.id}')" class="text-red-600 hover:text-red-800">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function saveEstudiante() {
+        function guardarEstudiante() {
             const grupo = document.getElementById('estGrupo').value;
             const nombre = document.getElementById('estNombre').value.trim();
             
             if (!grupo || !nombre) {
-                Utils.showToast('Complete grupo y nombre', 'error');
+                Utils.mostrarToast('Complete grupo y nombre', 'error');
                 return;
             }
             
             const estudiantes = DB.get('estudiantes') || [];
             estudiantes.push({
-                id: Utils.generateId(),
+                id: Utils.generarId(),
                 grupo,
                 numero: parseInt(document.getElementById('estNumero').value) || null,
                 nombre,
@@ -1553,10 +1457,10 @@
             });
             DB.set('estudiantes', estudiantes);
             
-            closeModal('estudianteModal');
-            renderEstudiantes();
-            updateStats();
-            Utils.showToast('Estudiante agregado');
+            cerrarModal('estudianteModal');
+            renderizarGruposCompleto();
+            actualizarDashboard();
+            Utils.mostrarToast('Estudiante agregado');
             
             document.getElementById('estNumero').value = '';
             document.getElementById('estNombre').value = '';
@@ -1565,145 +1469,185 @@
             document.getElementById('estObservaciones').value = '';
         }
 
-        function editEstudiante(id) {
-            const estudiante = DB.get('estudiantes').find(e => e.id === id);
-            if (!estudiante) return;
-            
-            document.getElementById('estGrupo').value = estudiante.grupo;
-            document.getElementById('estNumero').value = estudiante.numero || '';
-            document.getElementById('estNombre').value = estudiante.nombre;
-            document.getElementById('estTelefono').value = estudiante.telefono || '';
-            document.getElementById('estCorreo').value = estudiante.correo || '';
-            document.getElementById('estCondicion').value = estudiante.condicion;
-            document.getElementById('estObservaciones').value = estudiante.observaciones || '';
-            
-            deleteEstudiante(id);
-            openModal('estudianteModal');
-        }
-
-        function deleteEstudiante(id) {
-            if (!Utils.confirm('¿Eliminar este estudiante?')) return;
+        function eliminarEstudiante(id) {
+            if (!Utils.confirmar('¿Eliminar este estudiante?')) return;
             
             const estudiantes = DB.get('estudiantes').filter(e => e.id !== id);
             DB.set('estudiantes', estudiantes);
-            renderEstudiantes();
-            updateStats();
-            Utils.showToast('Estudiante eliminado');
+            renderizarGruposCompleto();
+            actualizarDashboard();
+            Utils.mostrarToast('Estudiante eliminado');
         }
 
-        function importCSV(input) {
-            const file = input.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const lines = e.target.result.split('\n').slice(1);
-                const estudiantes = DB.get('estudiantes') || [];
-                
-                lines.forEach(line => {
-                    if (!line.trim()) return;
-                    const [grupo, numero, nombre, telefono, correo, condicion, obs] = line.split(',');
-                    estudiantes.push({
-                        id: Utils.generateId(),
-                        grupo: grupo?.replace(/"/g, '') || '',
-                        numero: parseInt(numero) || null,
-                        nombre: nombre?.replace(/"/g, '') || '',
-                        telefono: telefono?.replace(/"/g, '') || '',
-                        correo: correo?.replace(/"/g, '') || '',
-                        condicion: condicion?.replace(/"/g, '') || 'regular',
-                        observaciones: obs?.replace(/"/g, '') || ''
-                    });
-                });
-                
-                DB.set('estudiantes', estudiantes);
-                renderEstudiantes();
-                Utils.showToast(`${lines.length} estudiantes importados`);
+        // ==================== COMPONENTES POR NIVEL ====================
+        function obtenerComponentesPorNivel(nivel, centroModalidad = null) {
+            const n = parseInt(nivel);
+            const componentes = {
+                trabajoCotidiano: { nombre: 'Trabajo Cotidiano', activo: true, porcentaje: 0 },
+                tareas: { nombre: 'Tareas', activo: true, porcentaje: 0 },
+                pruebas: { nombre: 'Pruebas', activo: false, porcentaje: 0 },
+                proyecto: { nombre: 'Proyecto', activo: false, porcentaje: 0 },
+                asistencia: { nombre: 'Asistencia', activo: false, porcentaje: 0 },
+                portafolio: { nombre: 'Portafolio', activo: false, porcentaje: 0 },
+                demostracion: { nombre: 'Demostración', activo: false, porcentaje: 0 }
             };
-            reader.readAsText(file);
-            input.value = '';
+            
+            // Primaria (1-6)
+            if (n >= 1 && n <= 6) {
+                componentes.pruebas.activo = true;
+                componentes.asistencia.activo = true;
+                // Primaria no usa proyecto
+            }
+            
+            // Secundaria (7-12)
+            if (n >= 7 && n <= 12) {
+                componentes.pruebas.activo = true;
+                componentes.proyecto.activo = true; // Opcional, puede elegirse
+                componentes.asistencia.activo = true;
+            }
+            
+            // Técnica / CINDEA (podría tener portafolio)
+            if (centroModalidad === 'tecnica' || centroModalidad === 'cindea') {
+                componentes.portafolio.activo = true;
+                componentes.demostracion.activo = true;
+            }
+            
+            return componentes;
         }
 
-        function exportEstudiantesCSV() {
-            const estudiantes = DB.get('estudiantes') || [];
+        function cargarComponentesPorGrupo() {
+            const grupoId = document.getElementById('evalGrupo').value;
+            if (!grupoId) return;
+            
             const grupos = DB.get('grupos') || [];
+            const centros = DB.get('centros') || [];
+            const grupo = grupos.find(g => g.id === grupoId);
+            if (!grupo) return;
             
-            let csv = 'Grupo,Número,Nombre,Teléfono,Correo,Condición,Observaciones\n';
-            estudiantes.forEach(e => {
-                const grupo = grupos.find(g => g.id === e.grupo);
-                csv += `"${grupo ? grupo.nombre : ''}",${e.numero || ''},"${e.nombre}","${e.telefono || ''}","${e.correo || ''}",${e.condicion},"${e.observaciones || ''}"\n`;
-            });
+            const centro = centros.find(c => c.id === grupo.centro);
+            const componentes = obtenerComponentesPorNivel(grupo.nivel, centro?.modalidad);
             
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            saveAs(blob, 'estudiantes.csv');
-            Utils.showToast('Archivo CSV exportado');
+            const container = document.getElementById('componentesLista');
+            const html = [];
+            
+            if (componentes.trabajoCotidiano.activo) html.push('<span class="component-chip active">Trabajo Cotidiano</span>');
+            if (componentes.tareas.activo) html.push('<span class="component-chip active">Tareas</span>');
+            if (componentes.pruebas.activo) html.push('<span class="component-chip active">Pruebas</span>');
+            if (componentes.proyecto.activo) html.push('<span class="component-chip active">Proyecto</span>');
+            if (componentes.asistencia.activo) html.push('<span class="component-chip active">Asistencia</span>');
+            if (componentes.portafolio.activo) html.push('<span class="component-chip active">Portafolio</span>');
+            if (componentes.demostracion.activo) html.push('<span class="component-chip active">Demostración</span>');
+            
+            container.innerHTML = html.join('') || '<span class="text-sm text-gray-500">No hay componentes definidos</span>';
+            
+            return componentes;
         }
 
         // ==================== EVALUACIÓN ====================
-        function loadEvaluacionTable() {
+        function cargarTablaEvaluacion() {
             const grupoId = document.getElementById('evalGrupo').value;
             const periodo = document.getElementById('evalPeriodo').value;
             const asignatura = document.getElementById('evalAsignatura').value.trim();
             
             if (!grupoId || !asignatura) {
-                Utils.showToast('Seleccione grupo y asignatura', 'error');
+                Utils.mostrarToast('Seleccione grupo y asignatura', 'error');
                 return;
             }
             
+            const grupos = DB.get('grupos') || [];
+            const centros = DB.get('centros') || [];
             const estudiantes = (DB.get('estudiantes') || []).filter(e => e.grupo === grupoId);
+            const grupo = grupos.find(g => g.id === grupoId);
+            const centro = centros.find(c => c.id === grupo?.centro);
+            
             if (!estudiantes.length) {
-                Utils.showToast('No hay estudiantes en este grupo', 'warning');
+                Utils.mostrarToast('No hay estudiantes en este grupo', 'warning');
                 return;
             }
             
-            const config = DB.get('config') || { porcentajes: {} };
-            const pct = config.porcentajes;
+            const componentes = obtenerComponentesPorNivel(grupo.nivel, centro?.modalidad);
             const notas = DB.get('notas') || {};
             const key = `${grupoId}_${periodo}_${asignatura}`;
             const notasGrupo = notas[key] || {};
+            
+            // Generar header de tabla dinámica
+            let headerHtml = '<tr><th class="sticky left-0">Estudiante</th>';
+            if (componentes.trabajoCotidiano.activo) headerHtml += '<th class="text-center">TC</th>';
+            if (componentes.tareas.activo) headerHtml += '<th class="text-center">Tareas</th>';
+            if (componentes.pruebas.activo) headerHtml += '<th class="text-center">Prueba</th>';
+            if (componentes.proyecto.activo) headerHtml += '<th class="text-center">Proyecto</th>';
+            if (componentes.asistencia.activo) headerHtml += '<th class="text-center">Asist.</th>';
+            if (componentes.portafolio.activo) headerHtml += '<th class="text-center">Portaf.</th>';
+            if (componentes.demostracion.activo) headerHtml += '<th class="text-center">Demost.</th>';
+            headerHtml += '<th class="text-center font-bold">Prom.</th></tr>';
+            document.getElementById('evalTableHeader').innerHTML = headerHtml;
             
             let tbody = '', suma = 0;
             
             estudiantes.sort((a, b) => (a.numero || 0) - (b.numero || 0)).forEach(est => {
                 const n = notasGrupo[est.id] || {};
-                const tc = n.trabajoCotidiano || '';
-                const tareas = n.tareas || '';
-                const prueba = n.pruebas || '';
-                const proyecto = n.proyecto || '';
-                const asistencia = n.asistencia || '';
-                const portafolio = n.portafolio || '';
-                
+                let row = `<tr><td class="sticky left-0 bg-white dark:bg-gray-800">${est.nombre}</td>`;
+                let valores = [];
                 let promedio = 0;
-                if (tc !== '' && tareas !== '' && prueba !== '') {
-                    const tcVal = +tc || 0, tareasVal = +tareas || 0, pruebaVal = +prueba || 0;
-                    const proyVal = +proyecto || 0, asisVal = +asistencia || 0, portVal = +portafolio || 0;
-                    
-                    if (est.condicion === 'acs') {
-                        try {
-                            const trabajoCotidiano = tcVal, tareasVar = tareasVal, pruebaVar = pruebaVal;
-                            promedio = eval(config.formulaACS || '(trabajoCotidiano * 0.7) + (tareas * 0.3)');
-                        } catch {
-                            promedio = tcVal * 0.7 + tareasVal * 0.3;
-                        }
-                    } else {
-                        promedio = (tcVal * (pct.trabajoCotidiano/100)) + (tareasVal * (pct.tareas/100)) + 
-                                  (pruebaVal * (pct.pruebas/100)) + (proyVal * (pct.proyecto/100)) +
-                                  (asisVal * (pct.asistencia/100)) + (portVal * (pct.portafolio/100));
+                let totalPorcentaje = 0;
+                let sumaPonderada = 0;
+                
+                if (componentes.trabajoCotidiano.activo) {
+                    const val = n.trabajoCotidiano || '';
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${val}" data-est="${est.id}" data-campo="trabajoCotidiano" onchange="actualizarNota(this)"></td>`;
+                    if (val) {
+                        sumaPonderada += parseFloat(val) * 0.4; // Porcentaje por defecto
+                        totalPorcentaje += 40;
                     }
+                }
+                if (componentes.tareas.activo) {
+                    const val = n.tareas || '';
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${val}" data-est="${est.id}" data-campo="tareas" onchange="actualizarNota(this)"></td>`;
+                    if (val) {
+                        sumaPonderada += parseFloat(val) * 0.2;
+                        totalPorcentaje += 20;
+                    }
+                }
+                if (componentes.pruebas.activo) {
+                    const val = n.pruebas || '';
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${val}" data-est="${est.id}" data-campo="pruebas" onchange="actualizarNota(this)"></td>`;
+                    if (val) {
+                        sumaPonderada += parseFloat(val) * 0.3;
+                        totalPorcentaje += 30;
+                    }
+                }
+                if (componentes.proyecto.activo) {
+                    const val = n.proyecto || '';
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${val}" data-est="${est.id}" data-campo="proyecto" onchange="actualizarNota(this)"></td>`;
+                    if (val) {
+                        sumaPonderada += parseFloat(val) * 0.1;
+                        totalPorcentaje += 10;
+                    }
+                }
+                if (componentes.asistencia.activo) {
+                    const val = n.asistencia || '';
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${val}" data-est="${est.id}" data-campo="asistencia" onchange="actualizarNota(this)"></td>`;
+                    if (val) {
+                        sumaPonderada += parseFloat(val) * 0.1;
+                        totalPorcentaje += 10;
+                    }
+                }
+                if (componentes.portafolio.activo) {
+                    const val = n.portafolio || '';
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${val}" data-est="${est.id}" data-campo="portafolio" onchange="actualizarNota(this)"></td>`;
+                }
+                if (componentes.demostracion.activo) {
+                    const val = n.demostracion || '';
+                    row += `<td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${val}" data-est="${est.id}" data-campo="demostracion" onchange="actualizarNota(this)"></td>`;
+                }
+                
+                if (totalPorcentaje > 0) {
+                    promedio = sumaPonderada;
                     suma += promedio;
                 }
                 
-                tbody += `
-                    <tr>
-                        <td class="sticky left-0 bg-white dark:bg-gray-800">${est.nombre}</td>
-                        <td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${tc}" data-est="${est.id}" data-campo="trabajoCotidiano" onchange="updateNota(this)"></td>
-                        <td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${tareas}" data-est="${est.id}" data-campo="tareas" onchange="updateNota(this)"></td>
-                        <td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${prueba}" data-est="${est.id}" data-campo="pruebas" onchange="updateNota(this)"></td>
-                        <td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${proyecto}" data-est="${est.id}" data-campo="proyecto" onchange="updateNota(this)"></td>
-                        <td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${asistencia}" data-est="${est.id}" data-campo="asistencia" onchange="updateNota(this)"></td>
-                        <td><input type="number" class="w-16 px-2 py-1 border rounded dark:bg-gray-700" value="${portafolio}" data-est="${est.id}" data-campo="portafolio" onchange="updateNota(this)"></td>
-                        <td class="font-bold text-center" id="prom_${est.id}">${promedio ? promedio.toFixed(2) : '-'}</td>
-                    </tr>
-                `;
+                row += `<td class="font-bold text-center" id="prom_${est.id}">${promedio ? promedio.toFixed(2) : '-'}</td></tr>`;
+                tbody += row;
             });
             
             document.getElementById('evaluacionTableBody').innerHTML = tbody;
@@ -1711,20 +1655,35 @@
             document.getElementById('promedioGrupo').textContent = estudiantes.length ? (suma / estudiantes.length).toFixed(2) : '0.00';
         }
 
-        function updateNota(input) {
+        function actualizarNota(input) {
             const row = input.closest('tr');
             const inputs = row.querySelectorAll('input[data-est]');
             const estId = input.dataset.est;
-            const config = DB.get('config') || { porcentajes: {} };
-            const pct = config.porcentajes;
             
-            let valores = {};
-            inputs.forEach(inp => valores[inp.dataset.campo] = +inp.value || 0);
+            let sumaPonderada = 0;
+            let totalPorcentaje = 0;
             
-            const promedio = (valores.trabajoCotidiano * (pct.trabajoCotidiano/100)) + (valores.tareas * (pct.tareas/100)) +
-                            (valores.pruebas * (pct.pruebas/100)) + (valores.proyecto * (pct.proyecto/100)) +
-                            (valores.asistencia * (pct.asistencia/100)) + (valores.portafolio * (pct.portafolio/100));
+            inputs.forEach(inp => {
+                const campo = inp.dataset.campo;
+                const valor = parseFloat(inp.value) || 0;
+                let porcentaje = 0;
+                
+                // Porcentajes por defecto (simplificado)
+                if (campo === 'trabajoCotidiano') porcentaje = 40;
+                else if (campo === 'tareas') porcentaje = 20;
+                else if (campo === 'pruebas') porcentaje = 30;
+                else if (campo === 'proyecto') porcentaje = 10;
+                else if (campo === 'asistencia') porcentaje = 10;
+                else if (campo === 'portafolio') porcentaje = 10;
+                else if (campo === 'demostracion') porcentaje = 10;
+                
+                if (porcentaje > 0 && valor > 0) {
+                    sumaPonderada += valor * (porcentaje / 100);
+                    totalPorcentaje += porcentaje;
+                }
+            });
             
+            const promedio = totalPorcentaje > 0 ? sumaPonderada : 0;
             document.getElementById(`prom_${estId}`).textContent = promedio.toFixed(2);
             
             let suma = 0, count = 0;
@@ -1735,7 +1694,7 @@
             document.getElementById('promedioGrupo').textContent = count ? (suma / count).toFixed(2) : '0.00';
         }
 
-        function saveNotas() {
+        function guardarNotas() {
             const grupoId = document.getElementById('evalGrupo').value;
             const periodo = document.getElementById('evalPeriodo').value;
             const asignatura = document.getElementById('evalAsignatura').value.trim();
@@ -1752,65 +1711,79 @@
                 
                 const notaEst = {};
                 row.querySelectorAll('input[data-est]').forEach(inp => {
-                    notaEst[inp.dataset.campo] = inp.value ? +inp.value : null;
+                    notaEst[inp.dataset.campo] = inp.value ? parseFloat(inp.value) : null;
                 });
                 notas[key][estId] = notaEst;
             });
             
             DB.set('notas', notas);
-            updateStats();
-            Utils.showToast('Notas guardadas');
+            Utils.mostrarToast('Notas guardadas correctamente');
         }
 
         // ==================== INSTRUMENTOS ====================
-        function renderInstrumentos() {
+        function renderizarInstrumentos() {
             const instrumentos = DB.get('instrumentos') || [];
-            const container = document.getElementById('instrumentosList');
+            const container = document.getElementById('instrumentosLista');
             
             if (!instrumentos.length) {
-                container.innerHTML = '<p class="text-gray-500 col-span-full text-center py-8">No hay instrumentos creados</p>';
+                container.innerHTML = '<p class="text-gray-500 col-span-full text-center py-8">No hay instrumentos creados. ¡Crea tu primer instrumento!</p>';
                 return;
             }
             
             container.innerHTML = instrumentos.map(i => `
-                <div class="bg-white dark:bg-gray-800 border rounded-lg p-4 shadow-sm">
+                <div class="instrumento-card bg-white dark:bg-gray-800">
                     <h4 class="font-semibold">${i.nombre}</h4>
-                    <p class="text-sm text-gray-500">${i.tipo}</p>
-                    <p class="text-xs mt-2">Asignatura: ${i.asignatura || '-'}</p>
+                    <p class="text-sm text-gray-500">${i.tipo === 'rubrica' ? 'Rúbrica' : i.tipo === 'cotejo' ? 'Lista de Cotejo' : 'Escala'}</p>
+                    ${i.asignatura ? `<p class="text-xs mt-1">Asignatura: ${i.asignatura}</p>` : ''}
+                    <p class="text-xs mt-1">Indicadores: ${i.indicadores?.length || 0}</p>
                     <div class="mt-3 flex gap-2">
-                        <button onclick="duplicateInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">Duplicar</button>
-                        <button onclick="deleteInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">Eliminar</button>
+                        <button onclick="usarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded">Usar</button>
+                        <button onclick="duplicarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">Duplicar</button>
+                        <button onclick="eliminarInstrumento('${i.id}')" class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded">Eliminar</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function addIndicadorField() {
-            const container = document.getElementById('indicadoresContainer');
+        function agregarIndicador() {
+            const lista = document.getElementById('indicadoresLista');
+            const num = lista.children.length + 1;
             const div = document.createElement('div');
-            div.className = 'flex gap-2 mt-2';
+            div.className = 'flex gap-2';
             div.innerHTML = `
-                <input type="text" class="inst-indicador form-input flex-1" placeholder="Indicador">
-                <button onclick="this.parentElement.remove()" class="btn-secondary">-</button>
+                <input type="text" class="indicador-input form-input flex-1" placeholder="Indicador ${num}">
+                <button type="button" onclick="eliminarIndicador(this)" class="btn-secondary">-</button>
             `;
-            container.appendChild(div);
+            lista.appendChild(div);
         }
 
-        function saveInstrumento() {
+        function eliminarIndicador(btn) {
+            const div = btn.closest('.flex');
+            if (div && document.querySelectorAll('.indicador-input').length > 1) {
+                div.remove();
+            }
+        }
+
+        function guardarInstrumento() {
             const nombre = document.getElementById('instNombre').value.trim();
             if (!nombre) {
-                Utils.showToast('Ingrese el nombre del instrumento', 'error');
+                Utils.mostrarToast('Ingrese el nombre del instrumento', 'error');
                 return;
             }
             
             const indicadores = [];
-            document.querySelectorAll('.inst-indicador').forEach(inp => {
+            document.querySelectorAll('.indicador-input').forEach(inp => {
                 if (inp.value.trim()) indicadores.push(inp.value.trim());
             });
             
+            if (!indicadores.length) {
+                Utils.mostrarToast('Debe agregar al menos un indicador', 'error');
+                return;
+            }
+            
             const instrumentos = DB.get('instrumentos') || [];
             instrumentos.push({
-                id: Utils.generateId(),
+                id: Utils.generarId(),
                 tipo: document.getElementById('instTipo').value,
                 nombre,
                 asignatura: document.getElementById('instAsignatura').value.trim(),
@@ -1820,48 +1793,55 @@
             });
             DB.set('instrumentos', instrumentos);
             
-            closeModal('instrumentoModal');
-            renderInstrumentos();
-            Utils.showToast('Instrumento guardado');
+            cerrarModal('instrumentoModal');
+            renderizarInstrumentos();
+            Utils.mostrarToast('Instrumento guardado');
         }
 
-        function duplicateInstrumento(id) {
+        function duplicarInstrumento(id) {
             const instrumentos = DB.get('instrumentos') || [];
             const original = instrumentos.find(i => i.id === id);
             if (!original) return;
             
-            instrumentos.push({ ...original, id: Utils.generateId(), nombre: `${original.nombre} (copia)` });
+            instrumentos.push({ ...original, id: Utils.generarId(), nombre: `${original.nombre} (copia)` });
             DB.set('instrumentos', instrumentos);
-            renderInstrumentos();
-            Utils.showToast('Instrumento duplicado');
+            renderizarInstrumentos();
+            Utils.mostrarToast('Instrumento duplicado');
         }
 
-        function deleteInstrumento(id) {
-            if (!Utils.confirm('¿Eliminar este instrumento?')) return;
+        function eliminarInstrumento(id) {
+            if (!Utils.confirmar('¿Eliminar este instrumento?')) return;
             
             const instrumentos = DB.get('instrumentos').filter(i => i.id !== id);
             DB.set('instrumentos', instrumentos);
-            renderInstrumentos();
-            Utils.showToast('Instrumento eliminado');
+            renderizarInstrumentos();
+            Utils.mostrarToast('Instrumento eliminado');
+        }
+
+        function usarInstrumento(id) {
+            Utils.mostrarToast('Función para usar instrumento en evaluación (en desarrollo)', 'info');
         }
 
         // ==================== ASISTENCIA ====================
-        function renderAsistencia() {
+        function cargarAsistencia() {
             const grupoId = document.getElementById('asistGrupo').value;
             const mes = document.getElementById('asistMes').value;
             
-            if (!grupoId || !mes) return;
+            if (!grupoId || !mes) {
+                Utils.mostrarToast('Seleccione grupo y mes', 'error');
+                return;
+            }
             
             const estudiantes = (DB.get('estudiantes') || []).filter(e => e.grupo === grupoId);
             if (!estudiantes.length) {
-                document.getElementById('asistenciaContainer').classList.add('hidden');
+                Utils.mostrarToast('No hay estudiantes en este grupo', 'warning');
                 return;
             }
             
             const [year, month] = mes.split('-').map(Number);
             const daysInMonth = new Date(year, month, 0).getDate();
             
-            let header = '<tr><th class="px-2 py-2 border sticky left-0 bg-gray-50 dark:bg-gray-700">Estudiante</th><th class="px-2 py-2 border text-center">% Asist.</th>';
+            let header = '<tr><th class="px-2 py-2 border sticky left-0">Estudiante</th><th class="px-2 py-2 border text-center">% Asist.</th>';
             for (let d = 1; d <= daysInMonth; d++) {
                 header += `<th class="px-2 py-2 border text-center w-8">${d}</th>`;
             }
@@ -1881,7 +1861,7 @@
                     if (valor === 'P' || valor === 'J') presentes++;
                     total++;
                     diasRow += `<td class="px-2 py-2 border text-center">
-                        <select class="asist-select w-10 text-xs p-1 border rounded dark:bg-gray-700" data-est="${est.id}" data-dia="${diaKey}" onchange="updateAsistencia(this)">
+                        <select class="asist-select w-10 text-xs p-1 border rounded dark:bg-gray-700" data-est="${est.id}" data-dia="${diaKey}" onchange="actualizarAsistencia(this)">
                             <option value="P" ${valor === 'P' ? 'selected' : ''}>P</option>
                             <option value="A" ${valor === 'A' ? 'selected' : ''}>A</option>
                             <option value="J" ${valor === 'J' ? 'selected' : ''}>J</option>
@@ -1894,11 +1874,11 @@
                           <td class="px-2 py-2 border text-center font-bold">${porcentaje}%</td>${diasRow}</tr>`;
             });
             
-            document.getElementById('asistenciaTableBody').innerHTML = tbody;
+            document.getElementById('asistenciaBody').innerHTML = tbody;
             document.getElementById('asistenciaContainer').classList.remove('hidden');
         }
 
-        function updateAsistencia(select) {
+        function actualizarAsistencia(select) {
             const estId = select.dataset.est;
             const dia = select.dataset.dia;
             const valor = select.value;
@@ -1919,42 +1899,10 @@
             row.cells[1].textContent = ((presentes / selects.length) * 100).toFixed(1) + '%';
         }
 
-        function generarReporteAsistencia() {
-            const grupoId = document.getElementById('asistGrupo').value;
-            const mes = document.getElementById('asistMes').value;
-            
-            if (!grupoId || !mes) {
-                Utils.showToast('Seleccione grupo y mes', 'error');
-                return;
-            }
-            
-            const estudiantes = DB.get('estudiantes').filter(e => e.grupo === grupoId);
-            const asistencia = DB.get('asistencia') || {};
-            const key = `${grupoId}_${mes}`;
-            const data = asistencia[key] || {};
-            
-            let reporte = `Reporte de Asistencia - ${mes}\n\n`;
-            estudiantes.forEach(est => {
-                let presentes = 0, total = 0;
-                if (data[est.id]) {
-                    Object.values(data[est.id]).forEach(v => {
-                        if (v === 'P' || v === 'J') presentes++;
-                        total++;
-                    });
-                }
-                const porcentaje = total ? ((presentes / total) * 100).toFixed(1) : 0;
-                reporte += `${est.nombre}: ${porcentaje}% (${presentes}/${total} días presentes)\n`;
-            });
-            
-            const blob = new Blob([reporte], { type: 'text/plain' });
-            saveAs(blob, `asistencia_${mes}.txt`);
-            Utils.showToast('Reporte de asistencia generado');
-        }
-
         // ==================== BITÁCORA ====================
-        function renderBitacora() {
+        function renderizarBitacora() {
             const bitacora = DB.get('bitacora') || [];
-            const tbody = document.getElementById('bitacoraTableBody');
+            const tbody = document.getElementById('bitacoraTabla');
             
             if (!bitacora.length) {
                 tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No hay registros</td></tr>';
@@ -1964,12 +1912,12 @@
             bitacora.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
             tbody.innerHTML = bitacora.map(e => `
                 <tr>
-                    <td>${Utils.formatDate(e.fecha)}</td>
+                    <td>${Utils.formatearFecha(e.fecha)}</td>
                     <td>${e.tema}</td>
                     <td>${e.actividad}</td>
                     <td>${e.ajustes || '-'}</td>
                     <td>
-                        <button onclick="deleteBitacoraEntry('${e.id}')" class="text-red-600 hover:text-red-800">
+                        <button onclick="eliminarEntradaBitacora('${e.id}')" class="text-red-600 hover:text-red-800">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>
@@ -1977,19 +1925,19 @@
             `).join('');
         }
 
-        function addBitacoraEntry() {
+        function agregarEntradaBitacora() {
             const fecha = document.getElementById('bitacoraFecha').value;
             const tema = document.getElementById('bitacoraTema').value.trim();
             const actividad = document.getElementById('bitacoraActividad').value.trim();
             
             if (!fecha || !tema || !actividad) {
-                Utils.showToast('Complete fecha, tema y actividad', 'error');
+                Utils.mostrarToast('Complete fecha, tema y actividad', 'error');
                 return;
             }
             
             const bitacora = DB.get('bitacora') || [];
             bitacora.push({
-                id: Utils.generateId(),
+                id: Utils.generarId(),
                 fecha,
                 tema,
                 actividad,
@@ -1997,8 +1945,8 @@
             });
             DB.set('bitacora', bitacora);
             
-            renderBitacora();
-            Utils.showToast('Entrada agregada');
+            renderizarBitacora();
+            Utils.mostrarToast('Entrada agregada');
             
             document.getElementById('bitacoraFecha').value = '';
             document.getElementById('bitacoraTema').value = '';
@@ -2006,16 +1954,16 @@
             document.getElementById('bitacoraAjustes').value = '';
         }
 
-        function deleteBitacoraEntry(id) {
-            if (!Utils.confirm('¿Eliminar esta entrada?')) return;
+        function eliminarEntradaBitacora(id) {
+            if (!Utils.confirmar('¿Eliminar esta entrada?')) return;
             
             const bitacora = DB.get('bitacora').filter(e => e.id !== id);
             DB.set('bitacora', bitacora);
-            renderBitacora();
-            Utils.showToast('Entrada eliminada');
+            renderizarBitacora();
+            Utils.mostrarToast('Entrada eliminada');
         }
 
-        function exportBitacoraWord() {
+        function exportarBitacoraWord() {
             const bitacora = DB.get('bitacora') || [];
             let html = '<html><body><h1>Bitácora Docente</h1><table border="1"><tr><th>Fecha</th><th>Tema</th><th>Actividad</th><th>Ajustes DUA</th></tr>';
             bitacora.forEach(e => {
@@ -2025,10 +1973,10 @@
             
             const blob = new Blob([html], { type: 'application/msword' });
             saveAs(blob, 'bitacora.doc');
-            Utils.showToast('Bitácora exportada a Word');
+            Utils.mostrarToast('Bitácora exportada a Word');
         }
 
-        function exportBitacoraPDF() {
+        function exportarBitacoraPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.text('Bitácora Docente', 14, 15);
@@ -2039,7 +1987,7 @@
                 body: bitacora.map(e => [e.fecha, e.tema, e.actividad, e.ajustes || ''])
             });
             doc.save('bitacora.pdf');
-            Utils.showToast('Bitácora exportada a PDF');
+            Utils.mostrarToast('Bitácora exportada a PDF');
         }
 
         // ==================== REPORTES ====================
@@ -2048,21 +1996,20 @@
             const periodo = document.getElementById('reportPeriodo').value;
             
             if (!grupoId || !periodo) {
-                Utils.showToast('Seleccione grupo y periodo', 'error');
+                Utils.mostrarToast('Seleccione grupo y periodo', 'error');
                 return;
             }
             
-            const grupo = (DB.get('grupos') || []).find(g => g.id === grupoId);
+            const grupos = DB.get('grupos') || [];
+            const estudiantes = (DB.get('estudiantes') || []).filter(e => e.grupo === grupoId);
+            const notas = DB.get('notas') || {};
+            const grupo = grupos.find(g => g.id === grupoId);
+            
             if (!grupo) return;
             
             const asignaturas = grupo.asignaturas ? grupo.asignaturas.split(',').map(a => a.trim()) : ['Matemática'];
             const selectAsig = document.getElementById('reportAsignatura');
             selectAsig.innerHTML = '<option value="">Todas</option>' + asignaturas.map(a => `<option value="${a}">${a}</option>`).join('');
-            
-            const estudiantes = (DB.get('estudiantes') || []).filter(e => e.grupo === grupoId);
-            const notas = DB.get('notas') || {};
-            const config = DB.get('config') || { porcentajes: {} };
-            const pct = config.porcentajes;
             
             let reportData = [];
             estudiantes.forEach(est => {
@@ -2103,7 +2050,20 @@
             document.getElementById('top3').textContent = reportData[2]?.nombre || '-';
             document.getElementById('top3Nota').textContent = reportData[2]?.promedio || '-';
             
-            document.getElementById('reporteTableBody').innerHTML = reportData.map((item, idx) => `
+            document.getElementById('reporteHeader').innerHTML = `
+                <tr>
+                    <th>#</th>
+                    <th>Estudiante</th>
+                    <th class="text-center">TC</th>
+                    <th class="text-center">Tareas</th>
+                    <th class="text-center">Pruebas</th>
+                    <th class="text-center">Proyecto</th>
+                    <th class="text-center">Prom.</th>
+                    <th class="text-center">Condición</th>
+                </tr>
+            `;
+            
+            document.getElementById('reporteTabla').innerHTML = reportData.map((item, idx) => `
                 <tr>
                     <td>${idx+1}</td>
                     <td>${item.nombre}</td>
@@ -2123,15 +2083,17 @@
             document.getElementById('reporteContainer').classList.remove('hidden');
         }
 
-        function exportReportePDF() {
+        function exportarReportePDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.text('Reporte por Periodo', 14, 15);
             
             const data = [];
-            document.querySelectorAll('#reporteTableBody tr').forEach(row => {
+            document.querySelectorAll('#reporteTabla tr').forEach(row => {
                 const cells = row.querySelectorAll('td');
-                data.push([cells[0].textContent, cells[1].textContent, cells[2].textContent, cells[3].textContent, cells[4].textContent, cells[5].textContent, cells[6].textContent, cells[7].textContent]);
+                if (cells.length) {
+                    data.push([cells[0].textContent, cells[1].textContent, cells[2].textContent, cells[3].textContent, cells[4].textContent, cells[5].textContent, cells[6].textContent, cells[7].textContent]);
+                }
             });
             
             doc.autoTable({
@@ -2139,32 +2101,34 @@
                 body: data
             });
             doc.save('reporte.pdf');
-            Utils.showToast('Reporte exportado a PDF');
+            Utils.mostrarToast('Reporte exportado a PDF');
         }
 
-        function exportReporteWord() {
-            const tabla = document.querySelector('#reporteTableBody').parentElement.outerHTML;
+        function exportarReporteWord() {
+            const tabla = document.querySelector('#reporteTabla').parentElement.outerHTML;
             const top = document.querySelector('.grid.md\\:grid-cols-3.gap-4').outerHTML;
             const html = `<html><body><h1>Reporte por Periodo</h1>${top}${tabla}</body></html>`;
             saveAs(new Blob([html], { type: 'application/msword' }), 'reporte.doc');
-            Utils.showToast('Reporte exportado a Word');
+            Utils.mostrarToast('Reporte exportado a Word');
         }
 
-        function exportReporteCSV() {
+        function exportarReporteCSV() {
             let csv = '#,Estudiante,TC,Tareas,Pruebas,Proyecto,Promedio,Condición\n';
-            document.querySelectorAll('#reporteTableBody tr').forEach(row => {
+            document.querySelectorAll('#reporteTabla tr').forEach(row => {
                 const cells = row.querySelectorAll('td');
-                csv += `${cells[0].textContent},"${cells[1].textContent}",${cells[2].textContent},${cells[3].textContent},${cells[4].textContent},${cells[5].textContent},${cells[6].textContent},"${cells[7].textContent}"\n`;
+                if (cells.length) {
+                    csv += `${cells[0].textContent},"${cells[1].textContent}",${cells[2].textContent},${cells[3].textContent},${cells[4].textContent},${cells[5].textContent},${cells[6].textContent},"${cells[7].textContent}"\n`;
+                }
             });
             saveAs(new Blob([csv], { type: 'text/csv' }), 'reporte.csv');
-            Utils.showToast('Reporte exportado a CSV');
+            Utils.mostrarToast('Reporte exportado a CSV');
         }
 
         // ==================== ACTA FINAL ====================
         function generarActaFinal() {
             const grupoId = document.getElementById('actaGrupo').value;
             if (!grupoId) {
-                Utils.showToast('Seleccione un grupo', 'error');
+                Utils.mostrarToast('Seleccione un grupo', 'error');
                 return;
             }
             
@@ -2184,11 +2148,10 @@
                         const key = `${grupoId}_${per}_${asig}`;
                         if (notas[key] && notas[key][est.id]) {
                             const n = notas[key][est.id];
-                            if (n.trabajoCotidiano && n.tareas && n.pruebas) {
-                                const config = DB.get('config') || { porcentajes: {} };
-                                const pct = config.porcentajes;
-                                const promedio = (n.trabajoCotidiano * (pct.trabajoCotidiano/100)) + 
-                                                (n.tareas * (pct.tareas/100)) + (n.pruebas * (pct.pruebas/100));
+                            if (n.trabajoCotidiano && n.tareas && (n.pruebas || n.proyecto)) {
+                                const promedio = (n.trabajoCotidiano || 0) * 0.4 + 
+                                                (n.tareas || 0) * 0.2 + 
+                                                ((n.pruebas || n.proyecto) || 0) * 0.3;
                                 sumaAsignaturas += promedio;
                                 count++;
                             }
@@ -2225,17 +2188,17 @@
                 `;
             });
             
-            document.getElementById('actaTableBody').innerHTML = tbody;
+            document.getElementById('actaTabla').innerHTML = tbody;
             document.getElementById('actaContainer').classList.remove('hidden');
         }
 
-        function exportActaPDF() {
+        function exportarActaPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('landscape');
             doc.text('Acta Final de Calificaciones', 14, 15);
             
             const data = [];
-            document.querySelectorAll('#actaTableBody tr').forEach(row => {
+            document.querySelectorAll('#actaTabla tr').forEach(row => {
                 const cells = row.querySelectorAll('td');
                 data.push([cells[0].textContent, cells[1].textContent, cells[2].textContent, cells[3].textContent, cells[4].textContent, cells[5].textContent, cells[6].textContent, cells[7].textContent]);
             });
@@ -2246,20 +2209,20 @@
                 styles: { fontSize: 8 }
             });
             doc.save('acta_final.pdf');
-            Utils.showToast('Acta exportada a PDF');
+            Utils.mostrarToast('Acta exportada a PDF');
         }
 
-        function exportActaWord() {
-            const tabla = document.querySelector('#actaTableBody').parentElement.outerHTML;
+        function exportarActaWord() {
+            const tabla = document.querySelector('#actaTabla').parentElement.outerHTML;
             const html = `<html><body><h1>Acta Final</h1>${tabla}</body></html>`;
             saveAs(new Blob([html], { type: 'application/msword' }), 'acta_final.doc');
-            Utils.showToast('Acta exportada a Word');
+            Utils.mostrarToast('Acta exportada a Word');
         }
 
         function validarActa() {
             const grupoId = document.getElementById('actaGrupo').value;
             if (!grupoId) {
-                Utils.showToast('Seleccione un grupo', 'error');
+                Utils.mostrarToast('Seleccione un grupo', 'error');
                 return;
             }
             
@@ -2281,14 +2244,14 @@
             });
             
             if (incompletos.length) {
-                Utils.showToast(`Faltan notas: ${incompletos.slice(0,3).join(', ')}${incompletos.length > 3 ? '...' : ''}`, 'warning');
+                Utils.mostrarToast(`Faltan notas: ${incompletos.slice(0,3).join(', ')}${incompletos.length > 3 ? '...' : ''}`, 'warning');
             } else {
-                Utils.showToast('Todos los periodos están completos', 'success');
+                Utils.mostrarToast('Todos los periodos están completos', 'success');
             }
         }
 
         // ==================== RESPALDO ====================
-        function exportFullBackup() {
+        function exportarRespaldoJSON() {
             const backup = {
                 centros: DB.get('centros'),
                 grupos: DB.get('grupos'),
@@ -2303,17 +2266,17 @@
             
             const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
             saveAs(blob, `respaldo_mep_${new Date().toISOString().slice(0,10)}.json`);
-            Utils.showToast('Respaldo JSON exportado');
+            Utils.mostrarToast('Respaldo JSON exportado');
         }
 
-        function importFullBackup() {
+        function importarRespaldo() {
             const file = document.getElementById('backupInput').files[0];
             if (!file) {
-                Utils.showToast('Seleccione un archivo', 'error');
+                Utils.mostrarToast('Seleccione un archivo', 'error');
                 return;
             }
             
-            if (!Utils.confirm('¿Restaurar respaldo? Se perderán los datos actuales.')) return;
+            if (!Utils.confirmar('¿Restaurar respaldo? Se perderán los datos actuales.')) return;
             
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -2329,47 +2292,54 @@
                     DB.set('instrumentos', backup.instrumentos || []);
                     DB.set('config', backup.config || {});
                     
-                    loadConfiguration();
-                    renderCentros();
-                    renderGrupos();
-                    renderEstudiantes();
-                    updateStats();
-                    Utils.showToast('Respaldo restaurado');
+                    actualizarDashboard();
+                    renderizarCentros();
+                    renderizarGruposCompleto();
+                    Utils.mostrarToast('Respaldo restaurado');
                 } catch {
-                    Utils.showToast('Error al leer el archivo', 'error');
+                    Utils.mostrarToast('Error al leer el archivo', 'error');
                 }
             };
             reader.readAsText(file);
             document.getElementById('backupInput').value = '';
         }
 
-        function exportFullCSV() {
-            exportEstudiantesCSV();
+        function exportarTodoCSV() {
+            // Exportar estudiantes
+            const estudiantes = DB.get('estudiantes') || [];
+            const grupos = DB.get('grupos') || [];
+            let csvEst = 'Grupo,Número,Nombre,Teléfono,Correo,Condición,Observaciones\n';
+            estudiantes.forEach(e => {
+                const grupo = grupos.find(g => g.id === e.grupo);
+                csvEst += `"${grupo ? grupo.nombre : ''}",${e.numero || ''},"${e.nombre}","${e.telefono || ''}","${e.correo || ''}",${e.condicion},"${e.observaciones || ''}"\n`;
+            });
             
+            const blobEst = new Blob([csvEst], { type: 'text/csv' });
+            saveAs(blobEst, 'estudiantes.csv');
+            
+            // Exportar notas
             const notas = DB.get('notas') || {};
-            let csv = 'Grupo,Periodo,Asignatura,Estudiante_ID,TC,Tareas,Prueba,Proyecto,Asist,Portaf\n';
+            let csvNotas = 'Grupo,Periodo,Asignatura,Estudiante_ID,TC,Tareas,Prueba,Proyecto,Asist,Portaf\n';
             Object.keys(notas).forEach(key => {
                 const [grupoId, periodo, asignatura] = key.split('_');
                 Object.keys(notas[key]).forEach(estId => {
                     const n = notas[key][estId];
-                    csv += `${grupoId},${periodo},${asignatura},${estId},${n.trabajoCotidiano || ''},${n.tareas || ''},${n.pruebas || ''},${n.proyecto || ''},${n.asistencia || ''},${n.portafolio || ''}\n`;
+                    csvNotas += `${grupoId},${periodo},${asignatura},${estId},${n.trabajoCotidiano || ''},${n.tareas || ''},${n.pruebas || ''},${n.proyecto || ''},${n.asistencia || ''},${n.portafolio || ''}\n`;
                 });
             });
             
-            const blob = new Blob([csv], { type: 'text/csv' });
-            saveAs(blob, 'notas.csv');
-            Utils.showToast('Exportación masiva completada');
+            const blobNotas = new Blob([csvNotas], { type: 'text/csv' });
+            saveAs(blobNotas, 'notas.csv');
+            
+            Utils.mostrarToast('Exportación masiva completada');
         }
 
-        function updateStats() {
-            document.getElementById('statCentros').textContent = (DB.get('centros') || []).length;
-            document.getElementById('statGrupos').textContent = (DB.get('grupos') || []).length;
-            document.getElementById('statEstudiantes').textContent = (DB.get('estudiantes') || []).length;
-            
-            const notas = DB.get('notas') || {};
-            let total = 0;
-            Object.keys(notas).forEach(key => total += Object.keys(notas[key]).length);
-            document.getElementById('statNotas').textContent = total;
+        // ==================== DASHBOARD ====================
+        function actualizarDashboard() {
+            document.getElementById('dashCentros').textContent = (DB.get('centros') || []).length;
+            document.getElementById('dashGrupos').textContent = (DB.get('grupos') || []).length;
+            document.getElementById('dashEstudiantes').textContent = (DB.get('estudiantes') || []).length;
+            document.getElementById('dashInstrumentos').textContent = (DB.get('instrumentos') || []).length;
         }
 
         // ==================== ALERTAS ====================
@@ -2383,26 +2353,62 @@
                 Object.keys(notas).forEach(key => {
                     if (notas[key][est.id] && notas[key][est.id].trabajoCotidiano) {
                         const n = notas[key][est.id];
-                        const config = DB.get('config');
-                        const pct = config.porcentajes;
-                        if (n.trabajoCotidiano && n.tareas && n.pruebas) {
-                            const promedio = (n.trabajoCotidiano * (pct.trabajoCotidiano/100)) + 
-                                           (n.tareas * (pct.tareas/100)) + (n.pruebas * (pct.pruebas/100));
-                            if (promedio < 65) bajo = true;
-                        }
+                        const promedio = ((n.trabajoCotidiano || 0) * 0.4) + 
+                                       ((n.tareas || 0) * 0.2) + 
+                                       ((n.pruebas || n.proyecto || 0) * 0.3);
+                        if (promedio < 65) bajo = true;
                     }
                 });
                 if (bajo) alertas.push(`⚠️ ${est.nombre} tiene promedio bajo`);
             });
             
-            const lista = document.getElementById('alertasList');
+            const lista = document.getElementById('alertasLista');
             if (!alertas.length) {
                 lista.innerHTML = '<p class="text-gray-500">No hay alertas</p>';
             } else {
                 lista.innerHTML = alertas.map(a => `<div class="p-2 bg-yellow-50 dark:bg-yellow-900 rounded">${a}</div>`).join('');
             }
             
-            openModal('alertasModal');
+            document.getElementById('alertasModal').classList.add('active');
+        }
+
+        // ==================== UTILIDADES SELECTS ====================
+        function cargarCentrosSelect(selectId) {
+            const centros = DB.get('centros') || [];
+            const select = document.getElementById(selectId);
+            if (!select) return;
+            
+            const valorActual = select.value;
+            select.innerHTML = '<option value="">Seleccione...</option>' + 
+                centros.map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
+            
+            if (valorActual && centros.some(c => c.id === valorActual)) {
+                select.value = valorActual;
+            }
+        }
+
+        function cargarGruposSelect(selectId) {
+            const grupos = DB.get('grupos') || [];
+            const select = document.getElementById(selectId);
+            if (!select) return;
+            
+            const valorActual = select.value;
+            select.innerHTML = '<option value="">Seleccione...</option>' + 
+                grupos.map(g => `<option value="${g.id}">${g.nombre}</option>`).join('');
+            
+            if (valorActual && grupos.some(g => g.id === valorActual)) {
+                select.value = valorActual;
+            }
+        }
+
+        function cargarGruposPorCentro(selectId, centroId) {
+            const grupos = DB.get('grupos') || [];
+            const select = document.getElementById(selectId);
+            if (!select) return;
+            
+            const gruposFiltrados = centroId ? grupos.filter(g => g.centro === centroId) : grupos;
+            select.innerHTML = '<option value="">Seleccione...</option>' + 
+                gruposFiltrados.map(g => `<option value="${g.id}">${g.nombre}</option>`).join('');
         }
 
         // ==================== PRUEBAS ====================
@@ -2410,7 +2416,7 @@
             try {
                 // Test 1: Crear centro
                 const centros = DB.get('centros') || [];
-                const testCentro = { id: 'test1', nombre: 'Centro Prueba', codigo: '001', modalidad: 'primaria' };
+                const testCentro = { id: 'test1', nombre: 'Centro Prueba', codigo: '001', modalidad: 'secundaria' };
                 centros.push(testCentro);
                 DB.set('centros', centros);
                 
@@ -2433,7 +2439,7 @@
                 };
                 DB.set('notas', notas);
                 
-                Utils.showToast('✅ Pruebas exitosas', 'success');
+                Utils.mostrarToast('✅ Pruebas exitosas - Todos los módulos funcionan', 'success');
                 
                 // Limpiar datos de prueba
                 DB.set('centros', centros.filter(c => c.id !== 'test1'));
@@ -2441,26 +2447,27 @@
                 DB.set('estudiantes', estudiantes.filter(e => e.id !== 'test3'));
                 
             } catch (error) {
-                Utils.showToast('❌ Error en pruebas', 'error');
+                Utils.mostrarToast('❌ Error en pruebas: ' + error.message, 'error');
             }
         }
 
         // ==================== INICIALIZACIÓN ====================
         document.addEventListener('DOMContentLoaded', () => {
             DB.init();
-            loadConfiguration();
-            renderCentros();
-            renderGrupos();
-            renderEstudiantes();
-            renderInstrumentos();
-            renderBitacora();
-            updateStats();
+            actualizarDashboard();
+            renderizarCentros();
             
             document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-CR', {
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
             });
             
-            loadDefaultPercentages();
+            // Precargar centros en selects
+            setTimeout(() => {
+                cargarCentrosSelect('evalCentro');
+                cargarCentrosSelect('asistCentro');
+                cargarCentrosSelect('reportCentro');
+                cargarCentrosSelect('actaCentro');
+            }, 100);
         });
     </script>
 </body>
