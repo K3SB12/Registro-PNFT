@@ -370,6 +370,65 @@
         .text-muted {
             color: #64748b;
         }
+
+        /* MODO OSCURO CORREGIDO */
+        .dark body {
+            background: #1a1a1a;
+            color: #e5e5e5;
+        }
+
+        .dark .card {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        .dark .form-input, .dark .form-select {
+            background: #3d3d3d;
+            border-color: #4a4a4a;
+            color: #e5e5e5;
+        }
+
+        .dark .table-container {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
+
+        .dark th {
+            background: #333333;
+            color: #ffffff;
+        }
+
+        .dark td {
+            border-color: #404040;
+            color: #e5e5e5;
+        }
+
+        .dark .btn-secondary {
+            background: #3d3d3d;
+            border-color: #4a4a4a;
+            color: #e5e5e5;
+        }
+
+        .dark .btn-secondary:hover {
+            background: #4a4a4a;
+        }
+
+        .dark .component-chip {
+            background: #333333;
+            border-color: #4a4a4a;
+            color: #e5e5e5;
+        }
+
+        .dark .component-chip.active {
+            background: #1e3a5f;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .dark .modal-content {
+            background: #2d2d2d;
+            border-color: #404040;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -437,8 +496,8 @@
         <!-- Footer -->
         <div class="absolute bottom-0 w-full p-4 border-t bg-white">
             <button onclick="toggleDarkMode()" class="w-full flex items-center px-4 py-2 text-sm hover:bg-gray-100 rounded-lg text-gray-700">
-                <i class="fas fa-moon w-6 text-gray-600"></i>
-                <span>Modo Oscuro</span>
+                <i class="fas fa-moon w-6 text-gray-600" id="darkModeIcon"></i>
+                <span id="darkModeText">Modo Oscuro</span>
             </button>
             <button onclick="ejecutarPruebas()" class="w-full flex items-center px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg mt-2">
                 <i class="fas fa-vial w-6"></i>
@@ -577,7 +636,7 @@
                         </div>
                     </div>
 
-                    <!-- COMPONENTES ACTIVOS - ESTO ES LO CRÍTICO QUE ANTES FALTABA -->
+                    <!-- COMPONENTES ACTIVOS -->
                     <div id="componentesContainer" class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
                         <p class="font-semibold text-blue-800 mb-2">📋 Componentes que aplican para este grupo:</p>
                         <div id="componentesLista" class="flex flex-wrap"></div>
@@ -891,7 +950,7 @@
     <!-- Modal Institución -->
     <div id="institucionModal" class="modal">
         <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4">Nueva Institución Educativa</h3>
+            <h3 class="text-lg font-bold mb-4">Nueva Institución</h3>
             <div class="space-y-4">
                 <div>
                     <label class="form-label">Nombre de la institución *</label>
@@ -1105,7 +1164,9 @@
         let bitacora = DB.get('bitacora') || [];
         let instrumentos = DB.get('instrumentos') || [];
 
-        // Variable para edición
+        // Variables para edición
+        let institucionEnEdicion = null;
+        let grupoEnEdicion = null;
         let estudianteEnEdicion = null;
 
         // ==================== UTILIDADES ====================
@@ -1144,6 +1205,23 @@
             const overlay = document.getElementById('overlay');
             sidebar.classList.remove('open');
             overlay.classList.remove('active');
+        }
+
+        // ==================== MODO OSCURO ====================
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('darkModeIcon');
+            const text = document.getElementById('darkModeText');
+            
+            if (document.documentElement.classList.contains('dark')) {
+                icon.className = 'fas fa-sun w-6';
+                text.textContent = 'Modo Claro';
+                localStorage.setItem('mep_darkMode', 'true');
+            } else {
+                icon.className = 'fas fa-moon w-6';
+                text.textContent = 'Modo Oscuro';
+                localStorage.setItem('mep_darkMode', 'false');
+            }
         }
 
         // ==================== PESTAÑAS ====================
@@ -1192,17 +1270,31 @@
 
         // ==================== MODALES ====================
         function abrirModalInstitucion() {
+            // Limpiar formulario
             document.getElementById('instNombre').value = '';
             document.getElementById('instCodigo').value = '';
             document.getElementById('instModalidad').value = 'primaria';
+            
+            // Asegurar que no hay edición pendiente
+            institucionEnEdicion = null;
+            document.querySelector('#institucionModal h3').textContent = 'Nueva Institución';
+            
+            // Abrir modal
             document.getElementById('institucionModal').classList.add('active');
         }
 
         function abrirModalGrupo() {
+            // Limpiar formulario
             cargarInstitucionesSelect('grupoInstitucion');
             document.getElementById('grupoNombre').value = '';
             document.getElementById('grupoNivel').value = '';
             document.getElementById('grupoAsignaturas').value = '';
+            
+            // Asegurar que no hay edición pendiente
+            grupoEnEdicion = null;
+            document.querySelector('#grupoModal h3').textContent = 'Nuevo Grupo';
+            
+            // Abrir modal
             document.getElementById('grupoModal').classList.add('active');
         }
 
@@ -1262,6 +1354,20 @@
 
         function cerrarModal(id) {
             document.getElementById(id).classList.remove('active');
+            
+            // Limpiar variables de edición al cerrar
+            if (id === 'institucionModal') {
+                institucionEnEdicion = null;
+                document.querySelector('#institucionModal h3').textContent = 'Nueva Institución';
+            }
+            if (id === 'grupoModal') {
+                grupoEnEdicion = null;
+                document.querySelector('#grupoModal h3').textContent = 'Nuevo Grupo';
+            }
+            if (id === 'estudianteModal') {
+                estudianteEnEdicion = null;
+                document.querySelector('#estudianteModal h3').textContent = 'Agregar Estudiante';
+            }
         }
 
         // ==================== INSTITUCIONES ====================
@@ -1292,6 +1398,9 @@
                                 </div>
                             </div>
                             <div class="flex gap-2">
+                                <button onclick="editarInstitucion('${inst.id}')" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-edit"></i>
+                                </button>
                                 <button onclick="eliminarInstitucion('${inst.id}')" class="text-red-600 hover:text-red-800">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -1305,6 +1414,25 @@
             actualizarSelectsInstituciones();
         }
 
+        function editarInstitucion(id) {
+            const institucion = instituciones.find(i => i.id === id);
+            if (!institucion) return;
+            
+            // Cargar datos en el modal
+            document.getElementById('instNombre').value = institucion.nombre;
+            document.getElementById('instCodigo').value = institucion.codigo || '';
+            document.getElementById('instModalidad').value = institucion.modalidad;
+            
+            // Guardar el ID de la institución en edición
+            institucionEnEdicion = id;
+            
+            // Cambiar el título del modal
+            document.querySelector('#institucionModal h3').textContent = 'Editar Institución';
+            
+            // Abrir modal
+            document.getElementById('institucionModal').classList.add('active');
+        }
+
         function guardarInstitucion() {
             const nombre = document.getElementById('instNombre').value.trim();
             const codigo = document.getElementById('instCodigo').value.trim();
@@ -1315,18 +1443,34 @@
                 return;
             }
             
-            instituciones.push({
-                id: Utils.generarId(),
-                nombre,
-                codigo,
-                modalidad
-            });
+            if (institucionEnEdicion) {
+                // EDITAR - Actualizar existente
+                const index = instituciones.findIndex(i => i.id === institucionEnEdicion);
+                if (index !== -1) {
+                    instituciones[index] = {
+                        ...instituciones[index],
+                        nombre,
+                        codigo,
+                        modalidad
+                    };
+                    Utils.mostrarToast('Institución actualizada');
+                }
+                institucionEnEdicion = null;
+            } else {
+                // NUEVA - Agregar
+                instituciones.push({
+                    id: Utils.generarId(),
+                    nombre,
+                    codigo,
+                    modalidad
+                });
+                Utils.mostrarToast('Institución guardada');
+            }
             
             DB.set('instituciones', instituciones);
             
             cerrarModal('institucionModal');
             renderizarInstituciones();
-            Utils.mostrarToast('Institución guardada correctamente');
         }
 
         function eliminarInstitucion(id) {
@@ -1411,6 +1555,9 @@
                                 <p class="text-sm mt-2"><i class="fas fa-user-graduate mr-1"></i> ${estudiantesCount} estudiantes</p>
                             </div>
                             <div class="flex gap-2">
+                                <button onclick="editarGrupo('${grupo.id}')" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-edit"></i>
+                                </button>
                                 <button onclick="eliminarGrupo('${grupo.id}')" class="text-red-600 hover:text-red-800">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -1419,6 +1566,31 @@
                     </div>
                 `;
             }).join('');
+        }
+
+        function editarGrupo(id) {
+            const grupo = grupos.find(g => g.id === id);
+            if (!grupo) return;
+            
+            // Cargar datos en el modal
+            cargarInstitucionesSelect('grupoInstitucion');
+            
+            // Esperar a que se carguen las instituciones y luego establecer valores
+            setTimeout(() => {
+                document.getElementById('grupoInstitucion').value = grupo.institucion;
+                document.getElementById('grupoNombre').value = grupo.nombre;
+                document.getElementById('grupoNivel').value = grupo.nivel;
+                document.getElementById('grupoAsignaturas').value = grupo.asignaturas || '';
+            }, 100);
+            
+            // Guardar el ID del grupo en edición
+            grupoEnEdicion = id;
+            
+            // Cambiar el título del modal
+            document.querySelector('#grupoModal h3').textContent = 'Editar Grupo';
+            
+            // Abrir modal
+            document.getElementById('grupoModal').classList.add('active');
         }
 
         function guardarGrupo() {
@@ -1432,19 +1604,40 @@
                 return;
             }
             
-            grupos.push({
-                id: Utils.generarId(),
-                institucion,
-                nombre,
-                nivel,
-                asignaturas
-            });
+            if (grupoEnEdicion) {
+                // EDITAR - Actualizar existente
+                const index = grupos.findIndex(g => g.id === grupoEnEdicion);
+                if (index !== -1) {
+                    grupos[index] = {
+                        ...grupos[index],
+                        institucion,
+                        nombre,
+                        nivel,
+                        asignaturas
+                    };
+                    Utils.mostrarToast('Grupo actualizado');
+                }
+                grupoEnEdicion = null;
+            } else {
+                // NUEVO - Agregar
+                grupos.push({
+                    id: Utils.generarId(),
+                    institucion,
+                    nombre,
+                    nivel,
+                    asignaturas
+                });
+                Utils.mostrarToast('Grupo creado');
+            }
             
             DB.set('grupos', grupos);
             
             cerrarModal('grupoModal');
-            renderizarGrupos();
-            Utils.mostrarToast('Grupo creado correctamente');
+            
+            // Recargar vistas
+            if (document.getElementById('grupos').classList.contains('active')) {
+                renderizarGrupos();
+            }
         }
 
         function eliminarGrupo(id) {
@@ -1592,7 +1785,7 @@
             Utils.mostrarToast('Estudiante eliminado');
         }
 
-        // ==================== COMPONENTES POR NIVEL (LO MÁS IMPORTANTE) ====================
+        // ==================== COMPONENTES POR NIVEL ====================
         function obtenerComponentesPorNivel(nivel, modalidadInstitucion = null) {
             const n = parseInt(nivel);
             const esPrimaria = n >= 1 && n <= 6;
@@ -2487,6 +2680,14 @@
 
         // ==================== INICIALIZACIÓN ====================
         document.addEventListener('DOMContentLoaded', () => {
+            // Modo oscuro desde localStorage
+            const darkModePreference = localStorage.getItem('mep_darkMode');
+            if (darkModePreference === 'true') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('darkModeIcon').className = 'fas fa-sun w-6';
+                document.getElementById('darkModeText').textContent = 'Modo Claro';
+            }
+            
             // Fecha actual
             document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-CR', {
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
